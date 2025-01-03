@@ -1,0 +1,170 @@
+html{
+  height: 100%;}
+body{
+  margin : 0px ;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(135, 151, 165);
+}
+
+#general_div{
+  height: 90%;
+  background-color: rgb(87, 81, 81);
+  width: 90%;
+  border-radius: 10px;
+}
+#top_horizontal_div{
+  background-color: grey; 
+  height: 10%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+#algorithms{
+  border-radius: 10px;
+  background-color: rgb(123, 141, 148);
+  border-width: 5px;
+  width: 10%;
+  height: 70%;
+  color: white;
+}
+#selected_method{
+  border-radius: 10px;
+  background-color: rgb(123, 141, 148);
+  border-width: 5px;
+  width: 10%;
+  height: 70%;
+  border-color: cyan;
+  color: white;
+}
+
+#calculate{
+  border-radius: 10px;
+  background-color: rgb(123, 141, 148);
+  border-width: 5px;
+  width: 10%;
+  height: 70%;
+  color: white;
+
+}
+#main_div{
+  height: 90%;
+  width: 100%;
+  background-color: gray;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+}
+.columns{
+  height: 100%;
+  width: 33%;
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#input_for_methods{
+  width: 90%;
+  height: 10%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+#input_area{
+  width: 100%;
+  height: 20%;
+  background-color: beige;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#steps_area{
+  width: 100%;
+  height: 90%;
+  background-color: gainsboro;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#input_box{
+  width: 97%;
+  height: 97%;
+  background-color: beige;
+}
+#output_area{
+  width: 95%;
+  height: 20%;
+ background-color: white;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+}
+#input_for_methods{
+  display: flex;
+  flex-direction: column;
+  background-color:beige;
+  width: 100%;
+}
+#input_description{
+  width: 100%;
+  height: 50%;
+  background-color:pink;
+  text-align: center;
+  background-color: beige;
+}
+#input_for_algorithms{
+  width: 100%;
+}
+#input_line{
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  height: 50%;
+  width: 100%;
+}
+
+.asal_inputs{
+  background-color: green;
+  width: 15%;
+  height: 100%;
+}
+#input_name_1,#input_name_2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.steps{
+  width: 85%;
+  height: 7%;
+  background-color: rgb(136, 202, 214);
+  border-radius: 5px;
+  padding-left: 2%;
+  margin-top: 1%;
+  display: flex;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#output_text,#key_text{
+  background-color: pink;
+  width: 90%;
+  height: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family:Arial, Helvetica, sans-serif;
+  color: white;
+  border-style: solid;
+  border-width: 2px;
+  border-color: white;
+}

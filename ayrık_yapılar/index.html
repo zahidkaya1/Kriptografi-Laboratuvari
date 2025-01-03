@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<link rel = "stylesheet" href = "index.css">
+</head>
+
+
+
+<body>
+  <div id = "general_div">
+    <div id = "top_horizontal_div">
+  
+      <select id = "algorithms" >
+        <option>RSA</option>
+        <option>Diffie-Helman</option>
+        <option>Viegenere</option>
+  
+      </select>
+      <button id = "selected_method">Seçili Method Şifreleme</button>
+      <button id = "calculate" >Hesapla</button>
+  
+  
+    </div>
+    <div id = "main_div">
+           <div id = "main_column_1" class = "columns">
+             <div id = "input_for_algorithms">
+              <div id = "input_description"> 
+                Aralarında Asal 2 Sayı giriniz.
+            </div>
+            <div id = "input_line">
+                  <p id = "input_name_1">Asal Sayı 1 : </p><input id = "asal1" class = "asal_inputs" type = "text">
+                 <p id = "input_name_2">Asal Sayı 2 : </p><input id = "asal2" class = "asal_inputs" type = "text">
+            </div>
+             </div>
+             <div id = "input_area"><input type = "text" id = "input_box">
+
+              
+            </div>
+             </div>
+           <div id = "main_column_2" class = "columns">
+              <div id = "steps_area"></div>
+              
+           </div>
+           <div id = "main_column_3" class = "columns">
+            <div id = "output_area">
+              <div id = "output_text"></div>
+              <div id = "key_text"></div>
+            </div>
+           </div>
+  </div>
+      
+      <script src = "index.js" type = "module"></script>
+
+
+      </script>
+    </body>
+
+
+</html>
