@@ -1,6 +1,9 @@
-# Kriptografi Atölyesi (Ayrık Yapılar)
+# Kriptografi Laboratuvarı
 
 Bu proje, temel kriptografi algoritmalarının nasıl çalıştığını görselleştirmek, adım adım incelemek ve öğrenmek amacıyla geliştirilmiş interaktif bir eğitim uygulamasıdır.
+
+- **Canlı Demo:** [https://zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)
+- **GitHub Deposu:** [https://github.com/zahidkaya1/Kriptografi-Laboratuvari](https://github.com/zahidkaya1/Kriptografi-Laboratuvari)
 
 ## 🚀 Özellikler
 - **Modern ve Temiz Arayüz**: Tüm cihazlarda (Mobil/Tablet/Masaüstü) uyumlu tasarım.
@@ -71,8 +74,7 @@ npm test
 
 ## 👥 Geliştiriciler
 - Görkem Mert
-- Mehmed Zahid Kaya
-- *(Refactored by Antigravity v1.0.0)*
+- Mehmet Zahid KAYA
 
 ## 📄 Lisans
 Bu proje [MIT Lisansı](LICENSE) altında lisanslanmıştır. Serbestçe kullanılabilir, değiştirilebilir ve dağıtılabilir.
