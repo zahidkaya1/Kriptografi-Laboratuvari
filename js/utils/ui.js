@@ -1,4 +1,4 @@
-﻿/**
+/**
  * UI (Kullanıcı Arayüzü) yardımcı fonksiyonları
  */
 
@@ -286,7 +286,7 @@ export function renderRailFenceMatrix(matrix, rails) {
     const info = document.createElement('p');
     info.className = 'text-muted';
     info.style.marginBottom = "1rem";
-    info.textContent = 'Zikzak Åeması (Â· işareti boşluğu temsil eder):';
+    info.textContent = 'Zikzak Şeması (· işareti boşluğu temsil eder):';
     stepsOutput.appendChild(info);
 
     const table = document.createElement('table');

@@ -47,14 +47,29 @@ function handleTabClick(e) {
 function updatePanelVisibility(algoId) {
     const actions = document.querySelector('.actions');
     const btnExample = document.getElementById('btn-example');
+    const btnCalculate = document.getElementById('btn-calculate');
+    const btnClear = document.getElementById('btn-clear');
     const outputSection = document.querySelector('.output-section');
     const stepsCard = document.querySelector('.steps-card');
+    const btnCopy = document.getElementById('btn-copy');
     const contentWrapper = document.querySelector('.content-wrapper');
     
     if(actions) actions.style.display = '';
-    if(btnExample) btnExample.style.display = '';
+    if(btnExample) {
+        btnExample.style.display = '';
+        btnExample.textContent = 'Örneği Doldur';
+    }
+    if(btnCalculate) {
+        btnCalculate.style.display = '';
+        btnCalculate.textContent = 'Hesapla / İşle';
+    }
+    if(btnClear) {
+        btnClear.style.display = '';
+        btnClear.textContent = 'Temizle';
+    }
     if(outputSection) outputSection.style.display = '';
     if(stepsCard) stepsCard.style.display = '';
+    if(btnCopy) btnCopy.style.display = '';
     if(contentWrapper) contentWrapper.style.gridTemplateColumns = '';
 
     if (algoId === 'exercises') {
@@ -62,11 +77,17 @@ function updatePanelVisibility(algoId) {
         if(outputSection) outputSection.style.display = 'none';
         if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
     } else if (algoId === 'algo-compare') {
-        if(btnExample) btnExample.style.display = 'none';
+        if(btnExample) btnExample.textContent = 'Örnek Karşılaştırmayı Doldur';
+        if(btnCalculate) btnCalculate.textContent = 'Karşılaştır';
+        if(btnClear) btnClear.textContent = 'Seçimi Temizle';
         if(stepsCard) stepsCard.style.display = 'none';
         if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
-    } else if (algoId === 'freq-analysis' || algoId === 'caesar-breaker') {
-        if(btnExample) btnExample.style.display = 'none';
+    } else if (algoId === 'freq-analysis') {
+        if(btnCalculate) btnCalculate.textContent = 'Analiz Et';
+        if(stepsCard) stepsCard.style.display = 'none';
+    } else if (algoId === 'caesar-breaker') {
+        if(btnCalculate) btnCalculate.textContent = 'Tüm Olasılıkları Göster';
+        if(btnCopy) btnCopy.style.display = 'none';
         if(stepsCard) stepsCard.style.display = 'none';
     }
 }

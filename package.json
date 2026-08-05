@@ -5,7 +5,7 @@
   "main": "js/app.js",
   "type": "module",
   "scripts": {
-    "test": "node scripts/check-syntax.cjs && node --test"
+    "test": "node scripts/check-encoding.cjs && node scripts/check-syntax.cjs && node --test"
   },
   "author": "Mehmet Zahid KAYA",
   "license": "MIT"
