@@ -39,6 +39,36 @@ function handleTabClick(e) {
 
     // Temizle
     clearAll();
+    
+    // Panel görünümlerini güncelle
+    updatePanelVisibility(targetId);
+}
+
+function updatePanelVisibility(algoId) {
+    const actions = document.querySelector('.actions');
+    const btnExample = document.getElementById('btn-example');
+    const outputSection = document.querySelector('.output-section');
+    const stepsCard = document.querySelector('.steps-card');
+    const contentWrapper = document.querySelector('.content-wrapper');
+    
+    if(actions) actions.style.display = '';
+    if(btnExample) btnExample.style.display = '';
+    if(outputSection) outputSection.style.display = '';
+    if(stepsCard) stepsCard.style.display = '';
+    if(contentWrapper) contentWrapper.style.gridTemplateColumns = '';
+
+    if (algoId === 'exercises') {
+        if(actions) actions.style.display = 'none';
+        if(outputSection) outputSection.style.display = 'none';
+        if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+    } else if (algoId === 'algo-compare') {
+        if(btnExample) btnExample.style.display = 'none';
+        if(stepsCard) stepsCard.style.display = 'none';
+        if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+    } else if (algoId === 'freq-analysis' || algoId === 'caesar-breaker') {
+        if(btnExample) btnExample.style.display = 'none';
+        if(stepsCard) stepsCard.style.display = 'none';
+    }
 }
 
 document.querySelectorAll('.algo-card-btn').forEach(btn => {
@@ -741,3 +771,5 @@ if (btnSearchClear) {
 renderFavorites();
 updateFavButtonsUI();
 
+// Başlangıçta panelleri senkronize et
+updatePanelVisibility(currentAlgorithm);

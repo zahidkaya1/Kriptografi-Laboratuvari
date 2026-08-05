@@ -594,6 +594,7 @@ button {
     position: sticky;
     left: 0;
     z-index: 1;
+    white-space: nowrap;
 }
 
 /* --- Mini Alıştırmalar --- */
