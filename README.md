@@ -38,6 +38,17 @@ Sezar şifrelemesinin 13 kaydırmalı özel bir türüdür. Sadece Latin alfabes
 #### 6. Atbash Şifreleme
 Alfabedeki harflerin baştan ve sondan eşleştirilmesi (ilk harf son harf ile) mantığına dayanır. Türkçe ve Latin alfabelerini destekler.
 
+#### 7. Affine Şifreleme
+`E(x) = (a × x + b) mod m` matematiksel formülünü kullanır. Doğru çalışabilmesi için `a` (çarpan anahtarı) ile `m` (alfabe uzunluğu) aralarında asal olmalıdır (EBOB = 1). Türkçe ve Latin alfabelerini destekler.
+
+### Transpozisyon Şifreleri *(v1.1.0 Geliştirme Aşamasındadır)*
+
+#### 8. Rail Fence (Zikzak) Şifreleme
+Metni belirlenen sayıdaki raylara (satırlara) zikzak biçiminde yerleştirerek sütun sütun okuyan bir yer değiştirme şifrelemesidir. 
+
+#### 9. Sütunlu Transpozisyon
+Metin satırlar halinde bir tabloya yazılır ve sütunlar bir anahtar kelimenin alfabetik sırasına göre aşağı doğru okunarak şifrelenir. Aynı harfin tekrarlarında deterministik olarak soldan sağa öncelik verilir.
+
 ## 🛠️ Kullanılan Teknolojiler
 - HTML5 & CSS3 (Vanilla, framework kullanılmamıştır)
 - Modern JavaScript (ES6+ Modül yapısı, BigInt kullanımı)

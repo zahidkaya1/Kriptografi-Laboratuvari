@@ -20,22 +20,30 @@
     <main class="container">
         <!-- Algoritma Kategori Seçimi -->
         <div class="category-selection card" aria-label="Algoritma Seçimi">
-            <div class="category-group">
-                <h3>Modern ve Matematiksel</h3>
+            <details class="category-group" open>
+                <summary>Modern ve Matematiksel</summary>
                 <div class="algorithm-cards">
                     <button class="algo-card-btn active" data-target="rsa">RSA</button>
                     <button class="algo-card-btn" data-target="dh">Diffie-Hellman</button>
                 </div>
-            </div>
-            <div class="category-group">
-                <h3>Klasik Şifreler</h3>
+            </details>
+            <details class="category-group">
+                <summary>Klasik Yerine Koyma Şifreleri</summary>
                 <div class="algorithm-cards">
                     <button class="algo-card-btn" data-target="vigenere">Vigenère</button>
                     <button class="algo-card-btn" data-target="caesar">Sezar</button>
                     <button class="algo-card-btn" data-target="rot13">ROT13</button>
                     <button class="algo-card-btn" data-target="atbash">Atbash</button>
+                    <button class="algo-card-btn" data-target="affine">Affine</button>
                 </div>
-            </div>
+            </details>
+            <details class="category-group">
+                <summary>Transpozisyon Şifreleri</summary>
+                <div class="algorithm-cards">
+                    <button class="algo-card-btn" data-target="railfence">Rail Fence</button>
+                    <button class="algo-card-btn" data-target="columnar">Sütunlu Transpozisyon</button>
+                </div>
+            </details>
         </div>
 
         <div class="content-wrapper">
@@ -176,19 +184,119 @@
                 <!-- Atbash Formu -->
                 <div id="atbash-form" class="algo-form">
                     <h2>Atbash Şifreleme</h2>
-                    <p class="algo-info">Alfabedeki harflerin baştan ve sondan eşleştirilmesi (ilk harf son harf ile) mantığına dayanır.</p>
+                    <p class="form-desc">Alfabedeki harflerin baştan ve sondan simetrik olarak eşleştirilmesi (ilk harf ile son harf) mantığına dayanır.</p>
                     
                     <div class="form-group">
                         <label for="atbash-alphabet">Alfabe</label>
                         <select id="atbash-alphabet">
                             <option value="TR">Türkçe (29 Harf)</option>
-                            <option value="EN">Latin (26 Harf)</option>
+                            <option value="EN">İngilizce (26 Harf)</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="atbash-text">Metin</label>
                         <textarea id="atbash-text" rows="3" placeholder="Metninizi girin...">MERHABA</textarea>
+                    </div>
+                </div>
+
+                <!-- Affine Formu -->
+                <div id="affine-form" class="algo-form">
+                    <h2>Affine Şifreleme</h2>
+                    <p class="form-desc">E(x) = (a × x + b) mod m formülünü kullanır. 'a' ile alfabe uzunluğu 'm' aralarında asal olmalıdır.</p>
+                    <button id="btn-affine-example" class="btn-secondary" style="margin-bottom: 1rem;">Örneği Doldur</button>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="affine-mode">İşlem</label>
+                            <select id="affine-mode">
+                                <option value="encrypt">Şifrele</option>
+                                <option value="decrypt">Şifre Çöz</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="affine-alphabet">Alfabe</label>
+                            <select id="affine-alphabet">
+                                <option value="TR">Türkçe (29 Harf)</option>
+                                <option value="EN">İngilizce (26 Harf)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="affine-a">Çarpan Anahtarı (a)</label>
+                            <input type="number" id="affine-a" placeholder="Örn: 5">
+                        </div>
+                        <div class="form-group">
+                            <label for="affine-b">Kaydırma Anahtarı (b)</label>
+                            <input type="number" id="affine-b" placeholder="Örn: 8">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="affine-text">Metin</label>
+                        <textarea id="affine-text" rows="3" placeholder="Metninizi girin..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Rail Fence Formu -->
+                <div id="railfence-form" class="algo-form">
+                    <h2>Rail Fence (Zikzak) Şifreleme</h2>
+                    <p class="form-desc">Metni belirlenen sayıdaki raylara zikzak biçiminde yerleştirerek sütun sütun okuyan bir transpozisyon şifrelemesidir.</p>
+                    <button id="btn-railfence-example" class="btn-secondary" style="margin-bottom: 1rem;">Örneği Doldur</button>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="railfence-mode">İşlem</label>
+                            <select id="railfence-mode">
+                                <option value="encrypt">Şifrele</option>
+                                <option value="decrypt">Şifre Çöz</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="railfence-rails">Ray Sayısı</label>
+                            <input type="number" id="railfence-rails" placeholder="Örn: 3" min="2" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="railfence-text">Metin</label>
+                        <textarea id="railfence-text" rows="3" placeholder="Metninizi girin..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Columnar Transposition Formu -->
+                <div id="columnar-form" class="algo-form">
+                    <h2>Sütunlu Transpozisyon</h2>
+                    <p class="form-desc">Metin satırlar halinde bir tabloya yazılır ve sütunlar bir anahtar kelimeye göre sıralanarak okunur.</p>
+                    <button id="btn-columnar-example" class="btn-secondary" style="margin-bottom: 1rem;">Örneği Doldur</button>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="columnar-mode">İşlem</label>
+                            <select id="columnar-mode">
+                                <option value="encrypt">Şifrele</option>
+                                <option value="decrypt">Şifre Çöz</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="columnar-alphabet">Alfabe (Anahtar Sıralaması İçin)</label>
+                            <select id="columnar-alphabet">
+                                <option value="TR">Türkçe (29 Harf)</option>
+                                <option value="EN">İngilizce (26 Harf)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="columnar-key">Anahtar Kelime</label>
+                        <input type="text" id="columnar-key" placeholder="Örn: GIZLI">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="columnar-text">Metin</label>
+                        <textarea id="columnar-text" rows="3" placeholder="Metninizi girin..."></textarea>
                     </div>
                 </div>
 

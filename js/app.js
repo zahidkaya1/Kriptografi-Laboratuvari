@@ -4,6 +4,9 @@ import { runVigenere } from './algorithms/vigenere.js';
 import { runCaesar } from './algorithms/caesar.js';
 import { runROT13 } from './algorithms/rot13.js';
 import { runAtbash } from './algorithms/atbash.js';
+import { runAffine } from './algorithms/affine.js';
+import { runRailFence } from './algorithms/rail-fence.js';
+import { runColumnarTransposition } from './algorithms/columnar-transposition.js';
 import * as UI from './utils/ui.js';
 
 let currentAlgorithm = 'rsa';
@@ -51,6 +54,12 @@ document.getElementById('btn-calculate').addEventListener('click', () => {
             handleROT13();
         } else if (currentAlgorithm === 'atbash') {
             handleAtbash();
+        } else if (currentAlgorithm === 'affine') {
+            handleAffine();
+        } else if (currentAlgorithm === 'railfence') {
+            handleRailFence();
+        } else if (currentAlgorithm === 'columnar') {
+            handleColumnar();
         }
     } catch (error) {
         UI.showMessage(error.message, "error");
@@ -73,6 +82,39 @@ if (btnCaesarExample) {
         document.getElementById('caesar-mode').value = 'encrypt';
         document.getElementById('caesar-shift').value = '3';
         document.getElementById('caesar-text').value = 'ABC';
+    });
+}
+
+// Affine Örneği Butonu
+const btnAffineExample = document.getElementById('btn-affine-example');
+if (btnAffineExample) {
+    btnAffineExample.addEventListener('click', () => {
+        document.getElementById('affine-alphabet').value = 'EN';
+        document.getElementById('affine-mode').value = 'encrypt';
+        document.getElementById('affine-a').value = '5';
+        document.getElementById('affine-b').value = '8';
+        document.getElementById('affine-text').value = 'AFFINECIPHER';
+    });
+}
+
+// Rail Fence Örneği Butonu
+const btnRailFenceExample = document.getElementById('btn-railfence-example');
+if (btnRailFenceExample) {
+    btnRailFenceExample.addEventListener('click', () => {
+        document.getElementById('railfence-mode').value = 'encrypt';
+        document.getElementById('railfence-rails').value = '3';
+        document.getElementById('railfence-text').value = 'WEAREDISCOVEREDFLEEATONCE';
+    });
+}
+
+// Columnar Transposition Örneği Butonu
+const btnColumnarExample = document.getElementById('btn-columnar-example');
+if (btnColumnarExample) {
+    btnColumnarExample.addEventListener('click', () => {
+        document.getElementById('columnar-alphabet').value = 'TR';
+        document.getElementById('columnar-mode').value = 'encrypt';
+        document.getElementById('columnar-key').value = 'GIZLI';
+        document.getElementById('columnar-text').value = 'KRIPTOGRAFI LABORATUVARI';
     });
 }
 
@@ -176,4 +218,43 @@ function handleAtbash() {
     UI.showResult(result);
     UI.renderAtbashSteps(steps, normalAlphabet, reversedAlphabet);
     UI.showMessage("Atbash işlemi başarıyla tamamlandı.", "success");
+}
+
+function handleAffine() {
+    const text = document.getElementById('affine-text').value;
+    const a = document.getElementById('affine-a').value;
+    const b = document.getElementById('affine-b').value;
+    const mode = document.getElementById('affine-mode').value;
+    const alphabet = document.getElementById('affine-alphabet').value;
+
+    const { result, steps, m, gcdVal, aInv } = runAffine(text, a, b, alphabet, mode);
+    
+    UI.showResult(result);
+    UI.renderAffineSteps(steps, m, gcdVal, aInv);
+    UI.showMessage("Affine işlemi başarıyla tamamlandı.", "success");
+}
+
+function handleRailFence() {
+    const text = document.getElementById('railfence-text').value;
+    const rails = document.getElementById('railfence-rails').value;
+    const mode = document.getElementById('railfence-mode').value;
+
+    const { result, matrix, rails: rCount } = runRailFence(text, rails, mode);
+    
+    UI.showResult(result);
+    UI.renderRailFenceMatrix(matrix, rCount);
+    UI.showMessage("Rail Fence işlemi başarıyla tamamlandı.", "success");
+}
+
+function handleColumnar() {
+    const text = document.getElementById('columnar-text').value;
+    const key = document.getElementById('columnar-key').value;
+    const mode = document.getElementById('columnar-mode').value;
+    const alphabet = document.getElementById('columnar-alphabet').value;
+
+    const { result, matrix, keyInfo } = runColumnarTransposition(text, key, alphabet, mode);
+    
+    UI.showResult(result);
+    UI.renderColumnarGrid(matrix, keyInfo);
+    UI.showMessage("Sütunlu Transpozisyon işlemi başarıyla tamamlandı.", "success");
 }
