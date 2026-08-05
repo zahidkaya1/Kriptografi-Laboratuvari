@@ -1,5 +1,5 @@
 {
-  "name": "ayrik-yapilar-kriptografi",
+  "name": "kriptografi-laboratuvari",
   "version": "1.0.0",
   "description": "Kriptografi eğitim uygulaması (RSA, Diffie-Hellman, Vigenere)",
   "main": "js/app.js",
