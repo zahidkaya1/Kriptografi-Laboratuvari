@@ -57,6 +57,14 @@ Alfabedeki harflerin baştan ve sondan eşleştirilmesi (ilk harf son harf ile) 
 #### 7. Affine Şifreleme
 `E(x) = (a × x + b) mod m` matematiksel formülünü kullanır. Doğru çalışabilmesi için `a` (çarpan anahtarı) ile `m` (alfabe uzunluğu) aralarında asal olmalıdır (EBOB = 1). Türkçe ve Latin alfabelerini destekler.
 
+### Eğitim Araçları
+
+#### 7. Algoritma Karşılaştırma
+Farklı şifreleme algoritmalarının yapısal, matematiksel ve güvenlik özelliklerini yan yana karşılaştırmanızı sağlayan eğitim aracıdır.
+
+#### 8. Mini Alıştırmalar
+Kriptografi bilginizi sınamak için interaktif soru-cevap aracıdır. Seviyelere (kolay, orta, zor) ayrılmış çoktan seçmeli ve açık uçlu sorular içerir.
+
 ### Transpozisyon Şifreleri *(v1.1.0 Geliştirme Aşamasındadır)*
 
 #### 8. Rail Fence (Zikzak) Şifreleme
@@ -91,7 +99,7 @@ Testleri yerelinizde çalıştırmak için (Node.js 18+ gerektirir):
 npm install
 npm test
 ```
-*Not: Şu anda toplam 84 otomatik test başarıyla geçilmektedir.*
+*Not: Şu anda toplam 135 otomatik test başarıyla geçilmektedir.*
 
 ## 📂 Proje Yapısı
 ```

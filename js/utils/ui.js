@@ -528,6 +528,201 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
 
         actions.appendChild(copyBtn);
         actions.appendChild(openBtn);
+    table.className = 'step-table';
+    table.style.fontFamily = "monospace";
+    table.style.fontSize = "1rem";
+    
+    const thead = document.createElement('thead');
+    
+    // Satır 1: Anahtar harfleri
+    const trKey = document.createElement('tr');
+    // Satır 2: Okuma sırası
+    const trOrder = document.createElement('tr');
+    
+    keyInfo.forEach(k => {
+        const thKey = document.createElement('th');
+        thKey.textContent = k.char;
+        trKey.appendChild(thKey);
+        
+        const thOrder = document.createElement('th');
+        thOrder.textContent = k.order + ".";
+        thOrder.style.backgroundColor = "var(--bg-color)";
+        thOrder.style.color = "var(--primary-color)";
+        trOrder.appendChild(thOrder);
+    });
+    
+    thead.appendChild(trKey);
+    thead.appendChild(trOrder);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    
+    for (let r = 0; r < matrix.length; r++) {
+        const tr = document.createElement('tr');
+        for (let c = 0; c < matrix[r].length; c++) {
+            const td = document.createElement('td');
+            const cellVal = matrix[r][c];
+            if (cellVal === null || cellVal === '') {
+                td.textContent = '';
+                td.style.backgroundColor = "var(--border-color)";
+                td.style.opacity = "0.5";
+            } else {
+                td.textContent = cellVal;
+            }
+            tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+    }
+    
+    table.appendChild(tbody);
+    stepsOutput.appendChild(table);
+}
+
+export function clearSteps() {
+    stepsOutput.innerHTML = '<p class="text-muted">Algoritmanın matematiksel adımları hesaplama sonrasında burada listelenir.</p>';
+}
+
+export function copyToClipboard(text) {
+    if (!text || text.includes("Hesaplama sonucu")) {
+        showMessage("Kopyalanacak sonuç bulunamadı.", "error");
+        return;
+    }
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.textContent = "✅";
+        setTimeout(() => btn.textContent = "📋", 2000);
+    }).catch(err => {
+        showMessage("Panoya kopyalama başarısız oldu. Lütfen manuel kopyalayınız.", "error");
+        console.error("Clipboard API Error:", err);
+    });
+}
+
+export function renderFrequencyAnalysis(result, sortBy) {
+    const { totalCharacters, totalLetters, distinctLetters, mostFrequent, leastFrequent, frequencyOrder, alphabetOrder } = result;
+
+    resultOutput.innerHTML = '';
+    
+    // Summary Info
+    const summaryDiv = document.createElement('div');
+    summaryDiv.style.marginBottom = '1rem';
+    summaryDiv.innerHTML = `
+        <p><strong>Toplam Karakter:</strong> ${totalCharacters} | <strong>Toplam Harf:</strong> ${totalLetters} | <strong>Farklı Harf:</strong> ${distinctLetters}</p>
+        <p><strong>En Sık:</strong> ${mostFrequent ? `${mostFrequent.char} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
+        <p><strong>En Seyrek:</strong> ${leastFrequent ? `${leastFrequent.char} (${leastFrequent.count} / %${leastFrequent.percent.toFixed(1)})` : '-'}</p>
+    `;
+    resultOutput.appendChild(summaryDiv);
+
+    // Bar Chart
+    const chartDiv = document.createElement('div');
+    chartDiv.className = 'bar-chart';
+
+    const listToRender = sortBy === 'frequency' ? frequencyOrder : alphabetOrder;
+    const maxCount = frequencyOrder[0] ? frequencyOrder[0].count : 1;
+
+    listToRender.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        
+        const label = document.createElement('div');
+        label.className = 'bar-label';
+        label.textContent = item.char;
+
+        const container = document.createElement('div');
+        container.className = 'bar-container';
+
+        const fill = document.createElement('div');
+        fill.className = 'bar-fill';
+        const widthPercent = maxCount > 0 ? (item.count / maxCount) * 100 : 0;
+        fill.style.width = `${widthPercent}%`;
+
+        container.appendChild(fill);
+
+        const val = document.createElement('div');
+        val.className = 'bar-value';
+        val.textContent = `${item.count} (%${item.percent.toFixed(1)})`;
+
+        row.appendChild(label);
+        row.appendChild(container);
+        row.appendChild(val);
+
+        chartDiv.appendChild(row);
+    });
+
+    resultOutput.appendChild(chartDiv);
+}
+
+export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
+    resultOutput.innerHTML = '';
+
+    if (result.letterCount < 20) {
+        const warn = document.createElement('div');
+        warn.className = 'text-muted';
+        warn.style.marginBottom = '1rem';
+        warn.style.color = '#f39c12';
+        warn.textContent = "Uyarı: Metin kısa olduğu için olasılık sıralaması güvenilir olmayabilir.";
+        resultOutput.appendChild(warn);
+    }
+
+    let listToRender = [...result.candidates];
+    
+    if (sortBy === 'score') {
+        listToRender.sort((a, b) => {
+            if (isNaN(a.score) && isNaN(b.score)) return a.shift - b.shift;
+            if (isNaN(a.score)) return 1;
+            if (isNaN(b.score)) return -1;
+            if (a.score === b.score) return a.shift - b.shift;
+            return a.score - b.score;
+        });
+    } else {
+        listToRender.sort((a, b) => a.shift - b.shift);
+    }
+
+    listToRender.forEach((cand, index) => {
+        const card = document.createElement('div');
+        card.className = 'candidate-card';
+
+        const header = document.createElement('div');
+        header.className = 'candidate-header';
+        
+        const titleInfo = document.createElement('strong');
+        titleInfo.textContent = `Kaydırma: ${cand.shift}` + (sortBy === 'score' && index === 0 && !isNaN(cand.score) ? ' (En Olası)' : '');
+        
+        const scoreInfo = document.createElement('span');
+        scoreInfo.className = 'candidate-score';
+        scoreInfo.textContent = `Puan: ${isNaN(cand.score) ? 'Hesaplanamadı' : cand.score.toFixed(2)}`;
+
+        header.appendChild(titleInfo);
+        header.appendChild(scoreInfo);
+
+        const textDiv = document.createElement('div');
+        textDiv.className = 'candidate-text';
+        textDiv.textContent = cand.text;
+
+        const actions = document.createElement('div');
+        actions.className = 'candidate-actions';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'btn-secondary btn-sm';
+        copyBtn.textContent = 'Kopyala';
+        copyBtn.style.padding = '0.25rem 0.5rem';
+        copyBtn.style.fontSize = '0.85rem';
+        copyBtn.addEventListener('click', () => {
+            copyToClipboard(cand.text);
+            copyBtn.textContent = 'Kopyalandı!';
+            setTimeout(() => copyBtn.textContent = 'Kopyala', 2000);
+        });
+
+        const openBtn = document.createElement('button');
+        openBtn.className = 'btn-primary btn-sm';
+        openBtn.textContent = 'Sezar Aracında Aç';
+        openBtn.style.padding = '0.25rem 0.5rem';
+        openBtn.style.fontSize = '0.85rem';
+        openBtn.addEventListener('click', () => {
+            if(openCaesarCallback) openCaesarCallback(cand.shift, cand.text);
+        });
+
+        actions.appendChild(copyBtn);
+        actions.appendChild(openBtn);
 
         card.appendChild(header);
         card.appendChild(textDiv);
@@ -535,4 +730,112 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
 
         resultOutput.appendChild(card);
     });
+}
+
+// --- Algoritma Karşılaştırma UI ---
+export function renderComparisonTable(headers, rows, openToolCallback) {
+    resultOutput.innerHTML = '';
+    
+    if (!headers || headers.length < 2) {
+        resultOutput.innerHTML = '<p class="text-muted">Karşılaştırma yapmak için yeterli algoritma seçilmedi.</p>';
+        return;
+    }
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'comparison-table-wrapper';
+    
+    const table = document.createElement('table');
+    table.className = 'comparison-table';
+    
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    
+    const thEmpty = document.createElement('th');
+    thEmpty.textContent = 'Özellik \\ Algoritma';
+    headerRow.appendChild(thEmpty);
+    
+    headers.forEach(h => {
+        const th = document.createElement('th');
+        th.style.textAlign = 'center';
+        
+        const nameDiv = document.createElement('div');
+        nameDiv.textContent = h;
+        nameDiv.style.marginBottom = '0.5rem';
+        th.appendChild(nameDiv);
+
+        if (openToolCallback) {
+            const btn = document.createElement('button');
+            btn.className = 'btn-secondary btn-sm';
+            btn.textContent = 'Aracı Aç';
+            btn.style.padding = '0.2rem 0.5rem';
+            btn.style.fontSize = '0.75rem';
+            btn.addEventListener('click', () => openToolCallback(h));
+            th.appendChild(btn);
+        }
+        
+        headerRow.appendChild(th);
+    });
+    
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    const tbody = document.createElement('tbody');
+    rows.forEach(row => {
+        const tr = document.createElement('tr');
+        
+        const tdLabel = document.createElement('td');
+        tdLabel.className = 'feature-name';
+        tdLabel.textContent = row.label;
+        tr.appendChild(tdLabel);
+        
+        row.values.forEach(val => {
+            const td = document.createElement('td');
+            td.textContent = val;
+            tr.appendChild(td);
+        });
+        
+        tbody.appendChild(tr);
+    });
+    
+    table.appendChild(tbody);
+    wrapper.appendChild(table);
+    resultOutput.appendChild(wrapper);
+}
+
+// --- Mini Alıştırmalar UI ---
+export function renderExerciseForm(exercise, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container || !exercise) return;
+    
+    container.innerHTML = '';
+    
+    if (exercise.type === 'text') {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = 'ex-answer-input';
+        input.placeholder = 'Cevabınızı buraya yazın...';
+        input.style.width = '100%';
+        container.appendChild(input);
+    } 
+    else if (exercise.type === 'multiple-choice' || exercise.type === 'true-false') {
+        const options = exercise.type === 'true-false' ? ['Doğru', 'Yanlış'] : exercise.options;
+        const vals = exercise.type === 'true-false' ? ['true', 'false'] : exercise.options;
+        
+        options.forEach((opt, idx) => {
+            const label = document.createElement('label');
+            label.className = 'exercise-option';
+            
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'ex-answer';
+            radio.value = vals[idx];
+            
+            const text = document.createElement('span');
+            text.textContent = opt;
+            
+            label.appendChild(radio);
+            label.appendChild(text);
+            container.appendChild(label);
+        });
+    }
 }

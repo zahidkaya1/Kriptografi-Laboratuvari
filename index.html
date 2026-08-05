@@ -101,6 +101,19 @@
                     </div>
                 </div>
             </details>
+            <details class="category-group" id="category-education">
+                <summary>Eğitim Araçları</summary>
+                <div class="algorithm-cards">
+                    <div class="algo-card-wrapper" data-algo-id="algo-compare">
+                        <button class="algo-card-btn" data-target="algo-compare">Algoritma Karşılaştırma</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="exercises">
+                        <button class="algo-card-btn" data-target="exercises">Mini Alıştırmalar</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                </div>
+            </details>
         </div>
 
         <div class="content-wrapper">
@@ -410,6 +423,97 @@
                         <div id="breaker-text-counter" style="text-align: right; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">0 / 10000</div>
                     </div>
                 </div>
+
+                <!-- Algoritma Karşılaştırma Formu -->
+                <div id="algo-compare-form" class="algo-form">
+                    <h2>Algoritma Karşılaştırma</h2>
+                    <div class="info-card"><strong>Türü:</strong> Eğitim Aracı<br><strong>Amacı:</strong> Algoritmaların yapısal ve matematiksel farklarını karşılaştırmak<br><strong>Kullanım:</strong> Listeden 2 ila 4 algoritma seçip hesapla butonuna basın.</div>
+                    
+                    <div class="form-group">
+                        <label for="compare-filter">Kategori Filtresi (Seçim listesini daraltır)</label>
+                        <select id="compare-filter">
+                            <option value="all">Tümü</option>
+                            <option value="modern">Modern Şifreler</option>
+                            <option value="classic">Klasik Şifreler</option>
+                            <option value="substitution">Yerine Koyma (Substitution)</option>
+                            <option value="transposition">Transpozisyon</option>
+                            <option value="key_exchange">Anahtar Değişimi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Karşılaştırılacak Algoritmalar (En az 2, en fazla 4 adet seçiniz)</label>
+                        <div id="compare-selection-container" class="checkbox-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; max-height: 200px; overflow-y: auto; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-color);">
+                            <!-- JS ile doldurulacak -->
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="compare-diff-only" style="width: auto;">
+                        <label for="compare-diff-only" style="margin-bottom: 0; cursor: pointer;">Yalnızca farklı olan özellikleri göster</label>
+                    </div>
+                </div>
+
+                <!-- Mini Alıştırmalar Formu -->
+                <div id="exercises-form" class="algo-form">
+                    <h2>Mini Alıştırmalar</h2>
+                    <div class="info-card"><strong>Türü:</strong> Eğitim Aracı<br><strong>Amacı:</strong> Algoritmaların pratik kullanımı ve anlaşılması üzerine sorular çözmek<br><strong>Kullanım:</strong> Kategori ve zorluk seçip yeni soru isteyin. İlerlemeniz yerel olarak kaydedilir.</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exercise-category">Kategori Filtresi</label>
+                            <select id="exercise-category">
+                                <option value="all">Tüm Konular</option>
+                                <option value="rsa">RSA</option>
+                                <option value="dh">Diffie-Hellman</option>
+                                <option value="vigenere">Vigenère</option>
+                                <option value="caesar">Sezar</option>
+                                <option value="rot13">ROT13</option>
+                                <option value="atbash">Atbash</option>
+                                <option value="affine">Affine</option>
+                                <option value="railfence">Rail Fence</option>
+                                <option value="columnar">Sütunlu Transpozisyon</option>
+                                <option value="analysis">Analiz Araçları ve Sınıflandırma</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exercise-difficulty">Zorluk Filtresi</label>
+                            <select id="exercise-difficulty">
+                                <option value="all">Tüm Seviyeler</option>
+                                <option value="easy">Kolay</option>
+                                <option value="medium">Orta</option>
+                                <option value="hard">Zor</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Egzersiz Soru Alanı (Sadece Aktif Soru Varsa Görünür) -->
+                    <div id="exercise-question-area" style="display: none; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 1rem;">
+                        <h3 id="ex-title" style="margin-bottom: 0.5rem; color: var(--primary-color);">Soru Başlığı</h3>
+                        <p id="ex-text" style="margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">Soru metni buraya gelecek.</p>
+                        
+                        <div id="ex-input-container" class="form-group">
+                            <!-- Input (text/select/radio) buraya JS ile eklenecek -->
+                        </div>
+                        
+                        <div id="ex-feedback" style="display: none; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem;" aria-live="polite"></div>
+                        
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button id="btn-ex-submit" class="btn-primary">Cevabı Kontrol Et</button>
+                            <button id="btn-ex-hint" class="btn-secondary">İpucu Göster</button>
+                            <button id="btn-ex-solve" class="btn-secondary" style="background: var(--bg-hover); color: var(--text-color); border: 1px solid var(--border-color);">Çözümü Göster</button>
+                            <button id="btn-ex-next" class="btn-primary" style="display: none;">Sonraki Soru</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); font-size: 0.9rem;">
+                        <strong>İlerlemeniz:</strong> Doğru: <span id="ex-stat-correct">0</span> | Yanlış: <span id="ex-stat-wrong">0</span> | Güncel Seri: <span id="ex-stat-streak">0</span>
+                        <div style="margin-top: 0.5rem;">
+                            <button id="btn-ex-reset-progress" class="btn-icon" style="font-size: 0.8rem; padding: 0.2rem 0.5rem; background: var(--bg-hover); border-radius: 4px;">🔄 İlerlemeyi Sıfırla</button>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="actions">
                     <button id="btn-example" class="btn-secondary" title="Örnek Değerleri Doldur">Örneği Doldur</button>

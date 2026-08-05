@@ -9,6 +9,9 @@ import { runRailFence } from './algorithms/rail-fence.js';
 import { runColumnarTransposition } from './algorithms/columnar-transposition.js';
 import { analyzeFrequency } from './analysis/frequency-analysis.js';
 import { breakCaesar } from './analysis/caesar-breaker.js';
+import { validateSelection, generateComparisonRows, generateMarkdownOutput, filterByCategory, getComparableAlgorithms } from './education/algorithm-comparison.js';
+import { getProgress, resetProgress, recordAnswer } from './education/exercise-progress.js';
+import { getRandomExercise, checkAnswer } from './education/exercises.js';
 import * as UI from './utils/ui.js';
 import { searchAlgorithms } from './utils/search.js';
 import { getFavorites, toggleFavorite, isFavorite } from './utils/favorites.js';
@@ -78,6 +81,8 @@ document.getElementById('btn-calculate').addEventListener('click', () => {
             handleFreqAnalysis();
         } else if (currentAlgorithm === 'caesar-breaker') {
             handleCaesarBreaker();
+        } else if (currentAlgorithm === 'algo-compare') {
+            handleAlgoCompare();
         }
     } catch (error) {
         UI.showMessage(error.message, "error");
@@ -152,6 +157,16 @@ if (btnExample) {
             const el = document.getElementById('breaker-text');
             el.value = 'KHOOR ZRUOG';
             updateCounter('breaker-text', 'breaker-text-counter');
+        } else if (currentAlgorithm === 'algo-compare') {
+            // Default selection: RSA, Vigenere, Rail Fence
+            document.querySelectorAll('#compare-selection-container input[type="checkbox"]').forEach(cb => {
+                if (['rsa', 'vigenere', 'railfence'].includes(cb.value)) {
+                    cb.checked = true;
+                } else {
+                    cb.checked = false;
+                }
+            });
+            document.getElementById('compare-diff-only').checked = false;
         }
     });
 }
@@ -334,6 +349,43 @@ function handleCaesarBreaker() {
     UI.showMessage("Sezar şifresi kırma işlemi başarıyla tamamlandı.", "success");
 }
 
+function handleAlgoCompare() {
+    const checkboxes = document.querySelectorAll('#compare-selection-container input[type="checkbox"]:checked');
+    const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+    const diffOnly = document.getElementById('compare-diff-only').checked;
+    
+    const validIds = validateSelection(selectedIds);
+    const { headers, rows } = generateComparisonRows(validIds, diffOnly);
+    
+    const openToolCb = (algoName) => {
+        const found = ALGORITHM_CATALOG.find(a => a.name === algoName);
+        if (found) {
+            const btn = document.querySelector(`.algo-card-btn[data-target="${found.id}"]`);
+            if (btn) btn.click();
+        }
+    };
+    
+    UI.renderComparisonTable(headers, rows, openToolCb);
+    
+    // Override copy button logic specifically for comparison
+    const md = generateMarkdownOutput(validIds, diffOnly);
+    const copyBtn = document.getElementById('btn-copy');
+    // We bind a temporary data attribute so we know it's a markdown copy
+    copyBtn.setAttribute('data-md-copy', md);
+    UI.showMessage("Karşılaştırma tablosu oluşturuldu.", "success");
+}
+
+// Override Copy behavior to support markdown from compare
+document.getElementById('btn-copy').addEventListener('click', (e) => {
+    // Prevent the default global click which is added somewhere else by replacing its content
+    // Actually the previous listener just reads textContent. But if data-md-copy exists, we prefer it.
+    const mdText = e.currentTarget.getAttribute('data-md-copy');
+    if (mdText && currentAlgorithm === 'algo-compare') {
+        UI.copyToClipboard(mdText);
+        e.stopImmediatePropagation();
+    }
+});
+
 // Karakter Sayacı Mantığı
 function updateCounter(inputId, counterId) {
     const input = document.getElementById(inputId);
@@ -485,6 +537,196 @@ if (searchInput) {
             handleSearch('');
         }
     });
+// --- Algoritma Karşılaştırma Başlangıç ---
+function renderCompareSelection(filter = 'all') {
+    const container = document.getElementById('compare-selection-container');
+    if (!container) return;
+    container.innerHTML = '';
+    
+    const algos = filterByCategory(filter);
+    
+    algos.forEach(a => {
+        const label = document.createElement('label');
+        label.className = 'checkbox-item';
+        
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.value = a.id;
+        
+        const text = document.createElement('span');
+        text.textContent = a.name;
+        
+        label.appendChild(input);
+        label.appendChild(text);
+        container.appendChild(label);
+    });
+}
+
+const compareFilterSelect = document.getElementById('compare-filter');
+if (compareFilterSelect) {
+    compareFilterSelect.addEventListener('change', (e) => {
+        const selectedValues = Array.from(document.querySelectorAll('#compare-selection-container input:checked')).map(i => i.value);
+        renderCompareSelection(e.target.value);
+        
+        // Yeniden render ettikten sonra önceki seçimleri koru
+        document.querySelectorAll('#compare-selection-container input').forEach(input => {
+            if (selectedValues.includes(input.value)) {
+                input.checked = true;
+            }
+        });
+    });
+}
+renderCompareSelection('all'); // Başlangıç render
+
+// --- Mini Alıştırmalar Başlangıç ---
+let currentExercise = null;
+
+function loadExerciseProgress() {
+    const p = getProgress();
+    const sc = document.getElementById('ex-stat-correct');
+    const sw = document.getElementById('ex-stat-wrong');
+    const ss = document.getElementById('ex-stat-streak');
+    if (sc) sc.textContent = p.totalCorrect;
+    if (sw) sw.textContent = p.totalWrong;
+    if (ss) ss.textContent = p.currentStreak;
+}
+
+function renderNewExercise() {
+    const cat = document.getElementById('exercise-category').value;
+    const diff = document.getElementById('exercise-difficulty').value;
+    
+    currentExercise = getRandomExercise(cat, diff);
+    
+    const area = document.getElementById('exercise-question-area');
+    const feedback = document.getElementById('ex-feedback');
+    const btnSubmit = document.getElementById('btn-ex-submit');
+    const btnNext = document.getElementById('btn-ex-next');
+    const btnHint = document.getElementById('btn-ex-hint');
+    const btnSolve = document.getElementById('btn-ex-solve');
+    
+    if (!currentExercise) {
+        area.style.display = 'block';
+        document.getElementById('ex-title').textContent = "Soru Bulunamadı";
+        document.getElementById('ex-text').textContent = "Bu filtreye uygun soru kalmadı veya sistemde yok. Lütfen filtreleri değiştirin.";
+        document.getElementById('ex-input-container').innerHTML = '';
+        feedback.style.display = 'none';
+        btnSubmit.style.display = 'none';
+        btnHint.style.display = 'none';
+        btnSolve.style.display = 'none';
+        btnNext.style.display = 'none';
+        return;
+    }
+    
+    area.style.display = 'block';
+    document.getElementById('ex-title').textContent = `${currentExercise.title} (${currentExercise.difficulty.toUpperCase()})`;
+    document.getElementById('ex-text').textContent = currentExercise.text;
+    
+    UI.renderExerciseForm(currentExercise, 'ex-input-container');
+    
+    feedback.style.display = 'none';
+    feedback.className = '';
+    
+    btnSubmit.style.display = 'inline-block';
+    btnHint.style.display = 'inline-block';
+    btnSolve.style.display = 'inline-block';
+    btnNext.style.display = 'none';
+    
+    // Temizle sonucu
+    UI.clearResult();
+    UI.clearSteps();
+    
+    loadExerciseProgress();
+}
+
+// Global olarak tetiklenmesini engellemek için butonları "click" eventi ile bağlayalım
+document.getElementById('btn-ex-submit')?.addEventListener('click', () => {
+    if (!currentExercise) return;
+    const feedback = document.getElementById('ex-feedback');
+    
+    let userAnswer = '';
+    if (currentExercise.type === 'text') {
+        userAnswer = document.getElementById('ex-answer-input').value;
+    } else {
+        const checked = document.querySelector('input[name="ex-answer"]:checked');
+        if (checked) userAnswer = checked.value;
+    }
+    
+    try {
+        const isCorrect = checkAnswer(currentExercise, userAnswer);
+        if (isCorrect) {
+            feedback.style.display = 'block';
+            feedback.className = 'exercise-correct-highlight';
+            feedback.innerHTML = `<strong>Tebrikler, doğru!</strong><br><small>${currentExercise.explanation}</small>`;
+            recordAnswer(true, currentExercise.algoId);
+            document.getElementById('btn-ex-submit').style.display = 'none';
+            document.getElementById('btn-ex-solve').style.display = 'none';
+            document.getElementById('btn-ex-hint').style.display = 'none';
+            document.getElementById('btn-ex-next').style.display = 'inline-block';
+            
+            // Eğer radio ise yeşil yap
+            const checkedLabel = document.querySelector('input[name="ex-answer"]:checked')?.parentElement;
+            if (checkedLabel) checkedLabel.classList.add('exercise-correct-highlight');
+        } else {
+            feedback.style.display = 'block';
+            feedback.className = 'exercise-wrong-highlight';
+            feedback.innerHTML = `<strong>Yanlış cevap.</strong> Tekrar deneyin.`;
+            recordAnswer(false, currentExercise.algoId);
+            
+            const checkedLabel = document.querySelector('input[name="ex-answer"]:checked')?.parentElement;
+            if (checkedLabel) {
+                checkedLabel.classList.add('exercise-wrong-highlight');
+                setTimeout(() => checkedLabel.classList.remove('exercise-wrong-highlight'), 1000);
+            }
+        }
+        loadExerciseProgress();
+    } catch (e) {
+        UI.showMessage(e.message, "error");
+    }
+});
+
+document.getElementById('btn-ex-hint')?.addEventListener('click', () => {
+    if (!currentExercise) return;
+    const feedback = document.getElementById('ex-feedback');
+    feedback.style.display = 'block';
+    feedback.className = '';
+    feedback.style.backgroundColor = 'var(--secondary-color)';
+    feedback.style.border = '1px solid var(--primary-color)';
+    feedback.innerHTML = `<strong>İpucu:</strong> ${currentExercise.hint}`;
+});
+
+document.getElementById('btn-ex-solve')?.addEventListener('click', () => {
+    if (!currentExercise) return;
+    const feedback = document.getElementById('ex-feedback');
+    feedback.style.display = 'block';
+    feedback.className = 'exercise-correct-highlight';
+    feedback.innerHTML = `<strong>Çözüm:</strong> ${currentExercise.answer}<br><small>${currentExercise.explanation}</small>`;
+    
+    document.getElementById('btn-ex-submit').style.display = 'none';
+    document.getElementById('btn-ex-solve').style.display = 'none';
+    document.getElementById('btn-ex-hint').style.display = 'none';
+    document.getElementById('btn-ex-next').style.display = 'inline-block';
+    // Çözümü gösterdikten sonra recordAnswer kullanmıyoruz, istatistik artmıyor.
+});
+
+document.getElementById('btn-ex-next')?.addEventListener('click', () => {
+    renderNewExercise();
+});
+
+document.getElementById('btn-ex-reset-progress')?.addEventListener('click', () => {
+    if(confirm("Tüm alıştırma istatistiklerinizi sıfırlamak istediğinize emin misiniz? (Favorileriniz ve diğer ayarlarınız silinmez.)")) {
+        resetProgress();
+        loadExerciseProgress();
+        UI.showMessage("İlerlemeniz sıfırlandı.", "success");
+    }
+});
+
+// Select değişiminde soruyu resetlemek veya yüklemek istersen:
+document.getElementById('exercise-category')?.addEventListener('change', renderNewExercise);
+document.getElementById('exercise-difficulty')?.addEventListener('change', renderNewExercise);
+
+// İlk yükleme
+loadExerciseProgress();
+renderNewExercise();
 }
 
 if (btnSearchClear) {

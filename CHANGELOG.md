@@ -5,6 +5,8 @@
 ### Eklendi
 - Frekans analizi aracı
 - Sezar şifresi kırma aracı
+- Algoritma karşılaştırma aracı
+- Mini alıştırmalar aracı
 
 ### Değiştirildi
 - Güncel geliştirici bilgisi yalnızca Mehmet Zahid KAYA olarak düzenlendi.
