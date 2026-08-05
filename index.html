@@ -35,12 +35,12 @@
                     <p class="algo-info">RSA, açık anahtarlı bir şifreleme yöntemidir. Bu simülasyon eğitim amaçlıdır, lütfen küçük asal sayılar giriniz.</p>
                     
                     <div class="form-group">
-                        <label for="rsa-p">p Asal Sayısı</label>
-                        <input type="number" id="rsa-p" placeholder="Örn: 61" value="61">
+                        <label for="rsa-p">p Asal Sayısı (Maks: 10000)</label>
+                        <input type="number" id="rsa-p" max="10000" placeholder="Örn: 61" value="61">
                     </div>
                     <div class="form-group">
-                        <label for="rsa-q">q Asal Sayısı</label>
-                        <input type="number" id="rsa-q" placeholder="Örn: 53" value="53">
+                        <label for="rsa-q">q Asal Sayısı (Maks: 10000)</label>
+                        <input type="number" id="rsa-q" max="10000" placeholder="Örn: 53" value="53">
                     </div>
                     <div class="form-group">
                         <label for="rsa-e">Açık Üs (e)</label>
@@ -67,8 +67,8 @@
                     <p class="algo-info">Ortak ve güvensiz bir kanal üzerinden güvenli bir şekilde anahtar paylaşımını sağlar. Sadece sayısal değerler giriniz.</p>
                     
                     <div class="form-group">
-                        <label for="dh-p">Asal Modül (p)</label>
-                        <input type="number" id="dh-p" placeholder="Örn: 23" value="23">
+                        <label for="dh-p">Asal Modül p (Maks: 10000)</label>
+                        <input type="number" id="dh-p" max="10000" placeholder="Örn: 23" value="23">
                     </div>
                     <div class="form-group">
                         <label for="dh-g">Üreteç (g)</label>

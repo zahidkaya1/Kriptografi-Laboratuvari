@@ -12,6 +12,9 @@ export function runDiffieHellman(p, g, a, b) {
     const steps = [];
 
     // 1. Doğrulamalar
+    if (p > 10000) {
+        throw new Error("Eğitim amaçlı simülasyon sınırları gereği asal modül (p) 10.000'den küçük olmalıdır.");
+    }
     if (!isPrime(p)) throw new Error("p değeri asal bir sayı olmalıdır.");
     if (g <= 1 || g >= p) throw new Error(`g (üreteç) değeri 1 ile ${p - 1} arasında olmalıdır.`);
     if (a <= 0 || a >= p) throw new Error(`a (Alice'in gizli anahtarı) 0 ile ${p - 1} arasında olmalıdır.`);

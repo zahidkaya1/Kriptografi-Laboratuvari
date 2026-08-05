@@ -327,6 +327,7 @@ button {
     border-radius: 0 8px 8px 0;
     font-family: monospace;
     font-size: 0.95rem;
+    word-break: break-all;
 }
 
 .text-muted {
@@ -339,6 +340,9 @@ button {
     border-collapse: collapse;
     margin-top: 1rem;
     font-size: 0.9rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 .vigenere-table th, .vigenere-table td {
     border: 1px solid var(--border-color);

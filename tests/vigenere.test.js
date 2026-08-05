@@ -30,6 +30,16 @@ test('Vigenère Algoritması Testleri', async (t) => {
         assert.strictEqual(decResult.result, "AÇIK HAVA ÖZLEMİ");
     });
 
+    await t.test('Türkçe Özel Harflerin Doğrulanması', () => {
+        const text = "ÇĞIİÖŞÜ";
+        const key = "ÇĞIİÖŞÜ";
+        
+        const encResult = runVigenere(text, key, "TR", "encrypt");
+        const decResult = runVigenere(encResult.result, key, "TR", "decrypt");
+        
+        assert.strictEqual(decResult.result, "ÇĞIİÖŞÜ");
+    });
+
     await t.test('Küçük Harflerin Korunması', () => {
         const text = "hello world";
         const key = "KEY";

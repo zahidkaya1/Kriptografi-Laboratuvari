@@ -39,6 +39,9 @@ export function runRSA(p, q, e, message, mode = "encrypt") {
     const steps = [];
 
     // 1. Doğrulamalar
+    if (p > 10000 || q > 10000) {
+        throw new Error("Eğitim amaçlı simülasyon sınırları gereği p ve q asal sayıları 10.000'den küçük olmalıdır.");
+    }
     if (!isPrime(p)) throw new Error("p değeri asal bir sayı olmalıdır.");
     if (!isPrime(q)) throw new Error("q değeri asal bir sayı olmalıdır.");
     if (p === q) throw new Error("p ve q aynı olamaz, farklı asal sayılar seçiniz.");
