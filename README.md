@@ -14,16 +14,29 @@ Bu proje, temel kriptografi algoritmalarının nasıl çalıştığını görsel
 
 ## 🔐 Desteklenen Algoritmalar
 
-### 1. RSA (Rivest–Shamir–Adleman)
+### Modern ve Matematiksel
+
+#### 1. RSA (Rivest–Shamir–Adleman)
 Açık anahtarlı şifreleme algoritmasıdır. Eğitim amaçlı simülasyonunda küçük asal sayılar (p, q) kullanılarak anahtar üretimi ve hızlı modüler üs alma ile şifreleme/çözme işlemleri gösterilir. Kullanıcının asal sayıları girmesi sağlanır ve adım adım \(\phi(n)\), \(d\) hesabı yapılır.
 
-### 2. Diffie-Hellman Anahtar Değişimi
+#### 2. Diffie-Hellman Anahtar Değişimi
 İki tarafın (Alice ve Bob) ortak ve güvensiz bir kanal üzerinden güvenli bir şekilde gizli bir anahtar (K) üzerinde anlaşmasını sağlayan yöntemdir. Asal modül (\(p\)), üreteç (\(g\)) ve tarafların gizli değerleri (\(a, b\)) alınarak süreç gösterilir.
 
-### 3. Vigenère Şifreleme
+### Klasik Şifreler *(v1.1.0 Geliştirme Aşamasındadır)*
+
+#### 3. Vigenère Şifreleme
 Polialfabetik (çoklu alfabeli) bir yerine koyma şifrelemesidir. Kullanıcının belirlediği anahtar, metin uzunluğu kadar tekrarlanır ve harflerin sayısal indeksleri modüler aritmetikle toplanarak şifrelenir. 
 - Türkçe (29 Harf) ve İngilizce (26 Harf) alfabelerini destekler.
 - Boşluk, rakam ve noktalama işaretlerini korur.
+
+#### 4. Sezar Şifreleme
+Tarihin en eski şifreleme yöntemlerinden biridir. Metindeki her harfi alfabede belirli bir miktar kaydırarak çalışır. Türkçe ve Latin alfabelerini destekler.
+
+#### 5. ROT13 Şifreleme
+Sezar şifrelemesinin 13 kaydırmalı özel bir türüdür. Sadece Latin alfabesinde çalışır ve şifreleme/çözme işlemleri aynıdır.
+
+#### 6. Atbash Şifreleme
+Alfabedeki harflerin baştan ve sondan eşleştirilmesi (ilk harf son harf ile) mantığına dayanır. Türkçe ve Latin alfabelerini destekler.
 
 ## 🛠️ Kullanılan Teknolojiler
 - HTML5 & CSS3 (Vanilla, framework kullanılmamıştır)

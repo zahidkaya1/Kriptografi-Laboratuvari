@@ -1,9 +1,6 @@
 import { normalizeModulo } from '../utils/math.js';
-
-export const ALPHABETS = {
-    TR: "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ",
-    EN: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-};
+import { ALPHABETS } from '../utils/alphabets.js';
+import { isLowerCase, toLowerCase, toUpperCase } from '../utils/text.js';
 
 /**
  * Vigenère şifreleme/çözme algoritması
@@ -23,7 +20,7 @@ export function runVigenere(text, key, alphabet = "TR", mode = "encrypt") {
     const alphaLen = selectedAlphabet.length;
 
     // Anahtarı seçili alfabeye uygun büyük harfe çevirelim
-    const upperKey = alphabet === "TR" ? key.toLocaleUpperCase('tr-TR') : key.toUpperCase();
+    const upperKey = toUpperCase(key, alphabet);
     
     // Anahtarın içindeki karakterlerin alfabede olup olmadığını kontrol et
     for (let i = 0; i < upperKey.length; i++) {
@@ -39,9 +36,8 @@ export function runVigenere(text, key, alphabet = "TR", mode = "encrypt") {
     for (let i = 0; i < text.length; i++) {
         const char = text[i];
         
-        // Türkçe/İngilizce büyük harfe çevirme
-        const isLower = char === (alphabet === "TR" ? char.toLocaleLowerCase('tr-TR') : char.toLowerCase());
-        const upperChar = alphabet === "TR" ? char.toLocaleUpperCase('tr-TR') : char.toUpperCase();
+        const isLower = isLowerCase(char, alphabet);
+        const upperChar = toUpperCase(char, alphabet);
         
         const textCharIndex = selectedAlphabet.indexOf(upperChar);
 
@@ -67,10 +63,8 @@ export function runVigenere(text, key, alphabet = "TR", mode = "encrypt") {
 
         let newChar = selectedAlphabet[newCharIndex];
         
-        // Orijinal harf küçükse sonucu da küçült (İsteğe bağlı, eğitim için genelde büyük tutulabilir ama istenirse böyle)
-        // Kullanıcı deneyimi için koruyoruz.
         if (isLower) {
-            newChar = alphabet === "TR" ? newChar.toLocaleLowerCase('tr-TR') : newChar.toLowerCase();
+            newChar = toLowerCase(newChar, alphabet);
         }
 
         resultText += newChar;

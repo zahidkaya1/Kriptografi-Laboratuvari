@@ -89,46 +89,54 @@ header h1 {
     background-color: var(--secondary-color);
 }
 
-/* Tabs */
-.tabs {
-    display: flex;
-    gap: 1rem;
+/* Category Selection */
+.category-selection {
     margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.5rem;
-    overflow-x: auto;
 }
 
-.tab-btn {
-    background: none;
-    border: none;
+.category-group {
+    margin-bottom: 1.5rem;
+}
+
+.category-group:last-child {
+    margin-bottom: 0;
+}
+
+.category-group h3 {
     font-size: 1.1rem;
-    font-weight: 600;
     color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.algorithm-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.algo-card-btn {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
     cursor: pointer;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.25rem;
     border-radius: var(--radius);
-    position: relative;
+    transition: all 0.2s ease;
 }
 
-.tab-btn:hover {
-    color: var(--primary-color);
-    background-color: var(--secondary-color);
-}
-
-.tab-btn.active {
+.algo-card-btn:hover {
+    border-color: var(--primary-color);
     color: var(--primary-color);
 }
 
-.tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -0.6rem;
-    left: 0;
-    width: 100%;
-    height: 3px;
+.algo-card-btn.active {
     background-color: var(--primary-color);
-    border-radius: 3px 3px 0 0;
+    color: white;
+    border-color: var(--primary-color);
 }
 
 /* Layout */
@@ -334,8 +342,8 @@ button {
     color: var(--text-muted);
 }
 
-/* Vigenere Table */
-.vigenere-table {
+/* Step Tables */
+.step-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
@@ -344,11 +352,11 @@ button {
     overflow-x: auto;
     white-space: nowrap;
 }
-.vigenere-table th, .vigenere-table td {
+.step-table th, .step-table td {
     border: 1px solid var(--border-color);
     padding: 0.5rem;
     text-align: center;
 }
-.vigenere-table th {
+.step-table th {
     background-color: var(--secondary-color);
 }

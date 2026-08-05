@@ -18,12 +18,25 @@
     </header>
 
     <main class="container">
-        <!-- Algoritma Seçim Sekmeleri -->
-        <nav class="tabs" aria-label="Algoritma Seçimi">
-            <button class="tab-btn active" data-target="rsa">RSA</button>
-            <button class="tab-btn" data-target="dh">Diffie-Hellman</button>
-            <button class="tab-btn" data-target="vigenere">Vigenère</button>
-        </nav>
+        <!-- Algoritma Kategori Seçimi -->
+        <div class="category-selection card" aria-label="Algoritma Seçimi">
+            <div class="category-group">
+                <h3>Modern ve Matematiksel</h3>
+                <div class="algorithm-cards">
+                    <button class="algo-card-btn active" data-target="rsa">RSA</button>
+                    <button class="algo-card-btn" data-target="dh">Diffie-Hellman</button>
+                </div>
+            </div>
+            <div class="category-group">
+                <h3>Klasik Şifreler</h3>
+                <div class="algorithm-cards">
+                    <button class="algo-card-btn" data-target="vigenere">Vigenère</button>
+                    <button class="algo-card-btn" data-target="caesar">Sezar</button>
+                    <button class="algo-card-btn" data-target="rot13">ROT13</button>
+                    <button class="algo-card-btn" data-target="atbash">Atbash</button>
+                </div>
+            </div>
+        </div>
 
         <div class="content-wrapper">
             <!-- Sol Panel: Girdiler -->
@@ -113,6 +126,69 @@
                     <div class="form-group">
                         <label for="vig-text">Metin</label>
                         <textarea id="vig-text" rows="3" placeholder="Metninizi girin...">KRİPTOGRAFİ ÇOK ZEVKLİ</textarea>
+                    </div>
+                </div>
+
+                <!-- Caesar Formu -->
+                <div id="caesar-form" class="algo-form">
+                    <h2>Sezar Şifreleme</h2>
+                    <p class="algo-info">Tarihin en eski şifreleme yöntemlerinden biridir. Metindeki her harfi alfabede belirli bir miktar kaydırır.</p>
+                    
+                    <div class="form-group">
+                        <label for="caesar-alphabet">Alfabe</label>
+                        <select id="caesar-alphabet">
+                            <option value="TR">Türkçe (29 Harf)</option>
+                            <option value="EN">Latin (26 Harf)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="caesar-mode">İşlem Türü</label>
+                        <select id="caesar-mode">
+                            <option value="encrypt">Şifrele</option>
+                            <option value="decrypt">Şifreyi Çöz</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="caesar-shift">Kaydırma Miktarı</label>
+                        <input type="number" id="caesar-shift" placeholder="Örn: 3" value="3">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="caesar-text">Metin</label>
+                        <textarea id="caesar-text" rows="3" placeholder="Metninizi girin...">MERHABA DÜNYA</textarea>
+                    </div>
+                    <button id="btn-caesar-example" class="btn-secondary" style="margin-bottom: 1rem; width: 100%;">Örneği Doldur (Latin: ABC -> 3)</button>
+                </div>
+
+                <!-- ROT13 Formu -->
+                <div id="rot13-form" class="algo-form">
+                    <h2>ROT13 Şifreleme</h2>
+                    <p class="algo-info">Sezar şifrelemesinin 13 kaydırmalı özel bir türüdür. Latin alfabesinde çalışır. Modern sistemlerde güvenlik amaçlı kullanılmaz.</p>
+                    
+                    <div class="form-group">
+                        <label for="rot13-text">Metin</label>
+                        <textarea id="rot13-text" rows="3" placeholder="Metninizi girin...">HELLO</textarea>
+                    </div>
+                </div>
+
+                <!-- Atbash Formu -->
+                <div id="atbash-form" class="algo-form">
+                    <h2>Atbash Şifreleme</h2>
+                    <p class="algo-info">Alfabedeki harflerin baştan ve sondan eşleştirilmesi (ilk harf son harf ile) mantığına dayanır.</p>
+                    
+                    <div class="form-group">
+                        <label for="atbash-alphabet">Alfabe</label>
+                        <select id="atbash-alphabet">
+                            <option value="TR">Türkçe (29 Harf)</option>
+                            <option value="EN">Latin (26 Harf)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="atbash-text">Metin</label>
+                        <textarea id="atbash-text" rows="3" placeholder="Metninizi girin...">MERHABA</textarea>
                     </div>
                 </div>
 
