@@ -18,30 +18,74 @@
     </header>
 
     <main class="container">
+        <!-- Arama Kutusu -->
+        <div class="search-container card">
+            <div class="search-wrapper">
+                <input type="text" id="algo-search-input" placeholder="Algoritma ara (Örn: sezar, transpozisyon)..." aria-label="Algoritma Ara">
+                <button id="btn-search-clear" aria-label="Aramayı Temizle" title="Temizle" style="display:none;">✖</button>
+            </div>
+            <div id="search-no-results" class="text-muted" style="display:none; margin-top: 0.5rem; font-size: 0.9rem;">Aramanızla eşleşen algoritma bulunamadı.</div>
+        </div>
+
         <!-- Algoritma Kategori Seçimi -->
         <div class="category-selection card" aria-label="Algoritma Seçimi">
-            <details class="category-group" open>
+            
+            <details class="category-group" id="category-favorites" style="display: none;">
+                <summary>Favoriler</summary>
+                <div class="algorithm-cards" id="favorites-container">
+                    <!-- Dinamik doldurulacak -->
+                </div>
+            </details>
+
+            <details class="category-group" id="category-modern" open>
                 <summary>Modern ve Matematiksel</summary>
                 <div class="algorithm-cards">
-                    <button class="algo-card-btn active" data-target="rsa">RSA</button>
-                    <button class="algo-card-btn" data-target="dh">Diffie-Hellman</button>
+                    <div class="algo-card-wrapper" data-algo-id="rsa">
+                        <button class="algo-card-btn active" data-target="rsa">RSA</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="dh">
+                        <button class="algo-card-btn" data-target="dh">Diffie-Hellman</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
                 </div>
             </details>
-            <details class="category-group">
+            <details class="category-group" id="category-classic">
                 <summary>Klasik Yerine Koyma Şifreleri</summary>
                 <div class="algorithm-cards">
-                    <button class="algo-card-btn" data-target="vigenere">Vigenère</button>
-                    <button class="algo-card-btn" data-target="caesar">Sezar</button>
-                    <button class="algo-card-btn" data-target="rot13">ROT13</button>
-                    <button class="algo-card-btn" data-target="atbash">Atbash</button>
-                    <button class="algo-card-btn" data-target="affine">Affine</button>
+                    <div class="algo-card-wrapper" data-algo-id="vigenere">
+                        <button class="algo-card-btn" data-target="vigenere">Vigenère</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="caesar">
+                        <button class="algo-card-btn" data-target="caesar">Sezar</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="rot13">
+                        <button class="algo-card-btn" data-target="rot13">ROT13</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="atbash">
+                        <button class="algo-card-btn" data-target="atbash">Atbash</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="affine">
+                        <button class="algo-card-btn" data-target="affine">Affine</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
                 </div>
             </details>
-            <details class="category-group">
+            <details class="category-group" id="category-transposition">
                 <summary>Transpozisyon Şifreleri</summary>
                 <div class="algorithm-cards">
-                    <button class="algo-card-btn" data-target="railfence">Rail Fence</button>
-                    <button class="algo-card-btn" data-target="columnar">Sütunlu Transpozisyon</button>
+                    <div class="algo-card-wrapper" data-algo-id="railfence">
+                        <button class="algo-card-btn" data-target="railfence">Rail Fence</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="columnar">
+                        <button class="algo-card-btn" data-target="columnar">Sütunlu Transpozisyon</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
                 </div>
             </details>
         </div>
@@ -53,7 +97,7 @@
                 <!-- RSA Formu -->
                 <div id="rsa-form" class="algo-form active">
                     <h2>RSA Şifreleme</h2>
-                    <p class="algo-info">RSA, açık anahtarlı bir şifreleme yöntemidir. Bu simülasyon eğitim amaçlıdır, lütfen küçük asal sayılar giriniz.</p>
+                    <div class="info-card"><strong>Türü:</strong> Modern, Asimetrik<br><strong>Amacı:</strong> Şifreleme ve dijital imza<br><strong>Anahtar:</strong> Açık ve gizli anahtar çifti<br><strong>Uyarı:</strong> Bu uygulamadaki küçük sayı örneği yalnızca eğitim amaçlıdır.</div>
                     
                     <div class="form-group">
                         <label for="rsa-p">p Asal Sayısı (Maks: 10000)</label>
@@ -85,7 +129,7 @@
                 <!-- Diffie-Hellman Formu -->
                 <div id="dh-form" class="algo-form">
                     <h2>Diffie-Hellman Anahtar Değişimi</h2>
-                    <p class="algo-info">Ortak ve güvensiz bir kanal üzerinden güvenli bir şekilde anahtar paylaşımını sağlar. Sadece sayısal değerler giriniz.</p>
+                    <div class="info-card"><strong>Türü:</strong> Modern, Anahtar Değişimi<br><strong>Amacı:</strong> Güvensiz kanalda ortak anahtar oluşturma<br><strong>Anahtar:</strong> Asal modül ve üreteç<br><strong>Uyarı:</strong> Doğrudan şifreleme değildir, anahtar paylaşımı içindir.</div>
                     
                     <div class="form-group">
                         <label for="dh-p">Asal Modül p (Maks: 10000)</label>
@@ -108,7 +152,7 @@
                 <!-- Vigenere Formu -->
                 <div id="vigenere-form" class="algo-form">
                     <h2>Vigenère Şifreleme</h2>
-                    <p class="algo-info">Polialfabetik bir yerine koyma şifrelemesidir. Boşluklar ve özel karakterler korunur.</p>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Polialfabetik Yerine Koyma<br><strong>Amacı:</strong> Metin gizleme<br><strong>Anahtar:</strong> Kelime veya metin dizgisi<br><strong>Uyarı:</strong> Modern güvenlik sağlamaz, tekrarlanan anahtar uzunluğu analiziyle kırılabilir.</div>
                     
                     <div class="form-group">
                         <label for="vig-alphabet">Alfabe</label>
@@ -140,7 +184,7 @@
                 <!-- Caesar Formu -->
                 <div id="caesar-form" class="algo-form">
                     <h2>Sezar Şifreleme</h2>
-                    <p class="algo-info">Tarihin en eski şifreleme yöntemlerinden biridir. Metindeki her harfi alfabede belirli bir miktar kaydırır.</p>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Monoalfabetik Yerine Koyma<br><strong>Amacı:</strong> Temel metin şifreleme<br><strong>Anahtar:</strong> Sayısal kaydırma değeri<br><strong>Uyarı:</strong> Çok kolay kırılır, güvenlik sağlamaz.</div>
                     
                     <div class="form-group">
                         <label for="caesar-alphabet">Alfabe</label>
@@ -167,13 +211,12 @@
                         <label for="caesar-text">Metin</label>
                         <textarea id="caesar-text" rows="3" placeholder="Metninizi girin...">MERHABA DÜNYA</textarea>
                     </div>
-                    <button id="btn-caesar-example" class="btn-secondary" style="margin-bottom: 1rem; width: 100%;">Örneği Doldur (Latin: ABC -> 3)</button>
                 </div>
 
                 <!-- ROT13 Formu -->
                 <div id="rot13-form" class="algo-form">
                     <h2>ROT13 Şifreleme</h2>
-                    <p class="algo-info">Sezar şifrelemesinin 13 kaydırmalı özel bir türüdür. Latin alfabesinde çalışır. Modern sistemlerde güvenlik amaçlı kullanılmaz.</p>
+                    <div class="info-card"><strong>Türü:</strong> Klasik Dönüşüm<br><strong>Amacı:</strong> Metni gizleme (Örn. spoiler)<br><strong>Anahtar:</strong> Yok (Sabit 13 kaydırma)<br><strong>Uyarı:</strong> Sadece metni karmaşıklaştırır, güvenlik sağlamaz.</div>
                     
                     <div class="form-group">
                         <label for="rot13-text">Metin</label>
@@ -184,7 +227,7 @@
                 <!-- Atbash Formu -->
                 <div id="atbash-form" class="algo-form">
                     <h2>Atbash Şifreleme</h2>
-                    <p class="form-desc">Alfabedeki harflerin baştan ve sondan simetrik olarak eşleştirilmesi (ilk harf ile son harf) mantığına dayanır.</p>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Simetrik Dönüşüm<br><strong>Amacı:</strong> Ters alfabe eşleştirme<br><strong>Anahtar:</strong> Yok<br><strong>Uyarı:</strong> Modern güvenlik sağlamaz.</div>
                     
                     <div class="form-group">
                         <label for="atbash-alphabet">Alfabe</label>
@@ -203,8 +246,7 @@
                 <!-- Affine Formu -->
                 <div id="affine-form" class="algo-form">
                     <h2>Affine Şifreleme</h2>
-                    <p class="form-desc">E(x) = (a × x + b) mod m formülünü kullanır. 'a' ile alfabe uzunluğu 'm' aralarında asal olmalıdır.</p>
-                    <button id="btn-affine-example" class="btn-secondary" style="margin-bottom: 1rem;">Örneği Doldur</button>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Matematiksel Yerine Koyma<br><strong>Amacı:</strong> Formül tabanlı şifreleme<br><strong>Anahtar:</strong> İki sayısal değer (a ve b)<br><strong>Uyarı:</strong> Frekans analizine karşı zayıftır.</div>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -243,8 +285,7 @@
                 <!-- Rail Fence Formu -->
                 <div id="railfence-form" class="algo-form">
                     <h2>Rail Fence (Zikzak) Şifreleme</h2>
-                    <p class="form-desc">Metni belirlenen sayıdaki raylara zikzak biçiminde yerleştirerek sütun sütun okuyan bir transpozisyon şifrelemesidir.</p>
-                    <button id="btn-railfence-example" class="btn-secondary" style="margin-bottom: 1rem;">Örneği Doldur</button>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Transpozisyon (Yer Değiştirme)<br><strong>Amacı:</strong> Harflerin sırasını değiştirme<br><strong>Anahtar:</strong> Ray (satır) sayısı<br><strong>Uyarı:</strong> Harfleri değiştirmez, sadece dizilimi bozar. Modern güvenlik sağlamaz.</div>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -269,8 +310,7 @@
                 <!-- Columnar Transposition Formu -->
                 <div id="columnar-form" class="algo-form">
                     <h2>Sütunlu Transpozisyon</h2>
-                    <p class="form-desc">Metin satırlar halinde bir tabloya yazılır ve sütunlar bir anahtar kelimeye göre sıralanarak okunur.</p>
-                    <button id="btn-columnar-example" class="btn-secondary" style="margin-bottom: 1rem;">Örneği Doldur</button>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Transpozisyon<br><strong>Amacı:</strong> Sütun sırasını karmaşıklaştırma<br><strong>Anahtar:</strong> Kelime (alfabetik sıralama için)<br><strong>Uyarı:</strong> Harfleri değiştirmez. Modern güvenlik sağlamaz.</div>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -301,8 +341,9 @@
                 </div>
 
                 <div class="actions">
+                    <button id="btn-example" class="btn-secondary" title="Örnek Değerleri Doldur">Örneği Doldur</button>
                     <button id="btn-calculate" class="btn-primary">Hesapla / İşle</button>
-                    <button id="btn-clear" class="btn-secondary">Temizle</button>
+                    <button id="btn-clear" class="btn-secondary" title="Formu ve Sonuçları Temizle">Temizle</button>
                 </div>
                 
                 <div id="message-area" class="message-area" role="alert"></div>

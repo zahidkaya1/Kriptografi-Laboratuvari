@@ -1,15 +1,23 @@
 # Kriptografi Laboratuvarı
 
-Bu proje, temel kriptografi algoritmalarının nasıl çalıştığını görselleştirmek, adım adım incelemek ve öğrenmek amacıyla geliştirilmiş interaktif bir eğitim uygulamasıdır.
+Modern ve klasik kriptografi algoritmalarını tarayıcı üzerinde eğitim amaçlı deneyimlemenizi sağlayan, JavaScript tabanlı açık kaynaklı bir uygulamadır.
 
-- **Canlı Demo:** [https://zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)
-- **GitHub Deposu:** [https://github.com/zahidkaya1/Kriptografi-Laboratuvari](https://github.com/zahidkaya1/Kriptografi-Laboratuvari)
+**Güncel Sürüm:** `v1.1.0`  
+**Canlı Demo:** [zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)  
+**GitHub Deposu:** [github.com/zahidkaya1/Kriptografi-Laboratuvari](https://github.com/zahidkaya1/Kriptografi-Laboratuvari)
 
-## 🚀 Özellikler
-- **Modern ve Temiz Arayüz**: Tüm cihazlarda (Mobil/Tablet/Masaüstü) uyumlu tasarım.
-- **Koyu / Açık Tema Desteği**: Göz yormayan tema seçenekleri.
-- **Adım Adım İzleme**: Yapılan tüm matematiksel işlemlerin formülleri ve hesaplama adımları listelenir.
-- **Güçlü Hata Yönetimi**: Hatalı veya güvensiz girdilere anında anlamlı Türkçe uyarılar verir.
+> [!WARNING]
+> Bu proje tamamen eğitim amaçlı geliştirilmiştir. Matematiksel limitleri JavaScript dilinin yetenekleriyle (veya tarayıcı tabanlı büyük sayı işlemleriyle) sınırlıdır. **Gerçek dünya güvenliği için kullanılamaz.**
+
+## ✨ Özellikler
+- **Kategoriler:** Algoritmalar türlerine göre ayrılmış akordeon menülerle listelenir.
+- **Arama:** Gelişmiş algoritma arama sistemi ile büyük-küçük harfe ve Türkçe karakterlere duyarlı arama yapabilirsiniz.
+- **Favoriler:** Sık kullandığınız algoritmaları favorilerinize ekleyerek hızlı erişim sağlayabilirsiniz (Yerel olarak tarayıcınızda saklanır).
+- **Örnek Sistemi:** Her algoritma için hazır örnek girdileri tek tuşla doldurabilirsiniz.
+- **Koyu/Açık Tema Desteği:** Sağ üstteki buton ile arayüz temasını değiştirebilirsiniz.
+- **Mobil Uyumluluk:** 375 piksel ve üzeri tüm ekranlarda (telefon, tablet, masaüstü) esnek tasarım (Responsive Design).
+- **Panoya Kopyalama:** Şifrelenmiş veya çözülmüş metinleri tek tıkla kopyalayabilirsiniz.
+- **Detaylı Adımlar:** Şifreleme veya çözme işlemlerinin arka plandaki tüm matematiksel/dönüşüm adımlarını tablolar halinde gösterir.
 - **Node.js Test Altyapısı**: Algoritmaların doğruluğu yerleşik `node:test` ile doğrulanmıştır.
 
 ## 🔐 Desteklenen Algoritmalar
@@ -51,8 +59,8 @@ Metin satırlar halinde bir tabloya yazılır ve sütunlar bir anahtar kelimenin
 
 ## 🛠️ Kullanılan Teknolojiler
 - HTML5 & CSS3 (Vanilla, framework kullanılmamıştır)
-- Modern JavaScript (ES6+ Modül yapısı, BigInt kullanımı)
-- Node.js (Yalnızca testler için yerleşik Test Runner kullanılmıştır)
+- Modern JavaScript (ES6+ Modül yapısı, BigInt kullanımı, LocalStorage)
+- `node:test` ile Sıfır Bağımlılık (Zero-Dependency) Test Altyapısı
 
 ## 💻 Kurulum ve Çalıştırma
 
@@ -60,7 +68,6 @@ Proje tamamen statik dosyalardan (`.html`, `.css`, `.js`) oluşmaktadır.
 
 **Tarayıcıda Çalıştırmak İçin:**
 Projeyi klonladıktan sonra bir HTTP Sunucusu (Örneğin VS Code'da Live Server eklentisi veya Python yerleşik sunucusu) kullanarak çalıştırabilirsiniz.
-ES6 Modül import/export kullanıldığı için dosyayı doğrudan `file://` protokolüyle çift tıklayarak açmak, tarayıcıların güvenlik politikaları (CORS) gereği JS dosyalarının yüklenmesini engelleyebilir.
 
 ```bash
 # Python ile yerel sunucu başlatmak için:
@@ -68,30 +75,37 @@ python -m http.server 8000
 ```
 Ardından tarayıcınızda `http://localhost:8000/` adresine gidin.
 
-## 🧪 Testleri Çalıştırma
-Algoritmaların arka planındaki matematik fonksiyonlarını ve hata fırlatma durumlarını test etmek için Node.js ortamında testleri çalıştırabilirsiniz.
+## 🧪 Test Sistemi
+Projeye ait algoritmalar ve yardımcı modüller için kapsamlı otomatik testler bulunmaktadır.
 
+Testleri yerelinizde çalıştırmak için (Node.js 18+ gerektirir):
 ```bash
-npm install # Gerekli değilse de package.json üzerinden
+npm install
 npm test
 ```
+*Not: Şu anda toplam 84 otomatik test başarıyla geçilmektedir.*
 
 ## 📂 Proje Yapısı
-```text
-├── index.html                  # Ana Kullanıcı Arayüzü
-├── css/
-│   └── style.css               # Stil dosyası (Tüm UI / UX tasarımları)
-├── js/
-│   ├── app.js                  # Algoritma çağrıları ve Event Listener'lar
-│   ├── utils/
-│   │   ├── math.js             # EBOB, Modüler Üs/Ters vb. matematiksel işlemler
-│   │   └── ui.js               # Arayüz güncellemeleri, adım listeleme
-│   └── algorithms/
-│       ├── rsa.js              # RSA Şifreleme / Çözme
-│       ├── diffie-hellman.js   # DH Anahtar değişimi
-│       └── vigenere.js         # Vigenère Şifreleme
-└── tests/                      # Node.js Test Dosyaları
 ```
+Kriptografi-Laboratuvari/
+│
+├── index.html                 # Ana arayüz ve DOM yapısı
+├── package.json               # Proje metadata ve npm test betiği
+├── CHANGELOG.md               # Sürüm notları (Değişiklik Günlüğü)
+│
+├── css/
+│   └── style.css              # Tema ve grid stilleri
+│
+├── js/
+│   ├── app.js                 # Ana uygulama mantığı, olay dinleyicileri
+│   ├── algorithms/            # Her algoritmanın bağımsız modülleri (rsa, vigenere vb.)
+│   └── utils/                 # Ortak matematik fonksiyonları (math.js), arama/favoriler (search.js, favorites.js vb.)
+│
+└── tests/                     # Tüm algoritmalara ait unit test (node:test) dosyaları
+```
+
+## 📜 Değişiklik Günlüğü
+Yapılan sürüm güncellemeleri, eklenen yeni algoritmalar ve özellikler için lütfen [CHANGELOG.md](CHANGELOG.md) dosyasını inceleyin.
 
 ## ⚠️ Güvenlik Uyarıları
 **Bu proje yalnızca eğitim ve öğrenim amaçlı geliştirilmiştir.** Gerçek dünyada veya üretim ortamında kullanılmamalıdır. Gerçek kriptografi algoritmaları, burada kullanılan küçük asallar ve basit üreteçler yerine çok yüksek bitli güvenli parametreler ve standart (örneğin padding) gerektirir.

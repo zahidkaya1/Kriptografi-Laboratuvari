@@ -388,10 +388,16 @@ export function clearSteps() {
 }
 
 export function copyToClipboard(text) {
-    if (!text || text.includes("Hesaplama sonucu")) return;
+    if (!text || text.includes("Hesaplama sonucu")) {
+        showMessage("Kopyalanacak sonuç bulunamadı.", "error");
+        return;
+    }
     navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('btn-copy');
         btn.textContent = "✅";
         setTimeout(() => btn.textContent = "📋", 2000);
+    }).catch(err => {
+        showMessage("Panoya kopyalama başarısız oldu. Lütfen manuel kopyalayınız.", "error");
+        console.error("Clipboard API Error:", err);
     });
 }

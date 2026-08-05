@@ -8,24 +8,36 @@ import { runAffine } from './algorithms/affine.js';
 import { runRailFence } from './algorithms/rail-fence.js';
 import { runColumnarTransposition } from './algorithms/columnar-transposition.js';
 import * as UI from './utils/ui.js';
+import { searchAlgorithms } from './utils/search.js';
+import { getFavorites, toggleFavorite, isFavorite } from './utils/favorites.js';
+import { ALGORITHM_CATALOG } from './utils/algorithm-catalog.js';
 
 let currentAlgorithm = 'rsa';
 
 // Tab Değiştirme
+function handleTabClick(e) {
+    if (!e.target.classList.contains('algo-card-btn')) return;
+    
+    // Tab aktifliği
+    document.querySelectorAll('.algo-card-btn').forEach(b => b.classList.remove('active'));
+    
+    const targetId = e.target.getAttribute('data-target');
+    
+    // Aynı hedefi (favorilerde veya normalde) gösteren tüm butonları aktif et
+    document.querySelectorAll(`.algo-card-btn[data-target="${targetId}"]`).forEach(b => b.classList.add('active'));
+
+    // Form görünürlüğü
+    currentAlgorithm = targetId;
+    document.querySelectorAll('.algo-form').forEach(f => f.classList.remove('active'));
+    const form = document.getElementById(`${currentAlgorithm}-form`);
+    if (form) form.classList.add('active');
+
+    // Temizle
+    clearAll();
+}
+
 document.querySelectorAll('.algo-card-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        // Tab aktifliği
-        document.querySelectorAll('.algo-card-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-
-        // Form görünürlüğü
-        currentAlgorithm = e.target.getAttribute('data-target');
-        document.querySelectorAll('.algo-form').forEach(f => f.classList.remove('active'));
-        document.getElementById(`${currentAlgorithm}-form`).classList.add('active');
-
-        // Temizle
-        clearAll();
-    });
+    btn.addEventListener('click', handleTabClick);
 });
 
 // Temizleme Butonu
@@ -74,47 +86,55 @@ document.getElementById('btn-copy').addEventListener('click', () => {
     UI.copyToClipboard(text);
 });
 
-// Sezar Örneği Butonu
-const btnCaesarExample = document.getElementById('btn-caesar-example');
-if (btnCaesarExample) {
-    btnCaesarExample.addEventListener('click', () => {
-        document.getElementById('caesar-alphabet').value = 'EN';
-        document.getElementById('caesar-mode').value = 'encrypt';
-        document.getElementById('caesar-shift').value = '3';
-        document.getElementById('caesar-text').value = 'ABC';
-    });
-}
-
-// Affine Örneği Butonu
-const btnAffineExample = document.getElementById('btn-affine-example');
-if (btnAffineExample) {
-    btnAffineExample.addEventListener('click', () => {
-        document.getElementById('affine-alphabet').value = 'EN';
-        document.getElementById('affine-mode').value = 'encrypt';
-        document.getElementById('affine-a').value = '5';
-        document.getElementById('affine-b').value = '8';
-        document.getElementById('affine-text').value = 'AFFINECIPHER';
-    });
-}
-
-// Rail Fence Örneği Butonu
-const btnRailFenceExample = document.getElementById('btn-railfence-example');
-if (btnRailFenceExample) {
-    btnRailFenceExample.addEventListener('click', () => {
-        document.getElementById('railfence-mode').value = 'encrypt';
-        document.getElementById('railfence-rails').value = '3';
-        document.getElementById('railfence-text').value = 'WEAREDISCOVEREDFLEEATONCE';
-    });
-}
-
-// Columnar Transposition Örneği Butonu
-const btnColumnarExample = document.getElementById('btn-columnar-example');
-if (btnColumnarExample) {
-    btnColumnarExample.addEventListener('click', () => {
-        document.getElementById('columnar-alphabet').value = 'TR';
-        document.getElementById('columnar-mode').value = 'encrypt';
-        document.getElementById('columnar-key').value = 'GIZLI';
-        document.getElementById('columnar-text').value = 'KRIPTOGRAFI LABORATUVARI';
+// Global Örnek Doldurma Butonu
+const btnExample = document.getElementById('btn-example');
+if (btnExample) {
+    btnExample.addEventListener('click', () => {
+        clearAll();
+        
+        // Varsayılan form değerlerini temizle ve resetle (bazı alanlar kalabilir, biz özel olarak atayacağız)
+        if (currentAlgorithm === 'rsa') {
+            document.getElementById('rsa-p').value = '61';
+            document.getElementById('rsa-q').value = '53';
+            document.getElementById('rsa-e').value = '17';
+            document.getElementById('rsa-message').value = '65';
+            document.getElementById('rsa-mode').value = 'encrypt';
+        } else if (currentAlgorithm === 'dh') {
+            document.getElementById('dh-p').value = '23';
+            document.getElementById('dh-g').value = '5';
+            document.getElementById('dh-a').value = '6';
+            document.getElementById('dh-b').value = '15';
+        } else if (currentAlgorithm === 'vigenere') {
+            document.getElementById('vig-alphabet').value = 'EN';
+            document.getElementById('vig-mode').value = 'encrypt';
+            document.getElementById('vig-key').value = 'LEMON';
+            document.getElementById('vig-text').value = 'ATTACKATDAWN';
+        } else if (currentAlgorithm === 'caesar') {
+            document.getElementById('caesar-alphabet').value = 'EN';
+            document.getElementById('caesar-mode').value = 'encrypt';
+            document.getElementById('caesar-shift').value = '3';
+            document.getElementById('caesar-text').value = 'ABC';
+        } else if (currentAlgorithm === 'rot13') {
+            document.getElementById('rot13-text').value = 'HELLO';
+        } else if (currentAlgorithm === 'atbash') {
+            document.getElementById('atbash-alphabet').value = 'EN';
+            document.getElementById('atbash-text').value = 'ABCXYZ';
+        } else if (currentAlgorithm === 'affine') {
+            document.getElementById('affine-alphabet').value = 'EN';
+            document.getElementById('affine-mode').value = 'encrypt';
+            document.getElementById('affine-a').value = '5';
+            document.getElementById('affine-b').value = '8';
+            document.getElementById('affine-text').value = 'AFFINECIPHER';
+        } else if (currentAlgorithm === 'railfence') {
+            document.getElementById('railfence-mode').value = 'encrypt';
+            document.getElementById('railfence-rails').value = '3';
+            document.getElementById('railfence-text').value = 'WEAREDISCOVEREDFLEEATONCE';
+        } else if (currentAlgorithm === 'columnar') {
+            document.getElementById('columnar-alphabet').value = 'EN';
+            document.getElementById('columnar-mode').value = 'encrypt';
+            document.getElementById('columnar-key').value = 'KEY';
+            document.getElementById('columnar-text').value = 'HELLOWORLD';
+        }
     });
 }
 
@@ -258,3 +278,153 @@ function handleColumnar() {
     UI.renderColumnarGrid(matrix, keyInfo);
     UI.showMessage("Sütunlu Transpozisyon işlemi başarıyla tamamlandı.", "success");
 }
+
+// --- Favoriler ve Arama Mantığı ---
+const favoritesContainer = document.getElementById('favorites-container');
+const categoryFavorites = document.getElementById('category-favorites');
+
+function renderFavorites() {
+    const favs = getFavorites();
+    favoritesContainer.innerHTML = '';
+    
+    if (favs.length === 0) {
+        categoryFavorites.style.display = 'none';
+    } else {
+        categoryFavorites.style.display = '';
+        // Kapalıysa açsın mı? Plan gereği varsayılan açık gelir.
+        
+        favs.forEach(favId => {
+            const algoInfo = ALGORITHM_CATALOG.find(a => a.id === favId);
+            if (!algoInfo) return; // Eski/geçersiz id'ler yoksayılır
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'algo-card-wrapper';
+            wrapper.setAttribute('data-algo-id', algoInfo.id);
+            
+            const btn = document.createElement('button');
+            btn.className = 'algo-card-btn';
+            if (currentAlgorithm === algoInfo.id) btn.classList.add('active');
+            btn.setAttribute('data-target', algoInfo.id);
+            btn.textContent = algoInfo.name;
+            btn.addEventListener('click', handleTabClick);
+            
+            const favBtn = document.createElement('button');
+            favBtn.className = 'fav-btn active';
+            favBtn.setAttribute('aria-label', 'Favorilerden Çıkar');
+            favBtn.setAttribute('title', 'Favorilerden Çıkar');
+            favBtn.textContent = '★';
+            
+            favBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavState(algoInfo.id);
+            });
+            
+            wrapper.appendChild(btn);
+            wrapper.appendChild(favBtn);
+            favoritesContainer.appendChild(wrapper);
+        });
+    }
+}
+
+function toggleFavState(algoId) {
+    toggleFavorite(algoId);
+    updateFavButtonsUI();
+    renderFavorites();
+}
+
+function updateFavButtonsUI() {
+    const allFavBtns = document.querySelectorAll('.category-selection > details:not(#category-favorites) .fav-btn');
+    allFavBtns.forEach(btn => {
+        const wrapper = btn.closest('.algo-card-wrapper');
+        const algoId = wrapper.getAttribute('data-algo-id');
+        
+        if (isFavorite(algoId)) {
+            btn.classList.add('active');
+            btn.textContent = '★';
+            btn.setAttribute('aria-label', 'Favorilerden Çıkar');
+            btn.setAttribute('title', 'Favorilerden Çıkar');
+        } else {
+            btn.classList.remove('active');
+            btn.textContent = '☆';
+            btn.setAttribute('aria-label', 'Favoriye Ekle');
+            btn.setAttribute('title', 'Favoriye Ekle');
+        }
+    });
+}
+
+// Orijinal kategorilerdeki fav-btn tıklamalarını dinle
+document.querySelectorAll('.category-selection > details:not(#category-favorites) .fav-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Butonun algo seçimini tetiklemesini engelle
+        const wrapper = e.currentTarget.closest('.algo-card-wrapper');
+        const algoId = wrapper.getAttribute('data-algo-id');
+        toggleFavState(algoId);
+    });
+});
+
+const searchInput = document.getElementById('algo-search-input');
+const btnSearchClear = document.getElementById('btn-search-clear');
+const searchNoResults = document.getElementById('search-no-results');
+const allWrappers = document.querySelectorAll('.category-selection > details:not(#category-favorites) .algo-card-wrapper');
+const allCategories = document.querySelectorAll('.category-selection > details:not(#category-favorites)');
+
+function handleSearch(query) {
+    if (!query) {
+        // Arama temizlendi
+        btnSearchClear.style.display = 'none';
+        searchNoResults.style.display = 'none';
+        allWrappers.forEach(w => w.style.display = '');
+        allCategories.forEach(c => c.style.display = '');
+        return;
+    }
+    
+    btnSearchClear.style.display = 'inline-block';
+    const matchedIds = searchAlgorithms(query);
+    
+    if (matchedIds.length === 0) {
+        allCategories.forEach(c => c.style.display = 'none');
+        searchNoResults.style.display = 'block';
+    } else {
+        searchNoResults.style.display = 'none';
+        allCategories.forEach(category => {
+            let hasMatch = false;
+            const wrappers = category.querySelectorAll('.algo-card-wrapper');
+            wrappers.forEach(w => {
+                const id = w.getAttribute('data-algo-id');
+                if (matchedIds.includes(id)) {
+                    w.style.display = '';
+                    hasMatch = true;
+                } else {
+                    w.style.display = 'none';
+                }
+            });
+            category.style.display = hasMatch ? '' : 'none';
+            if (matchedIds.length === 1 && hasMatch) {
+                category.open = true;
+            }
+        });
+    }
+}
+
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            searchInput.value = '';
+            handleSearch('');
+        }
+    });
+}
+
+if (btnSearchClear) {
+    btnSearchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        handleSearch('');
+        searchInput.focus();
+    });
+}
+
+// Başlangıçta Favorileri Yükle
+renderFavorites();
+updateFavButtonsUI();
+
