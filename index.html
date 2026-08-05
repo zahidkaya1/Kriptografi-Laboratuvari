@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kriptografi Eğitim Uygulaması</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <h1>Kriptografi Atölyesi</h1>
+            <div class="header-controls">
+                <button id="theme-toggle" aria-label="Temayı Değiştir" title="Açık/Koyu Tema">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Algoritma Seçim Sekmeleri -->
+        <nav class="tabs" aria-label="Algoritma Seçimi">
+            <button class="tab-btn active" data-target="rsa">RSA</button>
+            <button class="tab-btn" data-target="dh">Diffie-Hellman</button>
+            <button class="tab-btn" data-target="vigenere">Vigenère</button>
+        </nav>
+
+        <div class="content-wrapper">
+            <!-- Sol Panel: Girdiler -->
+            <section class="input-section card">
+                
+                <!-- RSA Formu -->
+                <div id="rsa-form" class="algo-form active">
+                    <h2>RSA Şifreleme</h2>
+                    <p class="algo-info">RSA, açık anahtarlı bir şifreleme yöntemidir. Bu simülasyon eğitim amaçlıdır, lütfen küçük asal sayılar giriniz.</p>
+                    
+                    <div class="form-group">
+                        <label for="rsa-p">p Asal Sayısı</label>
+                        <input type="number" id="rsa-p" placeholder="Örn: 61" value="61">
+                    </div>
+                    <div class="form-group">
+                        <label for="rsa-q">q Asal Sayısı</label>
+                        <input type="number" id="rsa-q" placeholder="Örn: 53" value="53">
+                    </div>
+                    <div class="form-group">
+                        <label for="rsa-e">Açık Üs (e)</label>
+                        <input type="number" id="rsa-e" placeholder="Örn: 17" value="17">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rsa-mode">İşlem Türü</label>
+                        <select id="rsa-mode">
+                            <option value="encrypt">Şifrele</option>
+                            <option value="decrypt">Şifreyi Çöz</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rsa-message">Metin veya Sayı (Şifreli Veri)</label>
+                        <input type="text" id="rsa-message" placeholder="Örn: 65 veya Merhaba" value="65">
+                    </div>
+                </div>
+
+                <!-- Diffie-Hellman Formu -->
+                <div id="dh-form" class="algo-form">
+                    <h2>Diffie-Hellman Anahtar Değişimi</h2>
+                    <p class="algo-info">Ortak ve güvensiz bir kanal üzerinden güvenli bir şekilde anahtar paylaşımını sağlar. Sadece sayısal değerler giriniz.</p>
+                    
+                    <div class="form-group">
+                        <label for="dh-p">Asal Modül (p)</label>
+                        <input type="number" id="dh-p" placeholder="Örn: 23" value="23">
+                    </div>
+                    <div class="form-group">
+                        <label for="dh-g">Üreteç (g)</label>
+                        <input type="number" id="dh-g" placeholder="Örn: 5" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="dh-a">Alice Gizli Anahtarı (a)</label>
+                        <input type="number" id="dh-a" placeholder="Örn: 6" value="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="dh-b">Bob Gizli Anahtarı (b)</label>
+                        <input type="number" id="dh-b" placeholder="Örn: 15" value="15">
+                    </div>
+                </div>
+
+                <!-- Vigenere Formu -->
+                <div id="vigenere-form" class="algo-form">
+                    <h2>Vigenère Şifreleme</h2>
+                    <p class="algo-info">Polialfabetik bir yerine koyma şifrelemesidir. Boşluklar ve özel karakterler korunur.</p>
+                    
+                    <div class="form-group">
+                        <label for="vig-alphabet">Alfabe</label>
+                        <select id="vig-alphabet">
+                            <option value="TR">Türkçe (29 Harf)</option>
+                            <option value="EN">İngilizce (26 Harf)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vig-mode">İşlem Türü</label>
+                        <select id="vig-mode">
+                            <option value="encrypt">Şifrele</option>
+                            <option value="decrypt">Şifreyi Çöz</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vig-key">Anahtar</label>
+                        <input type="text" id="vig-key" placeholder="Örn: GIZLI" value="GIZLI">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vig-text">Metin</label>
+                        <textarea id="vig-text" rows="3" placeholder="Metninizi girin...">KRİPTOGRAFİ ÇOK ZEVKLİ</textarea>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="btn-calculate" class="btn-primary">Hesapla / İşle</button>
+                    <button id="btn-clear" class="btn-secondary">Temizle</button>
+                </div>
+                
+                <div id="message-area" class="message-area" role="alert"></div>
+
+            </section>
+
+            <!-- Sağ Panel: Sonuçlar ve Adımlar -->
+            <section class="output-section">
+                <div class="card result-card">
+                    <div class="result-header">
+                        <h2>Sonuç</h2>
+                        <button id="btn-copy" class="btn-icon" title="Panoya Kopyala" aria-label="Kopyala">📋</button>
+                    </div>
+                    <div id="result-output" class="result-content">Hesaplama sonucu burada görünecek...</div>
+                </div>
+
+                <div class="card steps-card">
+                    <h2>İşlem Adımları</h2>
+                    <div id="steps-output" class="steps-content">
+                        <p class="text-muted">Algoritmanın matematiksel adımları hesaplama sonrasında burada listelenir.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
