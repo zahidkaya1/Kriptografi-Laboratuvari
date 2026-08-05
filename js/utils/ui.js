@@ -1,5 +1,5 @@
-/**
- * UI (Kullanıcı Arayüzü) yardımcı fonksiyonları
+﻿/**
+ * UI (KullanÄ±cÄ± ArayÃ¼zÃ¼) yardÄ±mcÄ± fonksiyonlarÄ±
  */
 
 const messageArea = document.getElementById('message-area');
@@ -21,14 +21,14 @@ export function showResult(result) {
 }
 
 export function clearResult() {
-    resultOutput.textContent = "Hesaplama sonucu burada görünecek...";
+    resultOutput.textContent = "Hesaplama sonucu burada gÃ¶rÃ¼necek...";
 }
 
 export function renderSteps(steps) {
     stepsOutput.innerHTML = '';
     
     if (!steps || steps.length === 0) {
-        stepsOutput.innerHTML = '<p class="text-muted">Adım bulunamadı.</p>';
+        stepsOutput.innerHTML = '<p class="text-muted">AdÄ±m bulunamadÄ±.</p>';
         return;
     }
 
@@ -43,7 +43,7 @@ export function renderSteps(steps) {
 export function renderVigenereSteps(steps, alphaLen) {
     stepsOutput.innerHTML = '';
     if (!steps || steps.length === 0) {
-        stepsOutput.innerHTML = '<p class="text-muted">İşlem tablosu boş.</p>';
+        stepsOutput.innerHTML = '<p class="text-muted">Ä°ÅŸlem tablosu boÅŸ.</p>';
         return;
     }
 
@@ -55,10 +55,10 @@ export function renderVigenereSteps(steps, alphaLen) {
         <tr>
             <th>Metin Harfi</th>
             <th>Anahtar Harfi</th>
-            <th>Metin İndeksi</th>
-            <th>Anahtar İndeksi</th>
-            <th>İşlem (mod ${alphaLen})</th>
-            <th>Sonuç Harfi</th>
+            <th>Metin Ä°ndeksi</th>
+            <th>Anahtar Ä°ndeksi</th>
+            <th>Ä°ÅŸlem (mod ${alphaLen})</th>
+            <th>SonuÃ§ Harfi</th>
         </tr>
     `;
     table.appendChild(thead);
@@ -84,7 +84,7 @@ export function renderVigenereSteps(steps, alphaLen) {
 export function renderCaesarSteps(steps) {
     stepsOutput.innerHTML = '';
     if (!steps || steps.length === 0) {
-        stepsOutput.innerHTML = '<p class="text-muted">İşlem tablosu boş.</p>';
+        stepsOutput.innerHTML = '<p class="text-muted">Ä°ÅŸlem tablosu boÅŸ.</p>';
         return;
     }
 
@@ -94,12 +94,12 @@ export function renderCaesarSteps(steps) {
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
-            <th>Giriş Karakteri</th>
-            <th>Karakter İndeksi</th>
-            <th>Kaydırma Miktarı</th>
-            <th>İşlem</th>
-            <th>Sonuç İndeksi</th>
-            <th>Sonuç Karakteri</th>
+            <th>GiriÅŸ Karakteri</th>
+            <th>Karakter Ä°ndeksi</th>
+            <th>KaydÄ±rma MiktarÄ±</th>
+            <th>Ä°ÅŸlem</th>
+            <th>SonuÃ§ Ä°ndeksi</th>
+            <th>SonuÃ§ Karakteri</th>
         </tr>
     `;
     table.appendChild(thead);
@@ -125,7 +125,7 @@ export function renderCaesarSteps(steps) {
 export function renderROT13Steps(steps) {
     stepsOutput.innerHTML = '';
     if (!steps || steps.length === 0) {
-        stepsOutput.innerHTML = '<p class="text-muted">İşlem tablosu boş.</p>';
+        stepsOutput.innerHTML = '<p class="text-muted">Ä°ÅŸlem tablosu boÅŸ.</p>';
         return;
     }
 
@@ -135,11 +135,11 @@ export function renderROT13Steps(steps) {
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
-            <th>Giriş Karakteri</th>
-            <th>Karakter İndeksi</th>
-            <th>Sabit Kaydırma</th>
-            <th>Sonuç İndeksi</th>
-            <th>Sonuç Karakteri</th>
+            <th>GiriÅŸ Karakteri</th>
+            <th>Karakter Ä°ndeksi</th>
+            <th>Sabit KaydÄ±rma</th>
+            <th>SonuÃ§ Ä°ndeksi</th>
+            <th>SonuÃ§ Karakteri</th>
         </tr>
     `;
     table.appendChild(thead);
@@ -177,7 +177,7 @@ export function renderAtbashSteps(steps, normalAlphabet, reversedAlphabet) {
     if (!steps || steps.length === 0) {
         const p = document.createElement('p');
         p.className = 'text-muted';
-        p.textContent = 'İşlem tablosu boş.';
+        p.textContent = 'Ä°ÅŸlem tablosu boÅŸ.';
         stepsOutput.appendChild(p);
         return;
     }
@@ -188,8 +188,8 @@ export function renderAtbashSteps(steps, normalAlphabet, reversedAlphabet) {
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
-            <th>Giriş Karakteri</th>
-            <th>Sonuç Karakteri</th>
+            <th>GiriÅŸ Karakteri</th>
+            <th>SonuÃ§ Karakteri</th>
         </tr>
     `;
     table.appendChild(thead);
@@ -217,16 +217,16 @@ export function renderAffineSteps(steps, m, gcdVal, aInv) {
     headerDiv.style.fontFamily = "monospace";
     headerDiv.style.fontSize = "0.95rem";
     headerDiv.innerHTML = `
-        <strong>Alfabe Uzunluğu (m):</strong> ${m}<br>
+        <strong>Alfabe UzunluÄŸu (m):</strong> ${m}<br>
         <strong>EBOB(a, m):</strong> ${gcdVal}<br>
-        <strong>Modüler Ters (a⁻¹):</strong> ${aInv}
+        <strong>ModÃ¼ler Ters (aâ»Â¹):</strong> ${aInv}
     `;
     stepsOutput.appendChild(headerDiv);
 
     if (!steps || steps.length === 0) {
         const p = document.createElement('p');
         p.className = 'text-muted';
-        p.textContent = 'İşlem tablosu boş.';
+        p.textContent = 'Ä°ÅŸlem tablosu boÅŸ.';
         stepsOutput.appendChild(p);
         return;
     }
@@ -237,11 +237,11 @@ export function renderAffineSteps(steps, m, gcdVal, aInv) {
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
-            <th>Giriş Karakteri</th>
-            <th>Giriş İndeksi</th>
-            <th>Kullanılan Formül</th>
-            <th>Sonuç İndeksi</th>
-            <th>Sonuç Karakteri</th>
+            <th>GiriÅŸ Karakteri</th>
+            <th>GiriÅŸ Ä°ndeksi</th>
+            <th>KullanÄ±lan FormÃ¼l</th>
+            <th>SonuÃ§ Ä°ndeksi</th>
+            <th>SonuÃ§ Karakteri</th>
         </tr>
     `;
     table.appendChild(thead);
@@ -286,7 +286,7 @@ export function renderRailFenceMatrix(matrix, rails) {
     const info = document.createElement('p');
     info.className = 'text-muted';
     info.style.marginBottom = "1rem";
-    info.textContent = 'Zikzak Şeması (· işareti boşluğu temsil eder):';
+    info.textContent = 'Zikzak ÅemasÄ± (Â· iÅŸareti boÅŸluÄŸu temsil eder):';
     stepsOutput.appendChild(info);
 
     const table = document.createElement('table');
@@ -304,7 +304,7 @@ export function renderRailFenceMatrix(matrix, rails) {
             
             const cellVal = matrix[r][c];
             if (cellVal === null || cellVal === '') {
-                td.textContent = '·';
+                td.textContent = 'Â·';
                 td.style.color = "var(--text-muted)";
                 td.style.opacity = "0.3";
             } else {
@@ -327,7 +327,7 @@ export function renderColumnarGrid(matrix, keyInfo) {
     const info = document.createElement('p');
     info.className = 'text-muted';
     info.style.marginBottom = "1rem";
-    info.textContent = 'Sütun Sıralaması (Anahtar harflerine göre alfabetik sıra):';
+    info.textContent = 'SÃ¼tun SÄ±ralamasÄ± (Anahtar harflerine gÃ¶re alfabetik sÄ±ra):';
     stepsOutput.appendChild(info);
 
     if (!matrix || matrix.length === 0) return;
@@ -339,9 +339,9 @@ export function renderColumnarGrid(matrix, keyInfo) {
     
     const thead = document.createElement('thead');
     
-    // Satır 1: Anahtar harfleri
+    // SatÄ±r 1: Anahtar harfleri
     const trKey = document.createElement('tr');
-    // Satır 2: Okuma sırası
+    // SatÄ±r 2: Okuma sÄ±rasÄ±
     const trOrder = document.createElement('tr');
     
     keyInfo.forEach(k => {
@@ -384,20 +384,20 @@ export function renderColumnarGrid(matrix, keyInfo) {
 }
 
 export function clearSteps() {
-    stepsOutput.innerHTML = '<p class="text-muted">Algoritmanın matematiksel adımları hesaplama sonrasında burada listelenir.</p>';
+    stepsOutput.innerHTML = '<p class="text-muted">AlgoritmanÄ±n matematiksel adÄ±mlarÄ± hesaplama sonrasÄ±nda burada listelenir.</p>';
 }
 
 export function copyToClipboard(text) {
     if (!text || text.includes("Hesaplama sonucu")) {
-        showMessage("Kopyalanacak sonuç bulunamadı.", "error");
+        showMessage("Kopyalanacak sonuÃ§ bulunamadÄ±.", "error");
         return;
     }
     navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('btn-copy');
-        btn.textContent = "✅";
-        setTimeout(() => btn.textContent = "📋", 2000);
+        btn.textContent = "âœ…";
+        setTimeout(() => btn.textContent = "ğŸ“‹", 2000);
     }).catch(err => {
-        showMessage("Panoya kopyalama başarısız oldu. Lütfen manuel kopyalayınız.", "error");
+        showMessage("Panoya kopyalama baÅŸarÄ±sÄ±z oldu. LÃ¼tfen manuel kopyalayÄ±nÄ±z.", "error");
         console.error("Clipboard API Error:", err);
     });
 }
@@ -411,8 +411,8 @@ export function renderFrequencyAnalysis(result, sortBy) {
     const summaryDiv = document.createElement('div');
     summaryDiv.style.marginBottom = '1rem';
     summaryDiv.innerHTML = `
-        <p><strong>Toplam Karakter:</strong> ${totalCharacters} | <strong>Toplam Harf:</strong> ${totalLetters} | <strong>Farklı Harf:</strong> ${distinctLetters}</p>
-        <p><strong>En Sık:</strong> ${mostFrequent ? `${mostFrequent.char} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
+        <p><strong>Toplam Karakter:</strong> ${totalCharacters} | <strong>Toplam Harf:</strong> ${totalLetters} | <strong>FarklÄ± Harf:</strong> ${distinctLetters}</p>
+        <p><strong>En SÄ±k:</strong> ${mostFrequent ? `${mostFrequent.char} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
         <p><strong>En Seyrek:</strong> ${leastFrequent ? `${leastFrequent.char} (${leastFrequent.count} / %${leastFrequent.percent.toFixed(1)})` : '-'}</p>
     `;
     resultOutput.appendChild(summaryDiv);
@@ -464,7 +464,7 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
         warn.className = 'text-muted';
         warn.style.marginBottom = '1rem';
         warn.style.color = '#f39c12';
-        warn.textContent = "Uyarı: Metin kısa olduğu için olasılık sıralaması güvenilir olmayabilir.";
+        warn.textContent = "UyarÄ±: Metin kÄ±sa olduÄŸu iÃ§in olasÄ±lÄ±k sÄ±ralamasÄ± gÃ¼venilir olmayabilir.";
         resultOutput.appendChild(warn);
     }
 
@@ -490,11 +490,11 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
         header.className = 'candidate-header';
         
         const titleInfo = document.createElement('strong');
-        titleInfo.textContent = `Kaydırma: ${cand.shift}` + (sortBy === 'score' && index === 0 && !isNaN(cand.score) ? ' (En Olası)' : '');
+        titleInfo.textContent = `KaydÄ±rma: ${cand.shift}` + (sortBy === 'score' && index === 0 && !isNaN(cand.score) ? ' (En OlasÄ±)' : '');
         
         const scoreInfo = document.createElement('span');
         scoreInfo.className = 'candidate-score';
-        scoreInfo.textContent = `Puan: ${isNaN(cand.score) ? 'Hesaplanamadı' : cand.score.toFixed(2)}`;
+        scoreInfo.textContent = `Puan: ${isNaN(cand.score) ? 'HesaplanamadÄ±' : cand.score.toFixed(2)}`;
 
         header.appendChild(titleInfo);
         header.appendChild(scoreInfo);
@@ -513,13 +513,13 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
         copyBtn.style.fontSize = '0.85rem';
         copyBtn.addEventListener('click', () => {
             copyToClipboard(cand.text);
-            copyBtn.textContent = 'Kopyalandı!';
+            copyBtn.textContent = 'KopyalandÄ±!';
             setTimeout(() => copyBtn.textContent = 'Kopyala', 2000);
         });
 
         const openBtn = document.createElement('button');
         openBtn.className = 'btn-primary btn-sm';
-        openBtn.textContent = 'Sezar Aracında Aç';
+        openBtn.textContent = 'Sezar AracÄ±nda AÃ§';
         openBtn.style.padding = '0.25rem 0.5rem';
         openBtn.style.fontSize = '0.85rem';
         openBtn.addEventListener('click', () => {
@@ -528,202 +528,6 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
 
         actions.appendChild(copyBtn);
         actions.appendChild(openBtn);
-    table.className = 'step-table';
-    table.style.fontFamily = "monospace";
-    table.style.fontSize = "1rem";
-    
-    const thead = document.createElement('thead');
-    
-    // Satır 1: Anahtar harfleri
-    const trKey = document.createElement('tr');
-    // Satır 2: Okuma sırası
-    const trOrder = document.createElement('tr');
-    
-    keyInfo.forEach(k => {
-        const thKey = document.createElement('th');
-        thKey.textContent = k.char;
-        trKey.appendChild(thKey);
-        
-        const thOrder = document.createElement('th');
-        thOrder.textContent = k.order + ".";
-        thOrder.style.backgroundColor = "var(--bg-color)";
-        thOrder.style.color = "var(--primary-color)";
-        trOrder.appendChild(thOrder);
-    });
-    
-    thead.appendChild(trKey);
-    thead.appendChild(trOrder);
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    
-    for (let r = 0; r < matrix.length; r++) {
-        const tr = document.createElement('tr');
-        for (let c = 0; c < matrix[r].length; c++) {
-            const td = document.createElement('td');
-            const cellVal = matrix[r][c];
-            if (cellVal === null || cellVal === '') {
-                td.textContent = '';
-                td.style.backgroundColor = "var(--border-color)";
-                td.style.opacity = "0.5";
-            } else {
-                td.textContent = cellVal;
-            }
-            tr.appendChild(td);
-        }
-        tbody.appendChild(tr);
-    }
-    
-    table.appendChild(tbody);
-    stepsOutput.appendChild(table);
-}
-
-export function clearSteps() {
-    stepsOutput.innerHTML = '<p class="text-muted">Algoritmanın matematiksel adımları hesaplama sonrasında burada listelenir.</p>';
-}
-
-export function copyToClipboard(text) {
-    if (!text || text.includes("Hesaplama sonucu")) {
-        showMessage("Kopyalanacak sonuç bulunamadı.", "error");
-        return;
-    }
-    navigator.clipboard.writeText(text).then(() => {
-        const btn = document.getElementById('btn-copy');
-        btn.textContent = "✅";
-        setTimeout(() => btn.textContent = "📋", 2000);
-    }).catch(err => {
-        showMessage("Panoya kopyalama başarısız oldu. Lütfen manuel kopyalayınız.", "error");
-        console.error("Clipboard API Error:", err);
-    });
-}
-
-export function renderFrequencyAnalysis(result, sortBy) {
-    const { totalCharacters, totalLetters, distinctLetters, mostFrequent, leastFrequent, frequencyOrder, alphabetOrder } = result;
-
-    resultOutput.innerHTML = '';
-    
-    // Summary Info
-    const summaryDiv = document.createElement('div');
-    summaryDiv.style.marginBottom = '1rem';
-    summaryDiv.innerHTML = `
-        <p><strong>Toplam Karakter:</strong> ${totalCharacters} | <strong>Toplam Harf:</strong> ${totalLetters} | <strong>Farklı Harf:</strong> ${distinctLetters}</p>
-        <p><strong>En Sık:</strong> ${mostFrequent ? `${mostFrequent.char} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
-        <p><strong>En Seyrek:</strong> ${leastFrequent ? `${leastFrequent.char} (${leastFrequent.count} / %${leastFrequent.percent.toFixed(1)})` : '-'}</p>
-    `;
-    resultOutput.appendChild(summaryDiv);
-
-    // Bar Chart
-    const chartDiv = document.createElement('div');
-    chartDiv.className = 'bar-chart';
-
-    const listToRender = sortBy === 'frequency' ? frequencyOrder : alphabetOrder;
-    const maxCount = frequencyOrder[0] ? frequencyOrder[0].count : 1;
-
-    listToRender.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'bar-row';
-        
-        const label = document.createElement('div');
-        label.className = 'bar-label';
-        label.textContent = item.char;
-
-        const container = document.createElement('div');
-        container.className = 'bar-container';
-
-        const fill = document.createElement('div');
-        fill.className = 'bar-fill';
-        const widthPercent = maxCount > 0 ? (item.count / maxCount) * 100 : 0;
-        fill.style.width = `${widthPercent}%`;
-
-        container.appendChild(fill);
-
-        const val = document.createElement('div');
-        val.className = 'bar-value';
-        val.textContent = `${item.count} (%${item.percent.toFixed(1)})`;
-
-        row.appendChild(label);
-        row.appendChild(container);
-        row.appendChild(val);
-
-        chartDiv.appendChild(row);
-    });
-
-    resultOutput.appendChild(chartDiv);
-}
-
-export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
-    resultOutput.innerHTML = '';
-
-    if (result.letterCount < 20) {
-        const warn = document.createElement('div');
-        warn.className = 'text-muted';
-        warn.style.marginBottom = '1rem';
-        warn.style.color = '#f39c12';
-        warn.textContent = "Uyarı: Metin kısa olduğu için olasılık sıralaması güvenilir olmayabilir.";
-        resultOutput.appendChild(warn);
-    }
-
-    let listToRender = [...result.candidates];
-    
-    if (sortBy === 'score') {
-        listToRender.sort((a, b) => {
-            if (isNaN(a.score) && isNaN(b.score)) return a.shift - b.shift;
-            if (isNaN(a.score)) return 1;
-            if (isNaN(b.score)) return -1;
-            if (a.score === b.score) return a.shift - b.shift;
-            return a.score - b.score;
-        });
-    } else {
-        listToRender.sort((a, b) => a.shift - b.shift);
-    }
-
-    listToRender.forEach((cand, index) => {
-        const card = document.createElement('div');
-        card.className = 'candidate-card';
-
-        const header = document.createElement('div');
-        header.className = 'candidate-header';
-        
-        const titleInfo = document.createElement('strong');
-        titleInfo.textContent = `Kaydırma: ${cand.shift}` + (sortBy === 'score' && index === 0 && !isNaN(cand.score) ? ' (En Olası)' : '');
-        
-        const scoreInfo = document.createElement('span');
-        scoreInfo.className = 'candidate-score';
-        scoreInfo.textContent = `Puan: ${isNaN(cand.score) ? 'Hesaplanamadı' : cand.score.toFixed(2)}`;
-
-        header.appendChild(titleInfo);
-        header.appendChild(scoreInfo);
-
-        const textDiv = document.createElement('div');
-        textDiv.className = 'candidate-text';
-        textDiv.textContent = cand.text;
-
-        const actions = document.createElement('div');
-        actions.className = 'candidate-actions';
-
-        const copyBtn = document.createElement('button');
-        copyBtn.className = 'btn-secondary btn-sm';
-        copyBtn.textContent = 'Kopyala';
-        copyBtn.style.padding = '0.25rem 0.5rem';
-        copyBtn.style.fontSize = '0.85rem';
-        copyBtn.addEventListener('click', () => {
-            copyToClipboard(cand.text);
-            copyBtn.textContent = 'Kopyalandı!';
-            setTimeout(() => copyBtn.textContent = 'Kopyala', 2000);
-        });
-
-        const openBtn = document.createElement('button');
-        openBtn.className = 'btn-primary btn-sm';
-        openBtn.textContent = 'Sezar Aracında Aç';
-        openBtn.style.padding = '0.25rem 0.5rem';
-        openBtn.style.fontSize = '0.85rem';
-        openBtn.addEventListener('click', () => {
-            if(openCaesarCallback) openCaesarCallback(cand.shift, cand.text);
-        });
-
-        actions.appendChild(copyBtn);
-        actions.appendChild(openBtn);
-
         card.appendChild(header);
         card.appendChild(textDiv);
         card.appendChild(actions);
@@ -732,12 +536,11 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
     });
 }
 
-// --- Algoritma Karşılaştırma UI ---
 export function renderComparisonTable(headers, rows, openToolCallback) {
     resultOutput.innerHTML = '';
     
     if (!headers || headers.length < 2) {
-        resultOutput.innerHTML = '<p class="text-muted">Karşılaştırma yapmak için yeterli algoritma seçilmedi.</p>';
+        resultOutput.innerHTML = '<p class="text-muted">KarÅŸÄ±laÅŸtÄ±rma yapmak iÃ§in yeterli algoritma seÃ§ilmedi.</p>';
         return;
     }
 
@@ -751,7 +554,7 @@ export function renderComparisonTable(headers, rows, openToolCallback) {
     const headerRow = document.createElement('tr');
     
     const thEmpty = document.createElement('th');
-    thEmpty.textContent = 'Özellik \\ Algoritma';
+    thEmpty.textContent = 'Ã–zellik \\ Algoritma';
     headerRow.appendChild(thEmpty);
     
     headers.forEach(h => {
@@ -766,7 +569,7 @@ export function renderComparisonTable(headers, rows, openToolCallback) {
         if (openToolCallback) {
             const btn = document.createElement('button');
             btn.className = 'btn-secondary btn-sm';
-            btn.textContent = 'Aracı Aç';
+            btn.textContent = 'AracÄ± AÃ§';
             btn.style.padding = '0.2rem 0.5rem';
             btn.style.fontSize = '0.75rem';
             btn.addEventListener('click', () => openToolCallback(h));
@@ -802,7 +605,7 @@ export function renderComparisonTable(headers, rows, openToolCallback) {
     resultOutput.appendChild(wrapper);
 }
 
-// --- Mini Alıştırmalar UI ---
+// --- Mini AlÄ±ÅŸtÄ±rmalar UI ---
 export function renderExerciseForm(exercise, containerId) {
     const container = document.getElementById(containerId);
     if (!container || !exercise) return;
@@ -813,12 +616,12 @@ export function renderExerciseForm(exercise, containerId) {
         const input = document.createElement('input');
         input.type = 'text';
         input.id = 'ex-answer-input';
-        input.placeholder = 'Cevabınızı buraya yazın...';
+        input.placeholder = 'CevabÄ±nÄ±zÄ± buraya yazÄ±n...';
         input.style.width = '100%';
         container.appendChild(input);
     } 
     else if (exercise.type === 'multiple-choice' || exercise.type === 'true-false') {
-        const options = exercise.type === 'true-false' ? ['Doğru', 'Yanlış'] : exercise.options;
+        const options = exercise.type === 'true-false' ? ['DoÄŸru', 'YanlÄ±ÅŸ'] : exercise.options;
         const vals = exercise.type === 'true-false' ? ['true', 'false'] : exercise.options;
         
         options.forEach((opt, idx) => {
