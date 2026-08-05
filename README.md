@@ -2,7 +2,7 @@
 
 Modern ve klasik kriptografi algoritmalarını tarayıcı üzerinde eğitim amaçlı deneyimlemenizi sağlayan, JavaScript tabanlı açık kaynaklı bir uygulamadır.
 
-**Güncel Sürüm:** `v1.1.0`  
+**Güncel Sürüm:** `v1.2.0`  
 **Canlı Demo:** [zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)  
 **GitHub Deposu:** [github.com/zahidkaya1/Kriptografi-Laboratuvari](https://github.com/zahidkaya1/Kriptografi-Laboratuvari)
 
@@ -30,7 +30,7 @@ Açık anahtarlı şifreleme algoritmasıdır. Eğitim amaçlı simülasyonunda 
 #### 2. Diffie-Hellman Anahtar Değişimi
 İki tarafın (Alice ve Bob) ortak ve güvensiz bir kanal üzerinden güvenli bir şekilde gizli bir anahtar (K) üzerinde anlaşmasını sağlayan yöntemdir. Asal modül (\(p\)), üreteç (\(g\)) ve tarafların gizli değerleri (\(a, b\)) alınarak süreç gösterilir.
 
-### Klasik Şifreler *(v1.1.0 Geliştirme Aşamasındadır)*
+### Klasik Şifreler
 
 #### 3. Vigenère Şifreleme
 Polialfabetik (çoklu alfabeli) bir yerine koyma şifrelemesidir. Kullanıcının belirlediği anahtar, metin uzunluğu kadar tekrarlanır ve harflerin sayısal indeksleri modüler aritmetikle toplanarak şifrelenir. 
@@ -39,6 +39,14 @@ Polialfabetik (çoklu alfabeli) bir yerine koyma şifrelemesidir. Kullanıcını
 
 #### 4. Sezar Şifreleme
 Tarihin en eski şifreleme yöntemlerinden biridir. Metindeki her harfi alfabede belirli bir miktar kaydırarak çalışır. Türkçe ve Latin alfabelerini destekler.
+
+### Analiz Araçları
+
+#### 5. Frekans Analizi
+Metin içindeki harflerin kullanım sıklığını ve yüzdelik oranlarını hesaplar. Türkçe ve İngilizce alfabelerini destekler. Harf sıklıklarını yatay çubuk grafiklerle görselleştirir.
+
+#### 6. Sezar Şifresi Kırma (Brute Force)
+Şifrelenmiş bir metni tüm olası Sezar kaydırmalarını deneyerek kırar. Sonuçları Türkçe veya İngilizce dil yapılarına (harf frekanslarına) olan uygunluk puanlarına (Ki-kare yöntemi) göre yaklaşık olarak sıralar.
 
 #### 5. ROT13 Şifreleme
 Sezar şifrelemesinin 13 kaydırmalı özel bir türüdür. Sadece Latin alfabesinde çalışır ve şifreleme/çözme işlemleri aynıdır.
@@ -49,7 +57,15 @@ Alfabedeki harflerin baştan ve sondan eşleştirilmesi (ilk harf son harf ile) 
 #### 7. Affine Şifreleme
 `E(x) = (a × x + b) mod m` matematiksel formülünü kullanır. Doğru çalışabilmesi için `a` (çarpan anahtarı) ile `m` (alfabe uzunluğu) aralarında asal olmalıdır (EBOB = 1). Türkçe ve Latin alfabelerini destekler.
 
-### Transpozisyon Şifreleri *(v1.1.0 Geliştirme Aşamasındadır)*
+### Eğitim Araçları
+
+#### 7. Algoritma Karşılaştırma
+Farklı şifreleme algoritmalarının yapısal, matematiksel ve güvenlik özelliklerini yan yana karşılaştırmanızı sağlayan eğitim aracıdır.
+
+#### 8. Mini Alıştırmalar
+Kriptografi bilginizi sınamak için interaktif soru-cevap aracıdır. Seviyelere (kolay, orta, zor) ayrılmış çoktan seçmeli ve açık uçlu sorular içerir.
+
+### Transpozisyon Şifreleri
 
 #### 8. Rail Fence (Zikzak) Şifreleme
 Metni belirlenen sayıdaki raylara (satırlara) zikzak biçiminde yerleştirerek sütun sütun okuyan bir yer değiştirme şifrelemesidir. 
@@ -83,7 +99,7 @@ Testleri yerelinizde çalıştırmak için (Node.js 18+ gerektirir):
 npm install
 npm test
 ```
-*Not: Şu anda toplam 84 otomatik test başarıyla geçilmektedir.*
+*Not: Şu anda toplam 135 otomatik test başarıyla geçilmektedir.*
 
 ## 📂 Proje Yapısı
 ```
@@ -111,7 +127,6 @@ Yapılan sürüm güncellemeleri, eklenen yeni algoritmalar ve özellikler için
 **Bu proje yalnızca eğitim ve öğrenim amaçlı geliştirilmiştir.** Gerçek dünyada veya üretim ortamında kullanılmamalıdır. Gerçek kriptografi algoritmaları, burada kullanılan küçük asallar ve basit üreteçler yerine çok yüksek bitli güvenli parametreler ve standart (örneğin padding) gerektirir.
 
 ## 👥 Geliştiriciler
-- Görkem Mert
 - Mehmet Zahid KAYA
 
 ## 📄 Lisans
