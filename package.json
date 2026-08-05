@@ -7,6 +7,6 @@
   "scripts": {
     "test": "node --test"
   },
-  "author": "Gorkem Mert & Mehmed Zahid Kaya (Refactored)",
+  "author": "Mehmet Zahid KAYA",
   "license": "MIT"
 }

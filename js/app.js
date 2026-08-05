@@ -7,6 +7,8 @@ import { runAtbash } from './algorithms/atbash.js';
 import { runAffine } from './algorithms/affine.js';
 import { runRailFence } from './algorithms/rail-fence.js';
 import { runColumnarTransposition } from './algorithms/columnar-transposition.js';
+import { analyzeFrequency } from './analysis/frequency-analysis.js';
+import { breakCaesar } from './analysis/caesar-breaker.js';
 import * as UI from './utils/ui.js';
 import { searchAlgorithms } from './utils/search.js';
 import { getFavorites, toggleFavorite, isFavorite } from './utils/favorites.js';
@@ -72,6 +74,10 @@ document.getElementById('btn-calculate').addEventListener('click', () => {
             handleRailFence();
         } else if (currentAlgorithm === 'columnar') {
             handleColumnar();
+        } else if (currentAlgorithm === 'freq-analysis') {
+            handleFreqAnalysis();
+        } else if (currentAlgorithm === 'caesar-breaker') {
+            handleCaesarBreaker();
         }
     } catch (error) {
         UI.showMessage(error.message, "error");
@@ -134,6 +140,18 @@ if (btnExample) {
             document.getElementById('columnar-mode').value = 'encrypt';
             document.getElementById('columnar-key').value = 'KEY';
             document.getElementById('columnar-text').value = 'HELLOWORLD';
+        } else if (currentAlgorithm === 'freq-analysis') {
+            document.getElementById('freq-alphabet').value = 'TR';
+            document.getElementById('freq-sort').value = 'frequency';
+            const el = document.getElementById('freq-text');
+            el.value = 'KRİPTOGRAFİ LABORATUVARI';
+            updateCounter('freq-text', 'freq-text-counter');
+        } else if (currentAlgorithm === 'caesar-breaker') {
+            document.getElementById('breaker-alphabet').value = 'EN';
+            document.getElementById('breaker-sort').value = 'score';
+            const el = document.getElementById('breaker-text');
+            el.value = 'KHOOR ZRUOG';
+            updateCounter('breaker-text', 'breaker-text-counter');
         }
     });
 }
@@ -278,6 +296,59 @@ function handleColumnar() {
     UI.renderColumnarGrid(matrix, keyInfo);
     UI.showMessage("Sütunlu Transpozisyon işlemi başarıyla tamamlandı.", "success");
 }
+
+function handleFreqAnalysis() {
+    const text = document.getElementById('freq-text').value;
+    const alphabet = document.getElementById('freq-alphabet').value;
+    const sort = document.getElementById('freq-sort').value;
+    
+    const result = analyzeFrequency(text, alphabet);
+    UI.renderFrequencyAnalysis(result, sort);
+    UI.showMessage("Frekans analizi başarıyla tamamlandı.", "success");
+}
+
+function handleCaesarBreaker() {
+    const text = document.getElementById('breaker-text').value;
+    const alphabet = document.getElementById('breaker-alphabet').value;
+    const sort = document.getElementById('breaker-sort').value;
+
+    const result = breakCaesar(text, alphabet);
+    
+    const openCaesarCb = (shiftVal, ciphertext) => {
+        // Tab click trigger
+        const caesarBtn = document.querySelector('.algo-card-btn[data-target="caesar"]');
+        if (caesarBtn) caesarBtn.click();
+        
+        // Fill form
+        document.getElementById('caesar-alphabet').value = alphabet;
+        document.getElementById('caesar-mode').value = 'decrypt';
+        document.getElementById('caesar-shift').value = shiftVal;
+        document.getElementById('caesar-text').value = text; // Original cipher text
+        
+        // Auto calculate
+        const calcBtn = document.getElementById('btn-calculate');
+        if (calcBtn) calcBtn.click();
+    };
+
+    UI.renderCaesarCandidates(result, sort, openCaesarCb);
+    UI.showMessage("Sezar şifresi kırma işlemi başarıyla tamamlandı.", "success");
+}
+
+// Karakter Sayacı Mantığı
+function updateCounter(inputId, counterId) {
+    const input = document.getElementById(inputId);
+    const counter = document.getElementById(counterId);
+    if (input && counter) {
+        counter.textContent = `${input.value.length} / 10000`;
+    }
+}
+
+['freq-text', 'breaker-text'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('input', () => updateCounter(id, `${id}-counter`));
+    }
+});
 
 // --- Favoriler ve Arama Mantığı ---
 const favoritesContainer = document.getElementById('favorites-container');

@@ -52,5 +52,17 @@ export const ALGORITHM_CATALOG = [
         name: 'Sütunlu Transpozisyon',
         category: 'Transpozisyon Şifreleri',
         keywords: ['sütunlu', 'transpozisyon', 'columnar', 'yer değiştirme']
+    },
+    {
+        id: 'freq-analysis',
+        name: 'Frekans Analizi',
+        category: 'Analiz Araçları',
+        keywords: ['frekans', 'analiz', 'harf sayımı', 'istatistik']
+    },
+    {
+        id: 'caesar-breaker',
+        name: 'Sezar Şifresi Kırma',
+        category: 'Analiz Araçları',
+        keywords: ['sezar', 'kırma', 'brute force', 'şifre çözme', 'kırıcı', 'analiz']
     }
 ];

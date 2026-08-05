@@ -401,3 +401,138 @@ export function copyToClipboard(text) {
         console.error("Clipboard API Error:", err);
     });
 }
+
+export function renderFrequencyAnalysis(result, sortBy) {
+    const { totalCharacters, totalLetters, distinctLetters, mostFrequent, leastFrequent, frequencyOrder, alphabetOrder } = result;
+
+    resultOutput.innerHTML = '';
+    
+    // Summary Info
+    const summaryDiv = document.createElement('div');
+    summaryDiv.style.marginBottom = '1rem';
+    summaryDiv.innerHTML = `
+        <p><strong>Toplam Karakter:</strong> ${totalCharacters} | <strong>Toplam Harf:</strong> ${totalLetters} | <strong>Farklı Harf:</strong> ${distinctLetters}</p>
+        <p><strong>En Sık:</strong> ${mostFrequent ? `${mostFrequent.char} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
+        <p><strong>En Seyrek:</strong> ${leastFrequent ? `${leastFrequent.char} (${leastFrequent.count} / %${leastFrequent.percent.toFixed(1)})` : '-'}</p>
+    `;
+    resultOutput.appendChild(summaryDiv);
+
+    // Bar Chart
+    const chartDiv = document.createElement('div');
+    chartDiv.className = 'bar-chart';
+
+    const listToRender = sortBy === 'frequency' ? frequencyOrder : alphabetOrder;
+    const maxCount = frequencyOrder[0] ? frequencyOrder[0].count : 1;
+
+    listToRender.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        
+        const label = document.createElement('div');
+        label.className = 'bar-label';
+        label.textContent = item.char;
+
+        const container = document.createElement('div');
+        container.className = 'bar-container';
+
+        const fill = document.createElement('div');
+        fill.className = 'bar-fill';
+        const widthPercent = maxCount > 0 ? (item.count / maxCount) * 100 : 0;
+        fill.style.width = `${widthPercent}%`;
+
+        container.appendChild(fill);
+
+        const val = document.createElement('div');
+        val.className = 'bar-value';
+        val.textContent = `${item.count} (%${item.percent.toFixed(1)})`;
+
+        row.appendChild(label);
+        row.appendChild(container);
+        row.appendChild(val);
+
+        chartDiv.appendChild(row);
+    });
+
+    resultOutput.appendChild(chartDiv);
+}
+
+export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
+    resultOutput.innerHTML = '';
+
+    if (result.letterCount < 20) {
+        const warn = document.createElement('div');
+        warn.className = 'text-muted';
+        warn.style.marginBottom = '1rem';
+        warn.style.color = '#f39c12';
+        warn.textContent = "Uyarı: Metin kısa olduğu için olasılık sıralaması güvenilir olmayabilir.";
+        resultOutput.appendChild(warn);
+    }
+
+    let listToRender = [...result.candidates];
+    
+    if (sortBy === 'score') {
+        listToRender.sort((a, b) => {
+            if (isNaN(a.score) && isNaN(b.score)) return a.shift - b.shift;
+            if (isNaN(a.score)) return 1;
+            if (isNaN(b.score)) return -1;
+            if (a.score === b.score) return a.shift - b.shift;
+            return a.score - b.score;
+        });
+    } else {
+        listToRender.sort((a, b) => a.shift - b.shift);
+    }
+
+    listToRender.forEach((cand, index) => {
+        const card = document.createElement('div');
+        card.className = 'candidate-card';
+
+        const header = document.createElement('div');
+        header.className = 'candidate-header';
+        
+        const titleInfo = document.createElement('strong');
+        titleInfo.textContent = `Kaydırma: ${cand.shift}` + (sortBy === 'score' && index === 0 && !isNaN(cand.score) ? ' (En Olası)' : '');
+        
+        const scoreInfo = document.createElement('span');
+        scoreInfo.className = 'candidate-score';
+        scoreInfo.textContent = `Puan: ${isNaN(cand.score) ? 'Hesaplanamadı' : cand.score.toFixed(2)}`;
+
+        header.appendChild(titleInfo);
+        header.appendChild(scoreInfo);
+
+        const textDiv = document.createElement('div');
+        textDiv.className = 'candidate-text';
+        textDiv.textContent = cand.text;
+
+        const actions = document.createElement('div');
+        actions.className = 'candidate-actions';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'btn-secondary btn-sm';
+        copyBtn.textContent = 'Kopyala';
+        copyBtn.style.padding = '0.25rem 0.5rem';
+        copyBtn.style.fontSize = '0.85rem';
+        copyBtn.addEventListener('click', () => {
+            copyToClipboard(cand.text);
+            copyBtn.textContent = 'Kopyalandı!';
+            setTimeout(() => copyBtn.textContent = 'Kopyala', 2000);
+        });
+
+        const openBtn = document.createElement('button');
+        openBtn.className = 'btn-primary btn-sm';
+        openBtn.textContent = 'Sezar Aracında Aç';
+        openBtn.style.padding = '0.25rem 0.5rem';
+        openBtn.style.fontSize = '0.85rem';
+        openBtn.addEventListener('click', () => {
+            if(openCaesarCallback) openCaesarCallback(cand.shift, cand.text);
+        });
+
+        actions.appendChild(copyBtn);
+        actions.appendChild(openBtn);
+
+        card.appendChild(header);
+        card.appendChild(textDiv);
+        card.appendChild(actions);
+
+        resultOutput.appendChild(card);
+    });
+}

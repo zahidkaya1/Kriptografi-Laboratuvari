@@ -40,6 +40,14 @@ Polialfabetik (çoklu alfabeli) bir yerine koyma şifrelemesidir. Kullanıcını
 #### 4. Sezar Şifreleme
 Tarihin en eski şifreleme yöntemlerinden biridir. Metindeki her harfi alfabede belirli bir miktar kaydırarak çalışır. Türkçe ve Latin alfabelerini destekler.
 
+### Analiz Araçları
+
+#### 5. Frekans Analizi
+Metin içindeki harflerin kullanım sıklığını ve yüzdelik oranlarını hesaplar. Türkçe ve İngilizce alfabelerini destekler. Harf sıklıklarını yatay çubuk grafiklerle görselleştirir.
+
+#### 6. Sezar Şifresi Kırma (Brute Force)
+Şifrelenmiş bir metni tüm olası Sezar kaydırmalarını deneyerek kırar. Sonuçları Türkçe veya İngilizce dil yapılarına (harf frekanslarına) olan uygunluk puanlarına (Ki-kare yöntemi) göre yaklaşık olarak sıralar.
+
 #### 5. ROT13 Şifreleme
 Sezar şifrelemesinin 13 kaydırmalı özel bir türüdür. Sadece Latin alfabesinde çalışır ve şifreleme/çözme işlemleri aynıdır.
 
@@ -111,7 +119,6 @@ Yapılan sürüm güncellemeleri, eklenen yeni algoritmalar ve özellikler için
 **Bu proje yalnızca eğitim ve öğrenim amaçlı geliştirilmiştir.** Gerçek dünyada veya üretim ortamında kullanılmamalıdır. Gerçek kriptografi algoritmaları, burada kullanılan küçük asallar ve basit üreteçler yerine çok yüksek bitli güvenli parametreler ve standart (örneğin padding) gerektirir.
 
 ## 👥 Geliştiriciler
-- Görkem Mert
 - Mehmet Zahid KAYA
 
 ## 📄 Lisans
