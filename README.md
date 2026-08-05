@@ -2,7 +2,7 @@
 
 Modern ve klasik kriptografi algoritmalarını tarayıcı üzerinde eğitim amaçlı deneyimlemenizi sağlayan, JavaScript tabanlı açık kaynaklı bir uygulamadır.
 
-**Güncel Sürüm:** `v1.1.0`  
+**Güncel Sürüm:** `v1.2.0`  
 **Canlı Demo:** [zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)  
 **GitHub Deposu:** [github.com/zahidkaya1/Kriptografi-Laboratuvari](https://github.com/zahidkaya1/Kriptografi-Laboratuvari)
 
@@ -30,7 +30,7 @@ Açık anahtarlı şifreleme algoritmasıdır. Eğitim amaçlı simülasyonunda 
 #### 2. Diffie-Hellman Anahtar Değişimi
 İki tarafın (Alice ve Bob) ortak ve güvensiz bir kanal üzerinden güvenli bir şekilde gizli bir anahtar (K) üzerinde anlaşmasını sağlayan yöntemdir. Asal modül (\(p\)), üreteç (\(g\)) ve tarafların gizli değerleri (\(a, b\)) alınarak süreç gösterilir.
 
-### Klasik Şifreler *(v1.1.0 Geliştirme Aşamasındadır)*
+### Klasik Şifreler
 
 #### 3. Vigenère Şifreleme
 Polialfabetik (çoklu alfabeli) bir yerine koyma şifrelemesidir. Kullanıcının belirlediği anahtar, metin uzunluğu kadar tekrarlanır ve harflerin sayısal indeksleri modüler aritmetikle toplanarak şifrelenir. 
@@ -65,7 +65,7 @@ Farklı şifreleme algoritmalarının yapısal, matematiksel ve güvenlik özell
 #### 8. Mini Alıştırmalar
 Kriptografi bilginizi sınamak için interaktif soru-cevap aracıdır. Seviyelere (kolay, orta, zor) ayrılmış çoktan seçmeli ve açık uçlu sorular içerir.
 
-### Transpozisyon Şifreleri *(v1.1.0 Geliştirme Aşamasındadır)*
+### Transpozisyon Şifreleri
 
 #### 8. Rail Fence (Zikzak) Şifreleme
 Metni belirlenen sayıdaki raylara (satırlara) zikzak biçiminde yerleştirerek sütun sütun okuyan bir yer değiştirme şifrelemesidir. 

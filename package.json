@@ -1,7 +1,7 @@
 {
   "name": "kriptografi-laboratuvari",
-  "version": "1.1.0",
-  "description": "Kriptografi eğitim uygulaması (RSA, Diffie-Hellman, Vigenere)",
+  "version": "1.2.0",
+  "description": "Tarayıcı tabanlı kriptografi eğitim aracı",
   "main": "js/app.js",
   "type": "module",
   "scripts": {

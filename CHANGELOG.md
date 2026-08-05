@@ -1,15 +1,32 @@
 # Değişiklik Günlüğü
 
-## [Yayımlanmadı]
+## [1.2.0] - 2026-08-05
 
 ### Eklendi
-- Frekans analizi aracı
-- Sezar şifresi kırma aracı
-- Algoritma karşılaştırma aracı
-- Mini alıştırmalar aracı
+
+- Frekans Analizi
+- Sezar Şifresi Kırma
+- Algoritma Karşılaştırma
+- Mini Alıştırmalar
+- Algoritma ve zorluk filtreleri
+- Ki-kare tabanlı yaklaşık Sezar aday sıralaması
+- Kalıcı alıştırma ilerlemesi
+- Analiz Araçları kategorisi
+- Eğitim Araçları kategorisi
 
 ### Değiştirildi
-- Güncel geliştirici bilgisi yalnızca Mehmet Zahid KAYA olarak düzenlendi.
+
+- Algoritma kataloğu analiz ve eğitim araçlarını kapsayacak biçimde genişletildi.
+- Geliştirici bilgisi yalnızca Mehmet Zahid KAYA olarak güncellendi.
+- Arama ve favori sistemi yeni araçlarla entegre edildi.
+- Eğitim içerikleri ve güvenlik açıklamaları geliştirildi.
+
+### Teknik
+
+- Toplam test sayısı 135'e çıkarıldı ve tamamı başarıyla geçildi (135/135).
+- Hiçbir harici bağımlılık eklenmeden geliştirildi.
+- Analiz araçlarında (Frekans analizi ve Sezar kırma) güvenlik ve performans amacıyla 10.000 karakterlik üst sınır uygulandı.
+- Yeni saf ve test edilebilir analiz/eğitim modülleri yazıldı.
 
 ## [1.1.0] - 2026-08-05
 
