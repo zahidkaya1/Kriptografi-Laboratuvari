@@ -48,6 +48,28 @@
                         <button class="algo-card-btn" data-target="dh">Diffie-Hellman</button>
                         <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
                     </div>
+                    <div class="algo-card-wrapper" data-algo-id="xor">
+                        <button class="algo-card-btn" data-target="xor">XOR</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                </div>
+            </details>
+            <details class="category-group" id="category-encoding">
+                <summary>Kodlama ve Veri Dönüşümü</summary>
+                <div class="algorithm-cards">
+                    <div class="algo-card-wrapper" data-algo-id="base64">
+                        <button class="algo-card-btn" data-target="base64">Base64 Kodlama</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                </div>
+            </details>
+            <details class="category-group" id="category-hashing">
+                <summary>Özet (Hash) Fonksiyonları</summary>
+                <div class="algorithm-cards">
+                    <div class="algo-card-wrapper" data-algo-id="hash">
+                        <button class="algo-card-btn" data-target="hash">Hash Fonksiyonları</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
                 </div>
             </details>
             <details class="category-group" id="category-classic">
@@ -363,6 +385,83 @@
                     <div class="form-group">
                         <label for="columnar-text">Metin</label>
                         <textarea id="columnar-text" rows="3" placeholder="Metninizi girin..."></textarea>
+                    </div>
+                </div>
+
+                <!-- XOR Formu -->
+                <div id="xor-form" class="algo-form">
+                    <h2>XOR Şifreleme</h2>
+                    <div class="info-card"><strong>Türü:</strong> Modern, Simetrik<br><strong>Amacı:</strong> Byte düzeyinde XOR işlemi<br><strong>Anahtar:</strong> Kelime anahtarı<br><strong>Uyarı:</strong> Basit XOR, anahtar tekrarlandığında frekans analiziyle kırılabilir. Güvenli değildir.</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="xor-mode">İşlem Türü</label>
+                            <select id="xor-mode">
+                                <option value="encrypt">Şifrele (Metinden HEX'e)</option>
+                                <option value="decrypt">Şifreyi Çöz (HEX'ten Metne)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="xor-key">Anahtar Kelime</label>
+                            <input type="text" id="xor-key" placeholder="Örn: GIZLI">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="xor-text">Metin veya HEX Şifreli Veri</label>
+                        <textarea id="xor-text" rows="3" placeholder="Girdi verisini buraya yazın..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Base64 Formu -->
+                <div id="base64-form" class="algo-form">
+                    <h2>Base64 Kodlama</h2>
+                    <div class="info-card" style="border-left-color: var(--error-color);">
+                        <strong>Türü:</strong> Veri Kodlama (Encoding)<br>
+                        <strong>Amacı:</strong> Binary veriyi yazdırılabilir ASCII karakterleriyle temsil etme<br>
+                        <strong>Uyarı:</strong> Base64 bir şifreleme algoritması değildir! Güvenlik ve gizlilik sağlamaz.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="base64-mode">İşlem Türü</label>
+                        <select id="base64-mode">
+                            <option value="encode">Base64 Olarak Kodla (Encode)</option>
+                            <option value="decode">Base64 Kodunu Çöz (Decode)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="base64-text">Metin veya Base64 Verisi</label>
+                        <textarea id="base64-text" rows="3" placeholder="Girdi verisini buraya yazın..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Hash Formu -->
+                <div id="hash-form" class="algo-form">
+                    <h2>Hash Fonksiyonları</h2>
+                    <div class="info-card">
+                        <strong>Türü:</strong> Kriptografik Özet (Hash)<br>
+                        <strong>Amacı:</strong> Veri bütünlüğü doğrulama<br>
+                        <strong>Uyarı:</strong> Hash işlemleri tek yönlüdür. Şifrelemenin aksine geri döndürülemez (decrypt edilemez).
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hash-algorithm">Hash Algoritması</label>
+                        <select id="hash-algorithm">
+                            <option value="SHA-256">SHA-256</option>
+                            <option value="SHA-384">SHA-384</option>
+                            <option value="SHA-512">SHA-512</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hash-text">Metin (UTF-8)</label>
+                        <textarea id="hash-text" rows="3" placeholder="Hash'i alınacak metni girin..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hash-compare">Eşleşme Kontrolü (Opsiyonel)</label>
+                        <input type="text" id="hash-compare" placeholder="Karşılaştırmak istediğiniz HEX Hash değerini buraya girin (isteğe bağlı)...">
                     </div>
                 </div>
 

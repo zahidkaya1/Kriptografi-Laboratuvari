@@ -211,5 +211,68 @@ export const ALGORITHM_CATALOG = [
         name: 'Mini Alıştırmalar',
         category: 'Eğitim Araçları',
         keywords: ['alıştırma', 'test', 'quiz', 'soru', 'eğitim']
+    },
+    {
+        id: 'xor',
+        name: 'XOR',
+        category: 'Modern ve Matematiksel',
+        keywords: ['xor', 'dışlamalı veya', 'exclusive or', 'modern', 'matematiksel'],
+        meta: {
+            baseType: 'Simetrik Şifreleme (Basit)',
+            purpose: 'Byte düzeyinde anahtar ile XOR işlemi',
+            keyType: 'Metin tabanlı kelime anahtarı',
+            keyRequired: 'Evet',
+            operationType: 'Şifreleme / Çözme',
+            supportsDecryption: 'Evet',
+            supportsTR: 'Evet',
+            supportsEN: 'Evet',
+            changesChars: 'Evet',
+            changesPositions: 'Hayır',
+            securityStatus: 'Zayıf (Modern standartlarda tek başına yetersiz)',
+            weakness: 'Tekrarlanan anahtar kullanımı durumunda bilinen düz metin veya frekans analizi ile kırılabilir',
+            educationNote: 'Modern şifreleme algoritmalarının (AES vb.) kalbinde yatan temel bit düzeyindeki mantığı anlamak için idealdir.'
+        }
+    },
+    {
+        id: 'base64',
+        name: 'Base64 Kodlama',
+        category: 'Kodlama ve Veri Dönüşümü',
+        keywords: ['base64', 'kodlama', 'encoding', 'veri', 'dönüşüm'],
+        meta: {
+            baseType: 'Veri Kodlama (Encoding)',
+            purpose: 'Binary veriyi yazdırılabilir ASCII karakterleriyle temsil etme',
+            keyType: 'Yok',
+            keyRequired: 'Hayır',
+            operationType: 'Kodlama / Çözme',
+            supportsDecryption: 'Hayır (Şifreleme değil, Kod Çözme - Decoding)',
+            supportsTR: 'Evet',
+            supportsEN: 'Evet',
+            changesChars: 'Evet',
+            changesPositions: 'Hayır',
+            securityStatus: 'Güvenli Değil (Şifreleme Değildir)',
+            weakness: 'Şifreleme olmadığı için gizlilik sağlamaz, herkes tarafından kolayca çözülebilir',
+            educationNote: 'Şifreleme (Encryption) ile Kodlama (Encoding) arasındaki farkı anlamak için kritik bir örnektir. Base64 kesinlikle bir şifreleme algoritması değildir.'
+        }
+    },
+    {
+        id: 'hash',
+        name: 'Hash Fonksiyonları',
+        category: 'Özet (Hash) Fonksiyonları',
+        keywords: ['hash', 'özet', 'sha256', 'sha', 'tek yönlü', 'sha384', 'sha512'],
+        meta: {
+            baseType: 'Kriptografik Özet Fonksiyonu',
+            purpose: 'Veri bütünlüğünü doğrulama ve tek yönlü özet çıkarma',
+            keyType: 'Yok',
+            keyRequired: 'Hayır',
+            operationType: 'Tek Yönlü Özet (Hashing)',
+            supportsDecryption: 'Hayır (Tek yönlüdür)',
+            supportsTR: 'Evet',
+            supportsEN: 'Evet',
+            changesChars: 'Uygulanamaz (Tamamen yeni veri üretir)',
+            changesPositions: 'Uygulanamaz',
+            securityStatus: 'Modern (SHA ailesi güvenlidir)',
+            weakness: 'Kısa girdilerde Rainbow Table ve Brute Force saldırılarına açık olabilir',
+            educationNote: 'Şifrelemenin aksine hash işlemi geri döndürülemez (decrypt edilemez). Verinin değişip değişmediğini kontrol etmek için kullanılır.'
+        }
     }
 ];

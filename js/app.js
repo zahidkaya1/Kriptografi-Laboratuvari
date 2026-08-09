@@ -7,6 +7,9 @@ import { runAtbash } from './algorithms/atbash.js';
 import { runAffine } from './algorithms/affine.js';
 import { runRailFence } from './algorithms/rail-fence.js';
 import { runColumnarTransposition } from './algorithms/columnar-transposition.js';
+import { runXOR } from './algorithms/xor.js';
+import { runBase64 } from './encoding/base64.js';
+import { runHash } from './hashing/hash.js';
 import { analyzeFrequency } from './analysis/frequency-analysis.js';
 import { breakCaesar } from './analysis/caesar-breaker.js';
 import { validateSelection, generateComparisonRows, generateMarkdownOutput, filterByCategory, getComparableAlgorithms } from './education/algorithm-comparison.js';
@@ -89,6 +92,10 @@ function updatePanelVisibility(algoId) {
         if(btnCalculate) btnCalculate.textContent = 'Tüm Olasılıkları Göster';
         if(btnCopy) btnCopy.style.display = 'none';
         if(stepsCard) stepsCard.style.display = 'none';
+    } else if (algoId === 'base64') {
+        if(stepsCard) stepsCard.style.display = 'none';
+    } else if (algoId === 'hash') {
+        if(stepsCard) stepsCard.style.display = 'none';
     }
 }
 
@@ -106,7 +113,7 @@ function clearAll() {
 }
 
 // Hesapla Butonu
-document.getElementById('btn-calculate').addEventListener('click', () => {
+document.getElementById('btn-calculate').addEventListener('click', async () => {
     UI.hideMessage();
     
     try {
@@ -134,6 +141,12 @@ document.getElementById('btn-calculate').addEventListener('click', () => {
             handleCaesarBreaker();
         } else if (currentAlgorithm === 'algo-compare') {
             handleAlgoCompare();
+        } else if (currentAlgorithm === 'xor') {
+            handleXOR();
+        } else if (currentAlgorithm === 'base64') {
+            handleBase64();
+        } else if (currentAlgorithm === 'hash') {
+            await handleHash();
         }
     } catch (error) {
         UI.showMessage(error.message, "error");
@@ -196,6 +209,17 @@ if (btnExample) {
             document.getElementById('columnar-mode').value = 'encrypt';
             document.getElementById('columnar-key').value = 'KEY';
             document.getElementById('columnar-text').value = 'HELLOWORLD';
+        } else if (currentAlgorithm === 'xor') {
+            document.getElementById('xor-mode').value = 'encrypt';
+            document.getElementById('xor-key').value = 'ANAHTAR';
+            document.getElementById('xor-text').value = 'GIZLIMETIN';
+        } else if (currentAlgorithm === 'base64') {
+            document.getElementById('base64-mode').value = 'encode';
+            document.getElementById('base64-text').value = 'Merhaba Dünya';
+        } else if (currentAlgorithm === 'hash') {
+            document.getElementById('hash-algorithm').value = 'SHA-256';
+            document.getElementById('hash-text').value = 'Gizli Şifre 123';
+            document.getElementById('hash-compare').value = '';
         } else if (currentAlgorithm === 'freq-analysis') {
             document.getElementById('freq-alphabet').value = 'TR';
             document.getElementById('freq-sort').value = 'frequency';
@@ -361,6 +385,53 @@ function handleColumnar() {
     UI.showResult(result);
     UI.renderColumnarGrid(matrix, keyInfo);
     UI.showMessage("Sütunlu Transpozisyon işlemi başarıyla tamamlandı.", "success");
+}
+
+function handleXOR() {
+    const text = document.getElementById('xor-text').value;
+    const key = document.getElementById('xor-key').value;
+    const mode = document.getElementById('xor-mode').value;
+    
+    const { result, steps } = runXOR(text, key, mode);
+    
+    UI.showResult(result);
+    UI.renderSteps(steps);
+    UI.showMessage("XOR işlemi başarıyla tamamlandı.", "success");
+}
+
+function handleBase64() {
+    const text = document.getElementById('base64-text').value;
+    const mode = document.getElementById('base64-mode').value;
+    
+    const { result, steps } = runBase64(text, mode);
+    
+    UI.showResult(result);
+    UI.renderSteps(steps);
+    UI.showMessage("Base64 işlemi başarıyla tamamlandı.", "success");
+}
+
+async function handleHash() {
+    const text = document.getElementById('hash-text').value;
+    const algorithm = document.getElementById('hash-algorithm').value;
+    const compareHex = document.getElementById('hash-compare').value.trim().toLowerCase();
+    
+    const { result, steps } = await runHash(text, algorithm);
+    
+    let finalResult = result;
+    if (compareHex) {
+        if (result.toLowerCase() === compareHex) {
+            finalResult = `${result}\n\n[ EŞLEŞİYOR ] Girilen hash değeri eşleşiyor.`;
+            UI.showMessage("Hash değerleri eşleşti.", "success");
+        } else {
+            finalResult = `${result}\n\n[ EŞLEŞMİYOR ] Girilen hash değeri eşleşmiyor!`;
+            UI.showMessage("Hash değerleri eşleşmiyor.", "warning");
+        }
+    } else {
+        UI.showMessage("Hash işlemi başarıyla tamamlandı.", "success");
+    }
+    
+    UI.showResult(finalResult);
+    UI.renderSteps(steps);
 }
 
 function handleFreqAnalysis() {
