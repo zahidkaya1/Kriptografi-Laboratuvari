@@ -341,7 +341,7 @@
                 <!-- Playfair Formu -->
                 <div id="playfair-form" class="algo-form">
                     <h2>Playfair Şifresi</h2>
-                    <div class="info-card"><strong>Türü:</strong> Klasik, Digrafik Yerine Koyma<br><strong>Amacı:</strong> Harf çiftlerini değiştirme<br><strong>Anahtar:</strong> Kelime tabanlı<br><strong>Uyarı:</strong> Yalnızca 25 harfli Latin alfabesini kullanır (J harfi I olarak kabul edilir).</div>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Digrafik Yerine Koyma<br><strong>Amacı:</strong> Harf çiftlerini değiştirme<br><strong>Anahtar:</strong> Kelime tabanlı<br><strong>Uyarı:</strong> Yalnızca 25 harfli Latin alfabesini kullanır (J harfi I ile paylaşılır). Metin tek uzunlukta ise X harfi ile dolgu yapılır (bu durum çözmede ufak bir belirsizlik yaratır).</div>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -366,7 +366,7 @@
                 <!-- Hill Formu -->
                 <div id="hill-form" class="algo-form">
                     <h2>Hill Şifresi</h2>
-                    <div class="info-card"><strong>Türü:</strong> Klasik, Poligrafik Yerine Koyma<br><strong>Amacı:</strong> Matris ve modüler matematik ile şifreleme<br><strong>Anahtar:</strong> 2x2 sayısal matris<br><strong>Uyarı:</strong> Matrisin determinantı seçilen alfabe uzunluğu ile aralarında asal (terslenebilir) olmalıdır.</div>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Poligrafik Yerine Koyma<br><strong>Amacı:</strong> Matris ve modüler matematik ile şifreleme<br><strong>Anahtar:</strong> 2x2 sayısal matris<br><strong>Uyarı:</strong> Matrisin determinantı seçilen alfabe uzunluğu ile aralarında asal (terslenebilir) olmalıdır. Metin tek karakter artarsa dolgu (padding) olarak Latin alfabesinde 'X', Türkçe alfabesinde 'Z' kullanılır.</div>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -520,7 +520,7 @@
                     <div class="info-card">
                         <strong>Türü:</strong> Kriptografik Özet (Hash)<br>
                         <strong>Amacı:</strong> Veri bütünlüğü doğrulama<br>
-                        <strong>Uyarı:</strong> Hash işlemleri tek yönlüdür. Şifrelemenin aksine geri döndürülemez (decrypt edilemez).
+                        <strong>Uyarı:</strong> Hash işlemleri tek yönlüdür ve şifreleme değildir. "Şifre çöz" özelliği kesinlikle yoktur.
                     </div>
                     
                     <div class="form-group">
