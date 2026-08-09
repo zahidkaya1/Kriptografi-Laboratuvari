@@ -213,6 +213,48 @@ export const ALGORITHM_CATALOG = [
         keywords: ['alıştırma', 'test', 'quiz', 'soru', 'eğitim']
     },
     {
+        id: 'playfair',
+        name: 'Playfair',
+        category: 'Klasik Yerine Koyma Şifreleri',
+        keywords: ['playfair', 'klasik', 'yerine koyma', 'digrafik', 'matris'],
+        meta: {
+            baseType: 'Digrafik Yerine Koyma',
+            purpose: 'Harf çiftlerini (digraph) 5x5 matris üzerinde değiştirme',
+            keyType: 'Metin tabanlı kelime anahtarı',
+            keyRequired: 'Evet',
+            operationType: 'Şifreleme / Çözme',
+            supportsDecryption: 'Evet',
+            supportsTR: 'Hayır (Sadece klasik 5x5 Latin alfabe)',
+            supportsEN: 'Evet (25 harf, J = I)',
+            changesChars: 'Evet',
+            changesPositions: 'Evet (Çift içinde)',
+            securityStatus: 'Zayıf (Tarihsel)',
+            weakness: 'Frekans analizi ile kırılabilir',
+            educationNote: 'Tek harf yerine harf çiftlerini değiştiren ilk pratik şifreleme yöntemlerinden biridir. Modern kullanım için güvenli değildir.'
+        }
+    },
+    {
+        id: 'hill',
+        name: 'Hill Şifresi',
+        category: 'Klasik Yerine Koyma Şifreleri',
+        keywords: ['hill', 'klasik', 'yerine koyma', 'poligrafik', 'matris', 'cebir'],
+        meta: {
+            baseType: 'Poligrafik Yerine Koyma',
+            purpose: 'Lineer cebir ve modüler aritmetik kullanarak şifreleme',
+            keyType: '2x2 Sayısal Matris',
+            keyRequired: 'Evet',
+            operationType: 'Şifreleme / Çözme',
+            supportsDecryption: 'Evet (Anahtar matris terslenebilir ise)',
+            supportsTR: 'Evet',
+            supportsEN: 'Evet',
+            changesChars: 'Evet',
+            changesPositions: 'Kısmen (Vektör içinde dağılım)',
+            securityStatus: 'Zayıf (Tarihsel)',
+            weakness: 'Bilinen düz metin saldırısı ile matris çözülebilir',
+            educationNote: 'Kriptografide matris çarpımının ve modüler ters işleminin nasıl kullanıldığını gösteren klasik bir örnektir.'
+        }
+    },
+    {
         id: 'xor',
         name: 'XOR',
         category: 'Modern ve Matematiksel',

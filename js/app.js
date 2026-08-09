@@ -10,6 +10,8 @@ import { runColumnarTransposition } from './algorithms/columnar-transposition.js
 import { runXOR } from './algorithms/xor.js';
 import { runBase64 } from './encoding/base64.js';
 import { runHash, compareHash } from './hashing/hash.js';
+import { runPlayfair } from './algorithms/playfair.js';
+import { runHill } from './algorithms/hill.js';
 import { analyzeFrequency } from './analysis/frequency-analysis.js';
 import { breakCaesar } from './analysis/caesar-breaker.js';
 import { validateSelection, generateComparisonRows, generateMarkdownOutput, filterByCategory, getComparableAlgorithms } from './education/algorithm-comparison.js';
@@ -147,6 +149,10 @@ document.getElementById('btn-calculate').addEventListener('click', async () => {
             handleBase64();
         } else if (currentAlgorithm === 'hash') {
             await handleHash();
+        } else if (currentAlgorithm === 'playfair') {
+            handlePlayfair();
+        } else if (currentAlgorithm === 'hill') {
+            handleHill();
         }
     } catch (error) {
         UI.showMessage(error.message, "error");
@@ -216,6 +222,16 @@ if (btnExample) {
         } else if (currentAlgorithm === 'base64') {
             document.getElementById('base64-mode').value = 'encode';
             document.getElementById('base64-text').value = 'Merhaba Dünya';
+        } else if (currentAlgorithm === 'playfair') {
+            document.getElementById('playfair-text').value = 'HIDE THE GOLD IN THE TREE STUMP';
+            document.getElementById('playfair-key').value = 'PLAYFAIR EXAMPLE';
+        } else if (currentAlgorithm === 'hill') {
+            document.getElementById('hill-text').value = 'HELP';
+            document.getElementById('hill-a').value = '3';
+            document.getElementById('hill-b').value = '3';
+            document.getElementById('hill-c').value = '2';
+            document.getElementById('hill-d').value = '5';
+            document.getElementById('hill-alphabet').value = 'EN';
         } else if (currentAlgorithm === 'hash') {
             document.getElementById('hash-algorithm').value = 'SHA-256';
             document.getElementById('hash-text').value = 'Gizli Şifre 123';
@@ -432,6 +448,34 @@ async function handleHash() {
     
     UI.showResult(finalResult);
     UI.renderSteps(steps);
+}
+
+function handlePlayfair() {
+    const text = document.getElementById('playfair-text').value;
+    const key = document.getElementById('playfair-key').value;
+    const mode = document.getElementById('playfair-mode').value;
+    
+    const { result, steps, grid } = runPlayfair(text, key, mode);
+    
+    UI.showResult(result);
+    UI.renderSteps(steps);
+    UI.showMessage("Playfair işlemi başarıyla tamamlandı.", "success");
+}
+
+function handleHill() {
+    const text = document.getElementById('hill-text').value;
+    const a = document.getElementById('hill-a').value;
+    const b = document.getElementById('hill-b').value;
+    const c = document.getElementById('hill-c').value;
+    const d = document.getElementById('hill-d').value;
+    const alphabet = document.getElementById('hill-alphabet').value;
+    const mode = document.getElementById('hill-mode').value;
+    
+    const { result, steps } = runHill(text, a, b, c, d, alphabet, mode);
+    
+    UI.showResult(result);
+    UI.renderSteps(steps);
+    UI.showMessage("Hill işlemi başarıyla tamamlandı.", "success");
 }
 
 function handleFreqAnalysis() {

@@ -39,4 +39,19 @@ test('Algoritma Katalog Testleri', async (t) => {
         const isSHAIncluded = hash.keywords.includes('sha256') || hash.keywords.includes('sha384') || hash.keywords.includes('sha512');
         assert.ok(isSHAIncluded, 'Hash metadata içinde SHA varyantları bulunmalı');
     });
+    await t.test('Playfair Katalog Kuralları', () => {
+        const playfair = ALGORITHM_CATALOG.find(a => a.id === 'playfair');
+        assert.ok(playfair, 'Playfair katalogda bulunmalı');
+        assert.strictEqual(playfair.category, 'Klasik Yerine Koyma Şifreleri', 'Playfair doğru kategoride olmalı');
+        assert.ok(playfair.meta, 'Playfair metadata içermeli');
+        assert.strictEqual(playfair.meta.securityStatus, 'Zayıf (Tarihsel)');
+    });
+
+    await t.test('Hill Katalog Kuralları', () => {
+        const hill = ALGORITHM_CATALOG.find(a => a.id === 'hill');
+        assert.ok(hill, 'Hill katalogda bulunmalı');
+        assert.strictEqual(hill.category, 'Klasik Yerine Koyma Şifreleri', 'Hill doğru kategoride olmalı');
+        assert.ok(hill.meta, 'Hill metadata içermeli');
+        assert.strictEqual(hill.meta.keyType, '2x2 Sayısal Matris');
+    });
 });
