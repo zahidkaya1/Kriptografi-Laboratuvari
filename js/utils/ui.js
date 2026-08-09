@@ -396,14 +396,14 @@ export function copyToClipboard(text, btnElement = null, successText = 'Kopyalan
     }
     
     const btn = btnElement || document.getElementById('btn-copy');
-    const defaultText = btn ? (btn.dataset.originalText || btn.textContent) : '\uD83D\uDCCB';
-    if (btn && !btn.dataset.originalText) {
-        btn.dataset.originalText = defaultText;
+    
+    if (btn && !btn.dataset.originalHtml) {
+        btn.dataset.originalHtml = btn.innerHTML;
     }
 
     navigator.clipboard.writeText(text).then(() => {
         if (btn) {
-            setCopyButtonState(btn, successText, defaultText);
+            setCopyButtonState(btn, successText, btn.dataset.originalHtml);
         }
     }).catch(err => {
         showMessage("Panoya kopyalama başarısız oldu. Lütfen manuel kopyalayınız.", "error");
@@ -411,24 +411,30 @@ export function copyToClipboard(text, btnElement = null, successText = 'Kopyalan
     });
 }
 
-export function setCopyButtonState(button, activeState = 'Kopyalandı', defaultState = '\uD83D\uDCCB') {
+export function setCopyButtonState(button, activeState = 'Kopyalandı', defaultHtml = null) {
     if (!button) return;
+    
+    if (!button.dataset.originalHtml) {
+        button.dataset.originalHtml = defaultHtml || button.innerHTML;
+    }
+    const restoreHtml = defaultHtml || button.dataset.originalHtml;
+
     if (button.copyTimeout) {
         clearTimeout(button.copyTimeout);
     }
     button.textContent = activeState;
     button.copyTimeout = setTimeout(() => {
-        button.textContent = defaultState;
-    }, 2000);
+        button.innerHTML = restoreHtml;
+    }, 1500);
 }
 
-export function resetCopyButton(buttonElement = null, defaultState = '\uD83D\uDCCB') {
+export function resetCopyButton(buttonElement = null) {
     const btn = buttonElement || document.getElementById('btn-copy');
-    if (btn) {
+    if (btn && btn.dataset.originalHtml) {
         if (btn.copyTimeout) {
             clearTimeout(btn.copyTimeout);
         }
-        btn.textContent = defaultState;
+        btn.innerHTML = btn.dataset.originalHtml;
     }
 }
 
