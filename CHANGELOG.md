@@ -1,5 +1,27 @@
 # Değişiklik Günlüğü
 
+## [1.3.0] - 2026-08-09
+
+### Eklendi (Added)
+- XOR Şifreleme
+- Base64 Laboratuvarı
+- Hash Laboratuvarı (SHA-256, SHA-384, SHA-512)
+- Playfair Şifresi
+- Hill Şifresi
+
+### Geliştirildi (Improved)
+- Algoritma katalog/kategori entegrasyonu.
+- Yeni araçların arama ve favori desteği eklendi.
+- Algoritma Karşılaştırma metadata güncellemeleri yapıldı (Base64 ve Hash, şifreleme olarak işaretlenmedi).
+- Playfair/Hill menü entegrasyonu düzeltildi.
+- Merkezi ve deterministik copy feedback sistemi oluşturuldu.
+- Encoding kontrolü yaygın Mojibake dizilerini kapsayacak şekilde genişletildi.
+
+### Düzeltildi (Fixed)
+- Playfair ve Hill algoritmalarının menüde görünmemesi sorunu giderildi.
+- Runtime panoya kopyalama sonrasında yaşanan emoji encoding (Mojibake) hatası, innerHTML restore mekanizmasıyla kökünden çözüldü.
+- Kalan Türkçe karakter/encoding kalıntıları temizlendi.
+
 ## [1.2.0] - 2026-08-05
 
 ### Eklendi

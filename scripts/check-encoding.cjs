@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const mojibakeRegex = /[\u00C3\u00C4\u00C5\u00EF\u00BF\u00BD\ufffd]/;
+const mojibakeRegex = /[\u00C3\u00C4\u00C5\u00C2\u00E2\u00F0\ufffd]|\u00EF\u00BF\u00BD/;
 const allowedExtensions = ['.js', '.html', '.css', '.md', '.json'];
 const ignoreDirs = ['node_modules', '.git'];
 

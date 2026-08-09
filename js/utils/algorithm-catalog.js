@@ -211,5 +211,110 @@ export const ALGORITHM_CATALOG = [
         name: 'Mini Alıştırmalar',
         category: 'Eğitim Araçları',
         keywords: ['alıştırma', 'test', 'quiz', 'soru', 'eğitim']
+    },
+    {
+        id: 'playfair',
+        name: 'Playfair',
+        category: 'Klasik Yerine Koyma Şifreleri',
+        keywords: ['playfair', 'klasik', 'yerine koyma', 'digrafik', 'matris'],
+        meta: {
+            baseType: 'Digrafik Yerine Koyma',
+            purpose: 'Harf çiftlerini (digraph) 5x5 matris üzerinde değiştirme',
+            keyType: 'Metin tabanlı kelime anahtarı',
+            keyRequired: 'Evet',
+            operationType: 'Şifreleme / Çözme',
+            supportsDecryption: 'Evet',
+            supportsTR: 'Hayır (Sadece klasik 5x5 Latin alfabe)',
+            supportsEN: 'Evet (25 harf, J = I)',
+            changesChars: 'Evet',
+            changesPositions: 'Evet (Çift içinde)',
+            securityStatus: 'Zayıf (Tarihsel)',
+            weakness: 'Frekans analizi ile kırılabilir',
+            educationNote: 'Tek harf yerine harf çiftlerini değiştiren ilk pratik şifreleme yöntemlerinden biridir. Modern kullanım için güvenli değildir.'
+        }
+    },
+    {
+        id: 'hill',
+        name: 'Hill Şifresi',
+        category: 'Klasik Yerine Koyma Şifreleri',
+        keywords: ['hill', 'klasik', 'yerine koyma', 'poligrafik', 'matris', 'cebir'],
+        meta: {
+            baseType: 'Poligrafik Yerine Koyma',
+            purpose: 'Lineer cebir ve modüler aritmetik kullanarak şifreleme',
+            keyType: '2x2 Sayısal Matris',
+            keyRequired: 'Evet',
+            operationType: 'Şifreleme / Çözme',
+            supportsDecryption: 'Evet (Anahtar matris terslenebilir ise)',
+            supportsTR: 'Evet',
+            supportsEN: 'Evet',
+            changesChars: 'Evet',
+            changesPositions: 'Kısmen (Vektör içinde dağılım)',
+            securityStatus: 'Zayıf (Tarihsel)',
+            weakness: 'Bilinen düz metin saldırısı ile matris çözülebilir',
+            educationNote: 'Kriptografide matris çarpımının ve modüler ters işleminin nasıl kullanıldığını gösteren klasik bir örnektir.'
+        }
+    },
+    {
+        id: 'xor',
+        name: 'XOR',
+        category: 'Modern ve Matematiksel',
+        keywords: ['xor', 'dışlamalı veya', 'exclusive or', 'modern', 'matematiksel'],
+        meta: {
+            baseType: 'Simetrik Şifreleme (Basit)',
+            purpose: 'Byte düzeyinde anahtar ile XOR işlemi',
+            keyType: 'Metin tabanlı kelime anahtarı',
+            keyRequired: 'Evet',
+            operationType: 'Şifreleme / Çözme',
+            supportsDecryption: 'Evet',
+            supportsTR: 'Evet',
+            supportsEN: 'Evet',
+            changesChars: 'Evet',
+            changesPositions: 'Hayır',
+            securityStatus: 'Zayıf (Modern standartlarda tek başına yetersiz)',
+            weakness: 'Tekrarlanan anahtar kullanımı durumunda bilinen düz metin veya frekans analizi ile kırılabilir',
+            educationNote: 'Modern şifreleme algoritmalarının (AES vb.) kalbinde yatan temel bit düzeyindeki mantığı anlamak için idealdir.'
+        }
+    },
+    {
+        id: 'base64',
+        name: 'Base64 Kodlama',
+        category: 'Kodlama ve Veri Dönüşümü',
+        keywords: ['base64', 'kodlama', 'encoding', 'veri', 'dönüşüm'],
+        meta: {
+            baseType: 'Veri Kodlama (Encoding)',
+            purpose: 'Binary veriyi yazdırılabilir ASCII karakterleriyle temsil etme',
+            keyType: 'Yok',
+            keyRequired: 'Hayır',
+            operationType: 'Kodlama / Çözme',
+            supportsDecryption: 'Hayır (Şifreleme değil, Kod Çözme - Decoding)',
+            supportsTR: 'Evet',
+            supportsEN: 'Evet',
+            changesChars: 'Evet',
+            changesPositions: 'Hayır',
+            securityStatus: 'Güvenli Değil (Şifreleme Değildir)',
+            weakness: 'Şifreleme olmadığı için gizlilik sağlamaz, herkes tarafından kolayca çözülebilir',
+            educationNote: 'Şifreleme (Encryption) ile Kodlama (Encoding) arasındaki farkı anlamak için kritik bir örnektir. Base64 kesinlikle bir şifreleme algoritması değildir.'
+        }
+    },
+    {
+        id: 'hash',
+        name: 'Hash Fonksiyonları',
+        category: 'Özet (Hash) Fonksiyonları',
+        keywords: ['hash', 'özet', 'sha256', 'sha', 'tek yönlü', 'sha384', 'sha512'],
+        meta: {
+            baseType: 'Kriptografik Özet Fonksiyonu',
+            purpose: 'Veri bütünlüğünü doğrulama ve tek yönlü özet çıkarma',
+            keyType: 'Yok',
+            keyRequired: 'Hayır',
+            operationType: 'Tek Yönlü Özet (Hashing)',
+            supportsDecryption: 'Hayır (Tek yönlüdür)',
+            supportsTR: 'Evet',
+            supportsEN: 'Evet',
+            changesChars: 'Uygulanamaz (Tamamen yeni veri üretir)',
+            changesPositions: 'Uygulanamaz',
+            securityStatus: 'Modern (SHA ailesi güvenlidir)',
+            weakness: 'Kısa girdilerde Rainbow Table ve Brute Force saldırılarına açık olabilir',
+            educationNote: 'Şifrelemenin aksine hash işlemi geri döndürülemez (decrypt edilemez). Verinin değişip değişmediğini kontrol etmek için kullanılır.'
+        }
     }
 ];

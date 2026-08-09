@@ -48,6 +48,28 @@
                         <button class="algo-card-btn" data-target="dh">Diffie-Hellman</button>
                         <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
                     </div>
+                    <div class="algo-card-wrapper" data-algo-id="xor">
+                        <button class="algo-card-btn" data-target="xor">XOR</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                </div>
+            </details>
+            <details class="category-group" id="category-encoding">
+                <summary>Kodlama ve Veri Dönüşümü</summary>
+                <div class="algorithm-cards">
+                    <div class="algo-card-wrapper" data-algo-id="base64">
+                        <button class="algo-card-btn" data-target="base64">Base64 Kodlama</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                </div>
+            </details>
+            <details class="category-group" id="category-hashing">
+                <summary>Özet (Hash) Fonksiyonları</summary>
+                <div class="algorithm-cards">
+                    <div class="algo-card-wrapper" data-algo-id="hash">
+                        <button class="algo-card-btn" data-target="hash">Hash Fonksiyonları</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
                 </div>
             </details>
             <details class="category-group" id="category-classic">
@@ -71,6 +93,14 @@
                     </div>
                     <div class="algo-card-wrapper" data-algo-id="affine">
                         <button class="algo-card-btn" data-target="affine">Affine</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="playfair">
+                        <button class="algo-card-btn" data-target="playfair">Playfair</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="hill">
+                        <button class="algo-card-btn" data-target="hill">Hill Şifresi</button>
                         <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
                     </div>
                 </div>
@@ -308,6 +338,76 @@
                     </div>
                 </div>
 
+                <!-- Playfair Formu -->
+                <div id="playfair-form" class="algo-form">
+                    <h2>Playfair Şifresi</h2>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Digrafik Yerine Koyma<br><strong>Amacı:</strong> Harf çiftlerini değiştirme<br><strong>Anahtar:</strong> Kelime tabanlı<br><strong>Uyarı:</strong> Yalnızca 25 harfli Latin alfabesini kullanır (J harfi I ile paylaşılır). Metin tek uzunlukta ise X harfi ile dolgu yapılır (bu durum çözmede ufak bir belirsizlik yaratır).</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="playfair-mode">İşlem</label>
+                            <select id="playfair-mode">
+                                <option value="encrypt">Şifrele</option>
+                                <option value="decrypt">Şifre Çöz</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="playfair-key">Anahtar Kelime</label>
+                            <input type="text" id="playfair-key" placeholder="Örn: PLAYFAIR">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="playfair-text">Metin</label>
+                        <textarea id="playfair-text" rows="3" placeholder="Metninizi girin..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Hill Formu -->
+                <div id="hill-form" class="algo-form">
+                    <h2>Hill Şifresi</h2>
+                    <div class="info-card"><strong>Türü:</strong> Klasik, Poligrafik Yerine Koyma<br><strong>Amacı:</strong> Matris ve modüler matematik ile şifreleme<br><strong>Anahtar:</strong> 2x2 sayısal matris<br><strong>Uyarı:</strong> Matrisin determinantı seçilen alfabe uzunluğu ile aralarında asal (terslenebilir) olmalıdır. Metin tek karakter artarsa dolgu (padding) olarak Latin alfabesinde 'X', Türkçe alfabesinde 'Z' kullanılır.</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hill-mode">İşlem</label>
+                            <select id="hill-mode">
+                                <option value="encrypt">Şifrele</option>
+                                <option value="decrypt">Şifre Çöz</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hill-alphabet">Alfabe</label>
+                            <select id="hill-alphabet">
+                                <option value="TR">Türkçe (29 Harf)</option>
+                                <option value="EN">İngilizce (26 Harf)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Matris [a, b]</label>
+                            <div style="display:flex; gap:10px;">
+                                <input type="number" id="hill-a" placeholder="a">
+                                <input type="number" id="hill-b" placeholder="b">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Matris [c, d]</label>
+                            <div style="display:flex; gap:10px;">
+                                <input type="number" id="hill-c" placeholder="c">
+                                <input type="number" id="hill-d" placeholder="d">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hill-text">Metin</label>
+                        <textarea id="hill-text" rows="3" placeholder="Metninizi girin..."></textarea>
+                    </div>
+                </div>
+
                 <!-- Rail Fence Formu -->
                 <div id="railfence-form" class="algo-form">
                     <h2>Rail Fence (Zikzak) Şifreleme</h2>
@@ -363,6 +463,83 @@
                     <div class="form-group">
                         <label for="columnar-text">Metin</label>
                         <textarea id="columnar-text" rows="3" placeholder="Metninizi girin..."></textarea>
+                    </div>
+                </div>
+
+                <!-- XOR Formu -->
+                <div id="xor-form" class="algo-form">
+                    <h2>XOR Şifreleme</h2>
+                    <div class="info-card"><strong>Türü:</strong> Modern, Simetrik<br><strong>Amacı:</strong> Byte düzeyinde XOR işlemi<br><strong>Anahtar:</strong> Kelime anahtarı<br><strong>Uyarı:</strong> Basit XOR, anahtar tekrarlandığında frekans analiziyle kırılabilir. Güvenli değildir.</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="xor-mode">İşlem Türü</label>
+                            <select id="xor-mode">
+                                <option value="encrypt">Şifrele (Metinden HEX'e)</option>
+                                <option value="decrypt">Şifreyi Çöz (HEX'ten Metne)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="xor-key">Anahtar Kelime</label>
+                            <input type="text" id="xor-key" placeholder="Örn: GIZLI">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="xor-text">Metin veya HEX Şifreli Veri</label>
+                        <textarea id="xor-text" rows="3" placeholder="Girdi verisini buraya yazın..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Base64 Formu -->
+                <div id="base64-form" class="algo-form">
+                    <h2>Base64 Kodlama</h2>
+                    <div class="info-card" style="border-left-color: var(--error-color);">
+                        <strong>Türü:</strong> Veri Kodlama (Encoding)<br>
+                        <strong>Amacı:</strong> Binary veriyi yazdırılabilir ASCII karakterleriyle temsil etme<br>
+                        <strong>Uyarı:</strong> Base64 bir şifreleme algoritması değildir! Güvenlik ve gizlilik sağlamaz.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="base64-mode">İşlem Türü</label>
+                        <select id="base64-mode">
+                            <option value="encode">Base64 Olarak Kodla (Encode)</option>
+                            <option value="decode">Base64 Kodunu Çöz (Decode)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="base64-text">Metin veya Base64 Verisi</label>
+                        <textarea id="base64-text" rows="3" placeholder="Girdi verisini buraya yazın..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Hash Formu -->
+                <div id="hash-form" class="algo-form">
+                    <h2>Hash Fonksiyonları</h2>
+                    <div class="info-card">
+                        <strong>Türü:</strong> Kriptografik Özet (Hash)<br>
+                        <strong>Amacı:</strong> Veri bütünlüğü doğrulama<br>
+                        <strong>Uyarı:</strong> Hash işlemleri tek yönlüdür ve şifreleme değildir. "Şifre çöz" özelliği kesinlikle yoktur.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hash-algorithm">Hash Algoritması</label>
+                        <select id="hash-algorithm">
+                            <option value="SHA-256">SHA-256</option>
+                            <option value="SHA-384">SHA-384</option>
+                            <option value="SHA-512">SHA-512</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hash-text">Metin (UTF-8)</label>
+                        <textarea id="hash-text" rows="3" placeholder="Hash'i alınacak metni girin..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hash-compare">Eşleşme Kontrolü (Opsiyonel)</label>
+                        <input type="text" id="hash-compare" placeholder="Karşılaştırmak istediğiniz HEX Hash değerini buraya girin (isteğe bağlı)...">
                     </div>
                 </div>
 

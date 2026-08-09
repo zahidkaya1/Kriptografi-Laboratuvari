@@ -2,15 +2,15 @@
 
 Modern ve klasik kriptografi algoritmalarını tarayıcı üzerinde eğitim amaçlı deneyimlemenizi sağlayan, JavaScript tabanlı açık kaynaklı bir uygulamadır.
 
-**Güncel Sürüm:** `v1.2.0`  
-**Canlı Demo:** [zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)  
+**Güncel Sürüm:** `v1.3.0`
+**Canlı Demo:** [zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)
 **GitHub Deposu:** [github.com/zahidkaya1/Kriptografi-Laboratuvari](https://github.com/zahidkaya1/Kriptografi-Laboratuvari)
 
 > [!WARNING]
 > Bu proje tamamen eğitim amaçlı geliştirilmiştir. Matematiksel limitleri JavaScript dilinin yetenekleriyle (veya tarayıcı tabanlı büyük sayı işlemleriyle) sınırlıdır. **Gerçek dünya güvenliği için kullanılamaz.**
 
 ## ✨ Özellikler
-- **Kategoriler:** Algoritmalar türlerine göre ayrılmış akordeon menülerle listelenir.
+- **Kategoriler:** Algoritmalar türlerine göre ayrılmış akordeon menülerle listelenir. Toplam 14 ana algoritma, 2 analiz aracı ve 2 eğitim aracı (toplam 18 etkileşimli ekran) mevcuttur.
 - **Arama:** Gelişmiş algoritma arama sistemi ile büyük-küçük harfe ve Türkçe karakterlere duyarlı arama yapabilirsiniz.
 - **Favoriler:** Sık kullandığınız algoritmaları favorilerinize ekleyerek hızlı erişim sağlayabilirsiniz (Yerel olarak tarayıcınızda saklanır).
 - **Örnek Sistemi:** Her algoritma için hazır örnek girdileri tek tuşla doldurabilirsiniz.
@@ -22,56 +22,35 @@ Modern ve klasik kriptografi algoritmalarını tarayıcı üzerinde eğitim ama�
 
 ## 🔐 Desteklenen Algoritmalar
 
-### Modern ve Matematiksel
+### Modern / Matematiksel
+- **1. RSA:** Açık anahtarlı şifreleme algoritmasıdır. Eğitim amaçlı simülasyonunda küçük asal sayılar kullanılarak süreç gösterilir.
+- **2. Diffie-Hellman:** İki tarafın güvenli bir şekilde gizli bir anahtar (K) üzerinde anlaşmasını sağlayan yöntemdir.
+- **3. XOR Şifreleme:** Verilerin bit/byte seviyesinde anahtarla XOR işlemine tabi tutulduğu yöntemdir. (Not: Basit repeating-key XOR tek başına modern güvenli bir şifreleme değildir).
 
-#### 1. RSA (Rivest–Shamir–Adleman)
-Açık anahtarlı şifreleme algoritmasıdır. Eğitim amaçlı simülasyonunda küçük asal sayılar (p, q) kullanılarak anahtar üretimi ve hızlı modüler üs alma ile şifreleme/çözme işlemleri gösterilir. Kullanıcının asal sayıları girmesi sağlanır ve adım adım \(\phi(n)\), \(d\) hesabı yapılır.
+### Kodlama ve Veri Dönüşümü
+- **4. Base64 Laboratuvarı:** Verileri 64 karakterlik ASCII alfabesi ile kodlar. **Base64 bir şifreleme algoritması değildir**, yalnızca bir veri dönüşüm / kodlama (encoding) standartıdır.
 
-#### 2. Diffie-Hellman Anahtar Değişimi
-İki tarafın (Alice ve Bob) ortak ve güvensiz bir kanal üzerinden güvenli bir şekilde gizli bir anahtar (K) üzerinde anlaşmasını sağlayan yöntemdir. Asal modül (\(p\)), üreteç (\(g\)) ve tarafların gizli değerleri (\(a, b\)) alınarak süreç gösterilir.
+### Özet (Hash) Fonksiyonları
+- **5. Hash Laboratuvarı (SHA-256, SHA-384, SHA-512):** Girdileri sabit uzunlukta özet değerlerine dönüştürür. **Hash işlemleri tek yönlüdür ve şifreleme değildir.** "Şifre çözme" özelliği yoktur.
 
 ### Klasik Şifreler
-
-#### 3. Vigenère Şifreleme
-Polialfabetik (çoklu alfabeli) bir yerine koyma şifrelemesidir. Kullanıcının belirlediği anahtar, metin uzunluğu kadar tekrarlanır ve harflerin sayısal indeksleri modüler aritmetikle toplanarak şifrelenir. 
-- Türkçe (29 Harf) ve İngilizce (26 Harf) alfabelerini destekler.
-- Boşluk, rakam ve noktalama işaretlerini korur.
-
-#### 4. Sezar Şifreleme
-Tarihin en eski şifreleme yöntemlerinden biridir. Metindeki her harfi alfabede belirli bir miktar kaydırarak çalışır. Türkçe ve Latin alfabelerini destekler.
-
-### Analiz Araçları
-
-#### 5. Frekans Analizi
-Metin içindeki harflerin kullanım sıklığını ve yüzdelik oranlarını hesaplar. Türkçe ve İngilizce alfabelerini destekler. Harf sıklıklarını yatay çubuk grafiklerle görselleştirir.
-
-#### 6. Sezar Şifresi Kırma (Brute Force)
-Şifrelenmiş bir metni tüm olası Sezar kaydırmalarını deneyerek kırar. Sonuçları Türkçe veya İngilizce dil yapılarına (harf frekanslarına) olan uygunluk puanlarına (Ki-kare yöntemi) göre yaklaşık olarak sıralar.
-
-#### 5. ROT13 Şifreleme
-Sezar şifrelemesinin 13 kaydırmalı özel bir türüdür. Sadece Latin alfabesinde çalışır ve şifreleme/çözme işlemleri aynıdır.
-
-#### 6. Atbash Şifreleme
-Alfabedeki harflerin baştan ve sondan eşleştirilmesi (ilk harf son harf ile) mantığına dayanır. Türkçe ve Latin alfabelerini destekler.
-
-#### 7. Affine Şifreleme
-`E(x) = (a × x + b) mod m` matematiksel formülünü kullanır. Doğru çalışabilmesi için `a` (çarpan anahtarı) ile `m` (alfabe uzunluğu) aralarında asal olmalıdır (EBOB = 1). Türkçe ve Latin alfabelerini destekler.
-
-### Eğitim Araçları
-
-#### 7. Algoritma Karşılaştırma
-Farklı şifreleme algoritmalarının yapısal, matematiksel ve güvenlik özelliklerini yan yana karşılaştırmanızı sağlayan eğitim aracıdır.
-
-#### 8. Mini Alıştırmalar
-Kriptografi bilginizi sınamak için interaktif soru-cevap aracıdır. Seviyelere (kolay, orta, zor) ayrılmış çoktan seçmeli ve açık uçlu sorular içerir.
+- **6. Vigenère Şifreleme:** Çoklu alfabeli bir yerine koyma şifrelemesidir.
+- **7. Sezar Şifreleme:** Harflerin belirli bir miktar kaydırılmasıyla çalışır.
+- **8. ROT13:** Sezar şifresinin 13 kaydırmalı özel bir türüdür.
+- **9. Atbash:** Alfabedeki harflerin baştan ve sondan eşleştirilmesi mantığına dayanır.
+- **10. Affine:** Matematiksel `E(x) = (a × x + b) mod m` fonksiyonunu kullanır.
+- **11. Playfair Şifresi:** 5x5 matris (I ve J harfleri birleştirilir) kullanarak digrafik yerine koyma yapan klasik bir yöntemdir. Dolgu X harfi ile belirsizlik eklenebilir.
+- **12. Hill Şifresi:** 2x2 matris cebiri kullanarak (Latin mod 26, Türkçe mod 29) şifreleme yapar. Anahtar matrisinin modüler tersinin olması zorunludur.
 
 ### Transpozisyon Şifreleri
+- **13. Rail Fence (Zikzak):** Metni zikzak şeklinde satırlara dağıtarak şifreler.
+- **14. Sütunlu Transpozisyon:** Metni anahtar kelimenin alfabetik sırasına göre sütun sütun şifreler.
 
-#### 8. Rail Fence (Zikzak) Şifreleme
-Metni belirlenen sayıdaki raylara (satırlara) zikzak biçiminde yerleştirerek sütun sütun okuyan bir yer değiştirme şifrelemesidir. 
-
-#### 9. Sütunlu Transpozisyon
-Metin satırlar halinde bir tabloya yazılır ve sütunlar bir anahtar kelimenin alfabetik sırasına göre aşağı doğru okunarak şifrelenir. Aynı harfin tekrarlarında deterministik olarak soldan sağa öncelik verilir.
+### Analiz ve Eğitim Araçları
+- **15. Frekans Analizi:** Metindeki harflerin kullanım sıklığını gösterir.
+- **16. Sezar Şifresi Kırma:** Kaba kuvvet (brute force) ile Sezar şifresini çözmeye çalışır.
+- **17. Algoritma Karşılaştırma:** Seçilen algoritmaların performans ve özelliklerini yan yana karşılaştırır.
+- **18. Mini Alıştırmalar:** Kriptografi teorisi hakkında soru-cevap aracıdır.
 
 ## 🛠️ Kullanılan Teknolojiler
 - HTML5 & CSS3 (Vanilla, framework kullanılmamıştır)
@@ -83,23 +62,15 @@ Metin satırlar halinde bir tabloya yazılır ve sütunlar bir anahtar kelimenin
 Proje tamamen statik dosyalardan (`.html`, `.css`, `.js`) oluşmaktadır.
 
 **Tarayıcıda Çalıştırmak İçin:**
-Projeyi klonladıktan sonra bir HTTP Sunucusu (Örneğin VS Code'da Live Server eklentisi veya Python yerleşik sunucusu) kullanarak çalıştırabilirsiniz.
-
-```bash
-# Python ile yerel sunucu başlatmak için:
-python -m http.server 8000
-```
-Ardından tarayıcınızda `http://localhost:8000/` adresine gidin.
+Proje dizininde bir HTTP Sunucusu (Örn. `python -m http.server 8000`) çalıştırın ve tarayıcıda `http://localhost:8000` adresine gidin.
 
 ## 🧪 Test Sistemi
-Projeye ait algoritmalar ve yardımcı modüller için kapsamlı otomatik testler bulunmaktadır.
-
-Testleri yerelinizde çalıştırmak için (Node.js 18+ gerektirir):
+Proje için yazılan otomatik testleri çalıştırmak için (Node.js 18+ gerektirir):
 ```bash
 npm install
 npm test
 ```
-*Not: Şu anda toplam 135 otomatik test başarıyla geçilmektedir.*
+*Not: Şu anda toplam 205 otomatik test başarıyla geçilmektedir.*
 
 ## 📂 Proje Yapısı
 ```

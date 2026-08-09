@@ -5,7 +5,11 @@ import { ALGORITHM_CATALOG } from '../utils/algorithm-catalog.js';
  * Analiz ve eğitim araçlarını filtreler.
  */
 export function getComparableAlgorithms() {
-    return ALGORITHM_CATALOG.filter(a => a.meta !== undefined);
+    return ALGORITHM_CATALOG.filter(a =>
+        a.meta !== undefined &&
+        a.id !== 'base64' &&
+        a.id !== 'hash'
+    );
 }
 
 /**
