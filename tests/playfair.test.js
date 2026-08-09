@@ -60,4 +60,12 @@ test('Playfair Algoritması Testleri', async (t) => {
         const r2 = runPlayfair('A', 'B', 'encrypt');
         assert.strictEqual(r1.result, r2.result);
     });
+
+    await t.test('Boş anahtar reddedilmeli', () => {
+        assert.throws(() => runPlayfair('TEXT', '', 'encrypt'));
+    });
+
+    await t.test('Yalnızca harf dışı karakterlerden oluşan anahtar reddedilmeli', () => {
+        assert.throws(() => runPlayfair('TEXT', '   123!.', 'encrypt'));
+    });
 });

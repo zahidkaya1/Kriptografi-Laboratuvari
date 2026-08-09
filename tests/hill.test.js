@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runHill } from '../js/algorithms/hill.js';
+import { modularInverse } from '../js/utils/math.js';
 
 test('Hill Algoritması Testleri', async (t) => {
     await t.test('Bilinen [[3,3],[2,5]] HELP -> HIAT örneği', () => {
@@ -74,5 +75,53 @@ test('Hill Algoritması Testleri', async (t) => {
         const enc = runHill(plain, a, b, c, d, 'EN', 'encrypt');
         const dec = runHill(enc.result, a, b, c, d, 'EN', 'decrypt');
         assert.strictEqual(dec.result, plain);
+    });
+
+    await t.test('Açık K x K^-1 = I doğrulaması (Mod 26 Latin)', () => {
+        const a = 3, b = 3, c = 2, d = 5;
+        const m = 26;
+        const det = (a * d) - (b * c);
+        const detInv = Number(modularInverse(BigInt(det), BigInt(m)));
+        
+        const iA = ((d * detInv) % m + m) % m;
+        const iB = ((-b * detInv) % m + m) % m;
+        const iC = ((-c * detInv) % m + m) % m;
+        const iD = ((a * detInv) % m + m) % m;
+
+        // Multiply K * K^-1 mod m
+        const rA = ((a * iA) + (b * iC)) % m;
+        const rB = ((a * iB) + (b * iD)) % m;
+        const rC = ((c * iA) + (d * iC)) % m;
+        const rD = ((c * iB) + (d * iD)) % m;
+
+        assert.strictEqual(rA, 1, 'Top left should be 1');
+        assert.strictEqual(rB, 0, 'Top right should be 0');
+        assert.strictEqual(rC, 0, 'Bottom left should be 0');
+        assert.strictEqual(rD, 1, 'Bottom right should be 1');
+    });
+
+    await t.test('Açık K x K^-1 = I doğrulaması (Mod 29 Türkçe)', () => {
+        const a = 5, b = 8, c = 17, d = 3;
+        const m = 29;
+        let det = ((a * d) - (b * c)) % m;
+        if (det < 0) det += m;
+
+        const detInv = Number(modularInverse(BigInt(det), BigInt(m)));
+        
+        const iA = ((d * detInv) % m + m) % m;
+        const iB = ((-b * detInv) % m + m) % m;
+        const iC = ((-c * detInv) % m + m) % m;
+        const iD = ((a * detInv) % m + m) % m;
+
+        // Multiply K * K^-1 mod m
+        const rA = ((a * iA) + (b * iC)) % m;
+        const rB = ((a * iB) + (b * iD)) % m;
+        const rC = ((c * iA) + (d * iC)) % m;
+        const rD = ((c * iB) + (d * iD)) % m;
+
+        assert.strictEqual(rA, 1, 'Top left should be 1');
+        assert.strictEqual(rB, 0, 'Top right should be 0');
+        assert.strictEqual(rC, 0, 'Bottom left should be 0');
+        assert.strictEqual(rD, 1, 'Bottom right should be 1');
     });
 });

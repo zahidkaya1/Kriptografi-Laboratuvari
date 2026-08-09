@@ -1,5 +1,10 @@
 export function generatePlayfairMatrix(key) {
     let normalizedKey = (key || '').toUpperCase().replace(/[^A-Z]/g, '').replace(/J/g, 'I');
+    
+    if (!normalizedKey) {
+        throw new Error("Lütfen geçerli bir anahtar (harf içeren) girin.");
+    }
+    
     let matrix = [];
     let usedChars = new Set();
 
