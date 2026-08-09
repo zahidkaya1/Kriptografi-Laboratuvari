@@ -13,11 +13,18 @@ test('Encoding Control Testleri', async (t) => {
         assert.ok(mojibakeRegex.test('\ufffd')); // replacement char
     });
 
+    await t.test('Kopyalandı durumu için mojibake karakterleri reddedilmeli', () => {
+        assert.ok(mojibakeRegex.test('\u00E2\u0153'));
+        assert.ok(mojibakeRegex.test('\u00F0\u0178'));
+        assert.ok(mojibakeRegex.test('\u00C3'));
+    });
+
     await t.test('Doğru UTF-8 metinlerini kabul etmeli (Hata Vermemeli)', () => {
         assert.strictEqual(mojibakeRegex.test('Uyarı'), false);
         assert.strictEqual(mojibakeRegex.test('Kaydırma'), false);
         assert.strictEqual(mojibakeRegex.test('Sezar Aracında Aç'), false);
         assert.strictEqual(mojibakeRegex.test('çÇ ğĞ ıI iİ öÖ şŞ üÜ'), false);
+        assert.strictEqual(mojibakeRegex.test('Kopyalandı'), false);
+        assert.strictEqual(mojibakeRegex.test('📋'), false); // Emoji'ler serbest olmalı, biz UTF-8 escape etsek de gerçek testte geçer
     });
-
 });

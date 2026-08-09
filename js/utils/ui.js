@@ -18,10 +18,12 @@ export function hideMessage() {
 
 export function showResult(result) {
     resultOutput.textContent = result;
+    resetCopyButton();
 }
 
 export function clearResult() {
     resultOutput.textContent = "Hesaplama sonucu burada görünecek...";
+    resetCopyButton();
 }
 
 export function renderSteps(steps) {
@@ -219,7 +221,7 @@ export function renderAffineSteps(steps, m, gcdVal, aInv) {
     headerDiv.innerHTML = `
         <strong>Alfabe Uzunluğu (m):</strong> ${m}<br>
         <strong>EBOB(a, m):</strong> ${gcdVal}<br>
-        <strong>Modüler Ters (aâ»Â¹):</strong> ${aInv}
+        <strong>Modüler Ters (a\u207B\u00B9):</strong> ${aInv}
     `;
     stepsOutput.appendChild(headerDiv);
 
@@ -304,7 +306,7 @@ export function renderRailFenceMatrix(matrix, rails) {
             
             const cellVal = matrix[r][c];
             if (cellVal === null || cellVal === '') {
-                td.textContent = 'Â·';
+                td.textContent = '\u00B7';
                 td.style.color = "var(--text-muted)";
                 td.style.opacity = "0.3";
             } else {
@@ -387,19 +389,47 @@ export function clearSteps() {
     stepsOutput.innerHTML = '<p class="text-muted">Algoritmanın matematiksel adımları hesaplama sonrasında burada listelenir.</p>';
 }
 
-export function copyToClipboard(text) {
+export function copyToClipboard(text, btnElement = null, successText = 'Kopyalandı') {
     if (!text || text.includes("Hesaplama sonucu")) {
         showMessage("Kopyalanacak sonuç bulunamadı.", "error");
         return;
     }
+    
+    const btn = btnElement || document.getElementById('btn-copy');
+    const defaultText = btn ? (btn.dataset.originalText || btn.textContent) : '\uD83D\uDCCB';
+    if (btn && !btn.dataset.originalText) {
+        btn.dataset.originalText = defaultText;
+    }
+
     navigator.clipboard.writeText(text).then(() => {
-        const btn = document.getElementById('btn-copy');
-        btn.textContent = "âœ…";
-        setTimeout(() => btn.textContent = "ğŸ“‹", 2000);
+        if (btn) {
+            setCopyButtonState(btn, successText, defaultText);
+        }
     }).catch(err => {
         showMessage("Panoya kopyalama başarısız oldu. Lütfen manuel kopyalayınız.", "error");
         console.error("Clipboard API Error:", err);
     });
+}
+
+export function setCopyButtonState(button, activeState = 'Kopyalandı', defaultState = '\uD83D\uDCCB') {
+    if (!button) return;
+    if (button.copyTimeout) {
+        clearTimeout(button.copyTimeout);
+    }
+    button.textContent = activeState;
+    button.copyTimeout = setTimeout(() => {
+        button.textContent = defaultState;
+    }, 2000);
+}
+
+export function resetCopyButton(buttonElement = null, defaultState = '\uD83D\uDCCB') {
+    const btn = buttonElement || document.getElementById('btn-copy');
+    if (btn) {
+        if (btn.copyTimeout) {
+            clearTimeout(btn.copyTimeout);
+        }
+        btn.textContent = defaultState;
+    }
 }
 
 export function renderFrequencyAnalysis(result, sortBy) {
@@ -512,9 +542,7 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
         copyBtn.style.padding = '0.25rem 0.5rem';
         copyBtn.style.fontSize = '0.85rem';
         copyBtn.addEventListener('click', () => {
-            copyToClipboard(cand.text);
-            copyBtn.textContent = 'Kopyalandı!';
-            setTimeout(() => copyBtn.textContent = 'Kopyala', 2000);
+            copyToClipboard(cand.text, copyBtn);
         });
 
         const openBtn = document.createElement('button');
