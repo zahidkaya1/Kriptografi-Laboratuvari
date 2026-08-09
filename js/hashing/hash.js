@@ -36,3 +36,9 @@ export async function runHash(text, algorithm) {
         ]
     };
 }
+
+export function compareHash(hash1, hash2) {
+    if (!hash1 || !hash2) return false;
+    // Normalize to lowercase for comparison
+    return hash1.trim().toLowerCase() === hash2.trim().toLowerCase();
+}

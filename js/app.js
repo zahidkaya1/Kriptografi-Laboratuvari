@@ -9,7 +9,7 @@ import { runRailFence } from './algorithms/rail-fence.js';
 import { runColumnarTransposition } from './algorithms/columnar-transposition.js';
 import { runXOR } from './algorithms/xor.js';
 import { runBase64 } from './encoding/base64.js';
-import { runHash } from './hashing/hash.js';
+import { runHash, compareHash } from './hashing/hash.js';
 import { analyzeFrequency } from './analysis/frequency-analysis.js';
 import { breakCaesar } from './analysis/caesar-breaker.js';
 import { validateSelection, generateComparisonRows, generateMarkdownOutput, filterByCategory, getComparableAlgorithms } from './education/algorithm-comparison.js';
@@ -413,13 +413,13 @@ function handleBase64() {
 async function handleHash() {
     const text = document.getElementById('hash-text').value;
     const algorithm = document.getElementById('hash-algorithm').value;
-    const compareHex = document.getElementById('hash-compare').value.trim().toLowerCase();
+    const compareHex = document.getElementById('hash-compare').value;
     
     const { result, steps } = await runHash(text, algorithm);
     
     let finalResult = result;
-    if (compareHex) {
-        if (result.toLowerCase() === compareHex) {
+    if (compareHex.trim()) {
+        if (compareHash(result, compareHex)) {
             finalResult = `${result}\n\n[ EŞLEŞİYOR ] Girilen hash değeri eşleşiyor.`;
             UI.showMessage("Hash değerleri eşleşti.", "success");
         } else {

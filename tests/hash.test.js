@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runHash } from '../js/hashing/hash.js';
+import { runHash, compareHash } from '../js/hashing/hash.js';
 
 test('Hash Fonksiyonu Testleri', async (t) => {
     await t.test('SHA-256 bilinen vektör (deterministik sonuç)', async () => {
@@ -42,5 +42,34 @@ test('Hash Fonksiyonu Testleri', async (t) => {
     
     await t.test('Boş girdi hatası', async () => {
         await assert.rejects(runHash("", "SHA-256"));
+    });
+    
+    await t.test('Hash Karşılaştırma - Aynı Hash', () => {
+        const hash1 = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        const hash2 = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        assert.ok(compareHash(hash1, hash2));
+    });
+
+    await t.test('Hash Karşılaştırma - Büyük/Küçük Harf Farklı', () => {
+        const hash1 = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        const hash2 = "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD";
+        assert.ok(compareHash(hash1, hash2));
+    });
+
+    await t.test('Hash Karşılaştırma - Boşluklu Hash', () => {
+        const hash1 = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        const hash2 = "  BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD  ";
+        assert.ok(compareHash(hash1, hash2));
+    });
+
+    await t.test('Hash Karşılaştırma - Farklı Hash', () => {
+        const hash1 = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        const hash2 = "ca7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        assert.strictEqual(compareHash(hash1, hash2), false);
+    });
+
+    await t.test('Hash Karşılaştırma - Boş Hash', () => {
+        assert.strictEqual(compareHash("", "hash"), false);
+        assert.strictEqual(compareHash("hash", null), false);
     });
 });
