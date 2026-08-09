@@ -54,4 +54,39 @@ test('Algoritma Katalog Testleri', async (t) => {
         assert.ok(hill.meta, 'Hill metadata içermeli');
         assert.strictEqual(hill.meta.keyType, '2x2 Sayısal Matris');
     });
+
+    await t.test('Katalogdaki görünür araçların UI (index.html) tarafından desteklenmesi', async () => {
+        const fs = await import('node:fs');
+        const path = await import('node:path');
+        const htmlPath = path.join(process.cwd(), 'index.html');
+        const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+
+        // Playfair ve Hill menü butonları HTML'de var mı?
+        assert.ok(htmlContent.includes('data-algo-id="playfair"'), 'Playfair navigation butonu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('data-algo-id="hill"'), 'Hill navigation butonu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('id="playfair-form"'), 'Playfair formu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('id="hill-form"'), 'Hill formu UI içinde bulunmalı');
+
+        // HTML içindeki <summary> tagları ile kategorileri topla
+        const summaryRegex = /<summary>(.*?)<\/summary>/g;
+        let match;
+        const uiCategories = new Set();
+        while ((match = summaryRegex.exec(htmlContent)) !== null) {
+            uiCategories.add(match[1].trim());
+        }
+
+        // Favoriler ve özel durumları dahil et
+        uiCategories.add('Eğitim Araçları');
+        uiCategories.add('Analiz Araçları');
+
+        // Katalogdaki görünür tüm algoritmaların UI'da bir kategorisi var mı?
+        ALGORITHM_CATALOG.forEach(algo => {
+            if (algo.id !== 'exercises' && algo.id !== 'algo-compare') {
+                assert.ok(
+                    uiCategories.has(algo.category) || algo.category === 'Eğitim Araçları' || algo.category === 'Analiz Araçları',
+                    `${algo.name} algoritmasının kategorisi (${algo.category}) UI'da desteklenmiyor.`
+                );
+            }
+        });
+    });
 });
