@@ -9,14 +9,15 @@ export function getQuizProgress() {
         bestPercentage: 0,
         lastPercentage: 0,
         byAlgorithm: {},
-        byDifficulty: {}
+        byDifficulty: {},
+        recordedSessions: []
     };
 
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
             const parsed = JSON.parse(raw);
-            
+
             // Validate and sanitize parsed data
             const sanitized = {
                 completedQuizzes: Math.max(0, parseInt(parsed.completedQuizzes) || 0),
@@ -26,14 +27,15 @@ export function getQuizProgress() {
                 bestPercentage: Math.max(0, Math.min(100, parseInt(parsed.bestPercentage) || 0)),
                 lastPercentage: Math.max(0, Math.min(100, parseInt(parsed.lastPercentage) || 0)),
                 byAlgorithm: typeof parsed.byAlgorithm === 'object' && parsed.byAlgorithm !== null ? parsed.byAlgorithm : {},
-                byDifficulty: typeof parsed.byDifficulty === 'object' && parsed.byDifficulty !== null ? parsed.byDifficulty : {}
+                byDifficulty: typeof parsed.byDifficulty === 'object' && parsed.byDifficulty !== null ? parsed.byDifficulty : {},
+                recordedSessions: Array.isArray(parsed.recordedSessions) ? parsed.recordedSessions : []
             };
             return sanitized;
         }
     } catch (e) {
         console.warn("Quiz progress okunurken hata oluştu, varsayılan değerlere dönülüyor.", e);
     }
-    
+
     return defaultData;
 }
 
@@ -45,10 +47,21 @@ export function saveQuizProgress(data) {
     }
 }
 
-export function recordQuizSession(total, correct, difficulty, algorithmFilter) {
+export function recordQuizSession(total, correct, difficulty, algorithmFilter, sessionId) {
     if (total <= 0) return;
-    
+
     const data = getQuizProgress();
+
+    if (sessionId) {
+        if (data.recordedSessions.includes(sessionId)) {
+            return; // Duplicate submission prevented
+        }
+        data.recordedSessions.push(sessionId);
+        if (data.recordedSessions.length > 50) {
+            data.recordedSessions.shift(); // keep last 50 to prevent infinite growth
+        }
+    }
+
     const incorrect = total - correct;
     const percentage = Math.round((correct / total) * 100);
 

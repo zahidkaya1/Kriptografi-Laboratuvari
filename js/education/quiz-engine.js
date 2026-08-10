@@ -7,6 +7,11 @@ export function createQuizSession(options = {}, rng = Math.random) {
         algorithm = 'all'
     } = options;
 
+    let parsedCount = parseInt(count);
+    if (isNaN(parsedCount) || parsedCount <= 0) {
+        parsedCount = 10;
+    }
+
     // Filter templates based on options
     let pool = EXERCISE_TEMPLATES.filter(template => {
         // Filter by algorithm
@@ -28,9 +33,8 @@ export function createQuizSession(options = {}, rng = Math.random) {
         [pool[i], pool[j]] = [pool[j], pool[i]];
     }
 
-    // Select the required amount of questions
-    const selectedCount = Math.min(count, pool.length);
-    const selectedTemplates = pool.slice(0, selectedCount);
+    // Select questions up to parsedCount
+    const selectedTemplates = pool.slice(0, parsedCount);
 
     // Generate instances
     const questions = selectedTemplates.map(template => {

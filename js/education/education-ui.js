@@ -8,10 +8,11 @@ export function renderEducationProgress(containerId) {
     if (!container) return;
 
     const learningStats = calculateProgressStats();
+    const learningData = getProgressData();
     const exerciseStats = getExerciseProgress();
     const quizStats = getQuizProgress();
 
-    const nextStep = determineNextStep(learningStats, exerciseStats, quizStats);
+    const nextStep = determineNextStep(learningStats, exerciseStats, quizStats, learningData.completedIds);
 
     container.innerHTML = `
         <div class="education-progress-dashboard">
@@ -83,16 +84,10 @@ export function renderEducationProgress(containerId) {
     });
 }
 
-export function determineNextStep(learningStats, exerciseStats, quizStats) {
+export function determineNextStep(learningStats, exerciseStats, quizStats, learningCompletedIds = []) {
     // Rule 1: If learning path is not complete, recommend the next lesson
     if (learningStats.percentage < 100) {
-        let next = null;
-        try {
-            const data = getProgressData();
-            next = LEARNING_PATH.find(l => !data.completedIds.includes(l.id));
-        } catch (e) {
-            console.error("Öğrenme yolu okunamadı:", e);
-        }
+        const next = LEARNING_PATH.find(l => !learningCompletedIds.includes(l.id));
         return {
             description: next ? `Rehberli öğrenmede sıradaki dersi tamamla: <strong>${next.title}</strong>` : "Rehberli öğrenmeye devam et.",
             target: 'guided-learning',
