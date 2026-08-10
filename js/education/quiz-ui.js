@@ -174,7 +174,12 @@ function renderActiveQuizScreen(container) {
             feedbackEl.innerHTML = `<span class="correct-text">✅ Doğru!</span>`;
             feedbackEl.className = 'quiz-feedback success';
         } else {
-            feedbackEl.innerHTML = `<span class="incorrect-text">❌ Yanlış. Doğru cevap: ${result.expected}</span>`;
+            let expectedDisplay = result.expected;
+            if (q.type === 'true-false' || q.type === 'true_false') {
+                if (String(expectedDisplay) === 'true') expectedDisplay = 'Doğru';
+                if (String(expectedDisplay) === 'false') expectedDisplay = 'Yanlış';
+            }
+            feedbackEl.innerHTML = `<span class="incorrect-text">❌ Yanlış. Doğru cevap: ${expectedDisplay}</span>`;
             feedbackEl.className = 'quiz-feedback error';
             const hintEl = document.getElementById('quiz-hint-text');
             if (hintEl) hintEl.style.display = 'block';

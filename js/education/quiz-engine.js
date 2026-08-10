@@ -1,4 +1,5 @@
 import { EXERCISE_TEMPLATES, checkAnswer as validateAnswer } from './exercises.js';
+import { getAlgoName } from '../utils/algorithm-catalog.js';
 
 export function createQuizSession(options = {}, rng = Math.random) {
     const {
@@ -18,7 +19,7 @@ export function createQuizSession(options = {}, rng = Math.random) {
         if (algorithm !== 'all' && template.algoId !== algorithm) {
             return false;
         }
-        
+
         // Filter by difficulty (mixed means all)
         if (difficulty !== 'mixed' && template.difficulty !== difficulty) {
             return false;
@@ -38,15 +39,23 @@ export function createQuizSession(options = {}, rng = Math.random) {
 
     // Generate instances
     const questions = selectedTemplates.map(template => {
-        const instance = template.generate();
+        const instance = template.generate ? template.generate() : {};
+
+        // title üret (örn: "Vigenère Şifresi (Kolay)")
+        let title = template.title || instance.title;
+        if (!title) {
+            let diffText = template.difficulty === 'easy' ? ' (Kolay)' : template.difficulty === 'medium' ? ' (Orta)' : ' (Zor)';
+            title = getAlgoName(template.algoId) + diffText;
+        }
+
         return {
             id: template.id,
             algoId: template.algoId,
             difficulty: template.difficulty,
-            title: template.title,
-            text: template.text,
+            title: title,
+            text: template.text || instance.question || instance.text,
             type: template.type,
-            options: template.options, // may be undefined for text
+            options: template.options || instance.options, // may be undefined for text
             hint: instance.hint,
             explanation: instance.explanation,
             // For internal validation
@@ -100,7 +109,7 @@ class QuizSession {
         }
 
         const question = this.questions[this.currentIndex];
-        
+
         // Use existing checkAnswer logic which expects the full exercise structure (template + instance)
         // Reconstruct the expected object format for checkAnswer
         const exerciseMock = {
@@ -109,7 +118,7 @@ class QuizSession {
         };
 
         const isCorrect = validateAnswer(exerciseMock, userAnswer);
-        
+
         if (isCorrect) {
             this.score++;
         }
@@ -119,9 +128,9 @@ class QuizSession {
             expected: exerciseMock.answer,
             explanation: question.explanation
         };
-        
+
         this.answers[this.currentIndex] = feedback;
-        
+
         return feedback;
     }
 

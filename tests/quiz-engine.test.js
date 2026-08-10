@@ -162,4 +162,88 @@ describe('Quiz Engine', () => {
         assert.strictEqual(session.isCompleted, true);
     });
 
+
+    it('Vigenère easy 5 session duman testi', () => {
+        const session = createQuizSession({ count: 5, algorithm: 'vigenere', difficulty: 'easy' });
+        assert.strictEqual(session.questions.length, 5, 'Session 5 soru üretmeli');
+        assert.strictEqual(session.currentIndex, -1, 'Başlangıçta currentIndex -1 olmalı');
+        const q1 = session.start();
+        assert.strictEqual(session.currentIndex, 0);
+        assert.ok(q1, 'İlk soru tanımlı olmalı');
+        assert.ok(q1.text !== 'undefined' && q1.text.length > 0, 'Soru metni undefined olmamalı');
+
+        session.submitAnswer(q1._instance.answer); // Doğru cevap
+
+        const hasNext = session.nextQuestion();
+        assert.strictEqual(hasNext, true, 'Sonraki soruya geçebilmeli');
+        assert.strictEqual(session.currentIndex, 1);
+
+        const q2 = session.getCurrentQuestion();
+        assert.ok(q2, 'İkinci soru tanımlı olmalı');
+        assert.strictEqual(session.isCompleted, false, 'İlk sorudan sonra quiz bitmemeli');
+
+        session.submitAnswer(q2._instance.answer);
+        session.nextQuestion();
+        session.submitAnswer(session.questions[2]._instance.answer);
+        session.nextQuestion();
+        session.submitAnswer(session.questions[3]._instance.answer);
+        session.nextQuestion();
+        session.submitAnswer(session.questions[4]._instance.answer);
+
+        const hasNextAfter5 = session.nextQuestion();
+        assert.strictEqual(hasNextAfter5, false, '5. sorudan sonra bitebilmeli');
+        assert.strictEqual(session.isCompleted, true, 'Quiz tamamlanmalı');
+    });
+
+    it('Hill hard 5 session duman testi', () => {
+        const session = createQuizSession({ count: 5, algorithm: 'hill', difficulty: 'hard' });
+        assert.strictEqual(session.questions.length, 5);
+        session.start();
+        assert.ok(session.getCurrentQuestion().text !== 'undefined');
+    });
+
+    it('Base64 medium 5 session duman testi', () => {
+        const session = createQuizSession({ count: 5, algorithm: 'base64', difficulty: 'medium' });
+        assert.strictEqual(session.questions.length, 5);
+        session.start();
+        assert.ok(session.getCurrentQuestion().text !== 'undefined');
+    });
+
+    it('Hash easy 5 session duman testi', () => {
+        const session = createQuizSession({ count: 5, algorithm: 'hash', difficulty: 'easy' });
+        assert.strictEqual(session.questions.length, 5);
+        session.start();
+        assert.ok(session.getCurrentQuestion().text !== 'undefined');
+    });
+
+    it('Sütunlu hard 5 session duman testi', () => {
+        const session = createQuizSession({ count: 5, algorithm: 'columnar', difficulty: 'hard' });
+        assert.strictEqual(session.questions.length, 5);
+        session.start();
+        assert.ok(session.getCurrentQuestion().text !== 'undefined');
+    });
+
+    it('Runtime contract testi - Tüm topic ve zorluklarda question object doğru mu?', () => {
+        const algos = [...new Set(EXERCISE_TEMPLATES.map(t => t.algoId))];
+        const diffs = ['easy', 'medium', 'hard'];
+
+        for (const algo of algos) {
+            for (const diff of diffs) {
+                const session = createQuizSession({ count: 1, algorithm: algo, difficulty: diff });
+                if (session.questions.length > 0) {
+                    session.start();
+                    const q = session.getCurrentQuestion();
+                    assert.ok(q, algo + ' ' + diff + ' soru döndürmeli');
+                    assert.ok(typeof q.text === 'string' && q.text.length > 0, algo + ' text boş olmamalı');
+                    assert.notStrictEqual(q.text, 'undefined', algo + ' text undefined olmamalı');
+                    assert.ok(typeof q.title === 'string' && q.title.length > 0, algo + ' title tanımlı olmalı');
+                    assert.ok(q.type === 'multiple-choice' || q.type === 'true-false' || q.type === 'text' || q.type === 'numeric', algo + ' geçerli bir type olmalı');
+                    if (q.type === 'multiple-choice') {
+                        assert.ok(Array.isArray(q.options) && q.options.length > 0, algo + ' seçeneklere sahip olmalı');
+                    }
+                    assert.ok(q._instance && q._instance.answer !== undefined, algo + ' answer tanımlı olmalı');
+                }
+            }
+        }
+    });
 });
