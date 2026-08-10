@@ -17,6 +17,7 @@ import { breakCaesar } from './analysis/caesar-breaker.js';
 import { validateSelection, generateComparisonRows, generateMarkdownOutput, filterByCategory, getComparableAlgorithms } from './education/algorithm-comparison.js';
 import { getProgress, resetProgress, recordAnswer } from './education/exercise-progress.js';
 import { getRandomExercise, checkAnswer } from './education/exercises.js';
+import { renderLearningUI } from './education/learning-ui.js';
 import * as UI from './utils/ui.js';
 import { searchAlgorithms } from './utils/search.js';
 import { getFavorites, toggleFavorite, isFavorite } from './utils/favorites.js';
@@ -81,6 +82,11 @@ function updatePanelVisibility(algoId) {
         if(actions) actions.style.display = 'none';
         if(outputSection) outputSection.style.display = 'none';
         if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+    } else if (algoId === 'guided-learning') {
+        if(actions) actions.style.display = 'none';
+        if(outputSection) outputSection.style.display = 'none';
+        if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+        renderLearningUI();
     } else if (algoId === 'algo-compare') {
         if(btnExample) btnExample.textContent = 'Örnek Karşılaştırmayı Doldur';
         if(btnCalculate) btnCalculate.textContent = 'Karşılaştır';

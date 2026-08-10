@@ -213,6 +213,12 @@ export const ALGORITHM_CATALOG = [
         keywords: ['alıştırma', 'test', 'quiz', 'soru', 'eğitim']
     },
     {
+        id: 'guided-learning',
+        name: 'Rehberli Öğrenme',
+        category: 'Eğitim Araçları',
+        keywords: ['rehber', 'öğrenme', 'yol', 'başlangıç', 'orta', 'ileri', 'ders']
+    },
+    {
         id: 'playfair',
         name: 'Playfair',
         category: 'Klasik Yerine Koyma Şifreleri',

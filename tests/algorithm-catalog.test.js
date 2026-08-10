@@ -81,12 +81,15 @@ test('Algoritma Katalog Testleri', async (t) => {
 
         // Katalogdaki görünür tüm algoritmaların UI'da bir kategorisi var mı?
         ALGORITHM_CATALOG.forEach(algo => {
-            if (algo.id !== 'exercises' && algo.id !== 'algo-compare') {
+            if (algo.id !== 'exercises' && algo.id !== 'algo-compare' && algo.id !== 'guided-learning') {
                 assert.ok(
                     uiCategories.has(algo.category) || algo.category === 'Eğitim Araçları' || algo.category === 'Analiz Araçları',
                     `${algo.name} algoritmasının kategorisi (${algo.category}) UI'da desteklenmiyor.`
                 );
             }
         });
+
+        assert.ok(htmlContent.includes('data-algo-id="guided-learning"'), 'Rehberli Öğrenme navigation butonu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('id="guided-learning-form"'), 'Rehberli Öğrenme formu UI içinde bulunmalı');
     });
 });

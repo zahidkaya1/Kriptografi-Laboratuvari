@@ -648,3 +648,282 @@ button {
 .checkbox-item input {
     cursor: pointer;
 }
+
+/* --- Guided Learning (Rehberli Öğrenme) Stilleri --- */
+.learning-header {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-between;
+}
+
+.progress-section {
+    flex: 1 1 300px;
+}
+
+.progress-bar-bg {
+    background: var(--secondary-color);
+    border-radius: 8px;
+    height: 12px;
+    width: 100%;
+    margin: 1rem 0 0.5rem 0;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background: var(--primary-color);
+    height: 100%;
+    transition: width 0.4s ease;
+}
+
+.progress-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.level-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.level-stat-item {
+    background: var(--secondary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.level-label {
+    font-weight: 600;
+}
+
+.next-lesson-section {
+    flex: 1 1 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.next-lesson-card {
+    background: var(--primary-color);
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    text-align: center;
+    width: 100%;
+}
+
+.next-lesson-card h4 {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.next-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.all-completed-msg {
+    color: var(--success-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 2rem;
+    background: var(--success-bg);
+    border-radius: var(--radius);
+    width: 100%;
+}
+
+.next-lesson-card .open-lab-btn {
+    background: white;
+    color: var(--primary-color);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+}
+
+.next-lesson-card .open-lab-btn:hover {
+    background: #f1f5f9;
+}
+
+.learning-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.learning-filters .filter-btn {
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.learning-filters .filter-btn:hover {
+    background: var(--secondary-hover);
+}
+
+.learning-filters .filter-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.learning-cards-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+@media (min-width: 1440px) {
+    .learning-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.lesson-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.lesson-card.completed {
+    border-color: var(--success-color);
+    background: linear-gradient(to bottom right, var(--card-bg), var(--success-bg));
+}
+
+.lesson-card-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.lesson-category {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary-color);
+}
+
+.lesson-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.lesson-objectives {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.lesson-objectives ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    color: var(--text-muted);
+}
+
+.lesson-content-mini {
+    background: var(--bg-color);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    font-size: 0.9rem;
+}
+
+.mini-section {
+    margin-bottom: 0.75rem;
+}
+
+.mini-section:last-child {
+    margin-bottom: 0;
+}
+
+.mini-section p {
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.lesson-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.lesson-action-btn, .lesson-complete-toggle {
+    width: 100%;
+    padding: 0.75rem;
+    text-align: center;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+    border: none;
+}
+
+.lesson-action-btn {
+    background: var(--primary-color);
+    color: white;
+}
+.lesson-action-btn:hover {
+    background: var(--primary-hover);
+}
+
+.lesson-action-btn.btn-secondary {
+    background: var(--secondary-color);
+    color: var(--text-color);
+}
+.lesson-action-btn.btn-secondary:hover {
+    background: var(--secondary-hover);
+}
+
+.lesson-complete-toggle {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.lesson-complete-toggle:hover {
+    background: var(--secondary-color);
+}
+
+.lesson-complete-toggle.is-completed {
+    background: var(--success-color);
+    color: white;
+    border-color: var(--success-color);
+}
+
+.lesson-complete-toggle.is-completed:hover {
+    opacity: 0.9;
+}
