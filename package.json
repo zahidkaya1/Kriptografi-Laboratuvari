@@ -1,6 +1,6 @@
 {
   "name": "kriptografi-laboratuvari",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Temel kriptografi algoritmaları ve araçları",
   "main": "js/app.js",
   "type": "module",

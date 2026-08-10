@@ -142,6 +142,18 @@
                         <button class="algo-card-btn" data-target="exercises">Mini Alıştırmalar</button>
                         <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
                     </div>
+                    <div class="algo-card-wrapper" data-algo-id="guided-learning">
+                        <button class="algo-card-btn" data-target="guided-learning">Rehberli Öğrenme</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="mixed-quiz">
+                        <button class="algo-card-btn" data-target="mixed-quiz">Karışık Quiz</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
+                    <div class="algo-card-wrapper" data-algo-id="education-progress">
+                        <button class="algo-card-btn" data-target="education-progress">Eğitim İlerlemesi</button>
+                        <button class="fav-btn" aria-label="Favoriye Ekle" title="Favoriye Ekle">☆</button>
+                    </div>
                 </div>
             </details>
         </div>
@@ -688,6 +700,30 @@
                         <div style="margin-top: 0.5rem;">
                             <button id="btn-ex-reset-progress" class="btn-icon" style="font-size: 0.8rem; padding: 0.2rem 0.5rem; background: var(--bg-hover); border-radius: 4px;">🔄 İlerlemeyi Sıfırla</button>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Rehberli Öğrenme Formu (UI render işlemleri JS ile yapılacak) -->
+                <div id="guided-learning-form" class="algo-form">
+                    <h2>Rehberli Öğrenme</h2>
+                    <div class="info-card"><strong>Türü:</strong> Öğrenme Yolu<br><strong>Amacı:</strong> Şifreleme algoritmalarını belirli bir sırayla öğrenmek<br><strong>Kullanım:</strong> Aşağıdaki öğrenme yolunu takip ederek her dersin laboratuvarında pratik yapabilirsiniz.</div>
+
+                    <div id="guided-learning-content">
+                        <!-- js/education/learning-ui.js tarafından doldurulacak -->
+                    </div>
+                </div>
+
+                <!-- Karışık Quiz Formu -->
+                <div id="mixed-quiz-form" class="algo-form">
+                    <div id="mixed-quiz-content">
+                        <!-- js/education/quiz-ui.js tarafından doldurulacak -->
+                    </div>
+                </div>
+
+                <!-- Eğitim İlerlemesi Formu -->
+                <div id="education-progress-form" class="algo-form">
+                    <div id="education-progress-content">
+                        <!-- js/education/education-ui.js tarafından doldurulacak -->
                     </div>
                 </div>
 

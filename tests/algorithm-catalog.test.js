@@ -81,12 +81,54 @@ test('Algoritma Katalog Testleri', async (t) => {
 
         // Katalogdaki görünür tüm algoritmaların UI'da bir kategorisi var mı?
         ALGORITHM_CATALOG.forEach(algo => {
-            if (algo.id !== 'exercises' && algo.id !== 'algo-compare') {
+            if (algo.id !== 'exercises' && algo.id !== 'algo-compare' && algo.id !== 'guided-learning' && algo.id !== 'mixed-quiz' && algo.id !== 'education-progress') {
                 assert.ok(
                     uiCategories.has(algo.category) || algo.category === 'Eğitim Araçları' || algo.category === 'Analiz Araçları',
                     `${algo.name} algoritmasının kategorisi (${algo.category}) UI'da desteklenmiyor.`
                 );
             }
         });
+
+        assert.ok(htmlContent.includes('data-algo-id="guided-learning"'), 'Rehberli Öğrenme navigation butonu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('id="guided-learning-form"'), 'Rehberli Öğrenme formu UI içinde bulunmalı');
+
+        assert.ok(htmlContent.includes('data-algo-id="mixed-quiz"'), 'Karışık Quiz navigation butonu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('id="mixed-quiz-form"'), 'Karışık Quiz formu UI içinde bulunmalı');
+        // Regression: check if there's no inline display:none that breaks things and it has content container
+        assert.ok(!htmlContent.includes('id="mixed-quiz-form" class="algo-form" style="display:none;"'), 'Karışık Quiz formu inline display:none içermemeli');
+        assert.ok(htmlContent.includes('id="mixed-quiz-content"'), 'Karışık Quiz formu content container içermeli');
+
+        assert.ok(htmlContent.includes('data-algo-id="education-progress"'), 'Eğitim İlerlemesi navigation butonu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('id="education-progress-form"'), 'Eğitim İlerlemesi formu UI içinde bulunmalı');
+        assert.ok(!htmlContent.includes('id="education-progress-form" class="algo-form" style="display:none;"'), 'Eğitim İlerlemesi formu inline display:none içermemeli');
+        assert.ok(htmlContent.includes('id="education-progress-content"'), 'Eğitim İlerlemesi formu content container içermeli');
+    });
+
+    await t.test('App.js render yolları (Regression)', async () => {
+        const fs = await import('node:fs');
+        const path = await import('node:path');
+        const appJsPath = path.join(process.cwd(), 'js', 'app.js');
+        const appJsContent = fs.readFileSync(appJsPath, 'utf8');
+
+        // Render calls
+        assert.ok(appJsContent.includes("renderQuizUI('mixed-quiz-content')"), 'app.js içinde renderQuizUI çağrısı bulunmalı');
+        assert.ok(appJsContent.includes("renderEducationProgress('education-progress-content', { navigateTo })"), 'app.js içinde renderEducationProgress çağrısı bulunmalı');
+
+        // Hiding generic sections
+        const mixedQuizBlockRegex = /else if \(algoId === 'mixed-quiz'\) \{[\s\S]*?renderQuizUI/m;
+        const mixedQuizBlock = appJsContent.match(mixedQuizBlockRegex);
+        assert.ok(mixedQuizBlock, 'mixed-quiz switch bloğu bulunmalı');
+        assert.ok(mixedQuizBlock[0].includes("actions.style.display = 'none'"), 'mixed-quiz için actions gizlenmeli');
+        assert.ok(mixedQuizBlock[0].includes("outputSection.style.display = 'none'"), 'mixed-quiz için outputSection gizlenmeli');
+
+        const eduProgBlockRegex = /else if \(algoId === 'education-progress'\) \{[\s\S]*?renderEducationProgress/m;
+        const eduProgBlock = appJsContent.match(eduProgBlockRegex);
+        assert.ok(eduProgBlock, 'education-progress switch bloğu bulunmalı');
+        assert.ok(eduProgBlock[0].includes("actions.style.display = 'none'"), 'education-progress için actions gizlenmeli');
+        assert.ok(eduProgBlock[0].includes("outputSection.style.display = 'none'"), 'education-progress için outputSection gizlenmeli');
+
+        // Imports
+        assert.ok(appJsContent.includes("import { renderQuizUI } from './education/quiz-ui.js'"), 'renderQuizUI import edilmeli');
+        assert.ok(appJsContent.includes("import { renderEducationProgress } from './education/education-ui.js'"), 'renderEducationProgress import edilmeli');
     });
 });

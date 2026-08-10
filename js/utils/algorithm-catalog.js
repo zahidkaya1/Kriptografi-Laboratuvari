@@ -213,6 +213,24 @@ export const ALGORITHM_CATALOG = [
         keywords: ['alıştırma', 'test', 'quiz', 'soru', 'eğitim']
     },
     {
+        id: 'guided-learning',
+        name: 'Rehberli Öğrenme',
+        category: 'Eğitim Araçları',
+        keywords: ['rehber', 'öğrenme', 'yol', 'başlangıç', 'orta', 'ileri', 'ders']
+    },
+    {
+        id: 'mixed-quiz',
+        name: 'Karışık Quiz',
+        category: 'Eğitim Araçları',
+        keywords: ['karışık', 'quiz', 'sınav', 'test', 'eğitim', 'soru']
+    },
+    {
+        id: 'education-progress',
+        name: 'Eğitim İlerlemesi',
+        category: 'Eğitim Araçları',
+        keywords: ['ilerleme', 'eğitim', 'gelişim', 'istatistik', 'rapor']
+    },
+    {
         id: 'playfair',
         name: 'Playfair',
         category: 'Klasik Yerine Koyma Şifreleri',
@@ -318,3 +336,33 @@ export const ALGORITHM_CATALOG = [
         }
     }
 ];
+
+export function getAlgoName(id) {
+    if (!id) return '';
+    if (id === 'all' || id === 'mixed') return 'Tümü (Karışık)';
+
+    const manualMap = {
+        'caesar': 'Sezar',
+        'vigenere': 'Vigenère',
+        'rot13': 'ROT13',
+        'atbash': 'Atbash',
+        'affine': 'Affine',
+        'railfence': 'Rail Fence',
+        'columnar': 'Sütunlu Transpozisyon',
+        'columnar-transposition': 'Sütunlu Transpozisyon',
+        'rsa': 'RSA',
+        'diffie-hellman': 'Diffie-Hellman',
+        'dh': 'Diffie-Hellman',
+        'playfair': 'Playfair',
+        'hill': 'Hill',
+        'freq-analysis': 'Frekans Analizi',
+        'caesar-breaker': 'Sezar Şifresi Kırma',
+        'algo-compare': 'Algoritma Karşılaştırma'
+    };
+
+    if (manualMap[id]) return manualMap[id];
+
+    const algo = ALGORITHM_CATALOG.find(a => a.id === id);
+    if (algo) return algo.name;
+    return id.charAt(0).toUpperCase() + id.slice(1);
+}

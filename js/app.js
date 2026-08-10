@@ -17,12 +17,23 @@ import { breakCaesar } from './analysis/caesar-breaker.js';
 import { validateSelection, generateComparisonRows, generateMarkdownOutput, filterByCategory, getComparableAlgorithms } from './education/algorithm-comparison.js';
 import { getProgress, resetProgress, recordAnswer } from './education/exercise-progress.js';
 import { getRandomExercise, checkAnswer } from './education/exercises.js';
+import { renderLearningUI } from './education/learning-ui.js';
+import { renderQuizUI } from './education/quiz-ui.js';
+import { renderEducationProgress } from './education/education-ui.js';
 import * as UI from './utils/ui.js';
 import { searchAlgorithms } from './utils/search.js';
 import { getFavorites, toggleFavorite, isFavorite } from './utils/favorites.js';
 import { ALGORITHM_CATALOG } from './utils/algorithm-catalog.js';
 
 let currentAlgorithm = 'rsa';
+
+function navigateTo(targetId) {
+    const btn = document.querySelector(`.algo-card-btn[data-target="${targetId}"]`);
+    if (btn) {
+        btn.click();
+        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
 
 // Tab Değiştirme
 function handleTabClick(e) {
@@ -81,6 +92,21 @@ function updatePanelVisibility(algoId) {
         if(actions) actions.style.display = 'none';
         if(outputSection) outputSection.style.display = 'none';
         if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+    } else if (algoId === 'guided-learning') {
+        if(actions) actions.style.display = 'none';
+        if(outputSection) outputSection.style.display = 'none';
+        if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+        renderLearningUI({ navigateTo });
+    } else if (algoId === 'mixed-quiz') {
+        if(actions) actions.style.display = 'none';
+        if(outputSection) outputSection.style.display = 'none';
+        if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+        renderQuizUI('mixed-quiz-content');
+    } else if (algoId === 'education-progress') {
+        if(actions) actions.style.display = 'none';
+        if(outputSection) outputSection.style.display = 'none';
+        if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+        renderEducationProgress('education-progress-content', { navigateTo });
     } else if (algoId === 'algo-compare') {
         if(btnExample) btnExample.textContent = 'Örnek Karşılaştırmayı Doldur';
         if(btnCalculate) btnCalculate.textContent = 'Karşılaştır';
