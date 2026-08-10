@@ -18,6 +18,8 @@ import { validateSelection, generateComparisonRows, generateMarkdownOutput, filt
 import { getProgress, resetProgress, recordAnswer } from './education/exercise-progress.js';
 import { getRandomExercise, checkAnswer } from './education/exercises.js';
 import { renderLearningUI } from './education/learning-ui.js';
+import { renderQuizUI } from './education/quiz-ui.js';
+import { renderEducationProgress } from './education/education-ui.js';
 import * as UI from './utils/ui.js';
 import { searchAlgorithms } from './utils/search.js';
 import { getFavorites, toggleFavorite, isFavorite } from './utils/favorites.js';
@@ -87,6 +89,16 @@ function updatePanelVisibility(algoId) {
         if(outputSection) outputSection.style.display = 'none';
         if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
         renderLearningUI();
+    } else if (algoId === 'mixed-quiz') {
+        if(actions) actions.style.display = 'none';
+        if(outputSection) outputSection.style.display = 'none';
+        if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+        renderQuizUI('mixed-quiz-content');
+    } else if (algoId === 'education-progress') {
+        if(actions) actions.style.display = 'none';
+        if(outputSection) outputSection.style.display = 'none';
+        if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
+        renderEducationProgress('education-progress-content');
     } else if (algoId === 'algo-compare') {
         if(btnExample) btnExample.textContent = 'Örnek Karşılaştırmayı Doldur';
         if(btnCalculate) btnCalculate.textContent = 'Karşılaştır';

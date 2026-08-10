@@ -219,6 +219,18 @@ export const ALGORITHM_CATALOG = [
         keywords: ['rehber', 'öğrenme', 'yol', 'başlangıç', 'orta', 'ileri', 'ders']
     },
     {
+        id: 'mixed-quiz',
+        name: 'Karışık Quiz',
+        category: 'Eğitim Araçları',
+        keywords: ['karışık', 'quiz', 'sınav', 'test', 'eğitim', 'soru']
+    },
+    {
+        id: 'education-progress',
+        name: 'Eğitim İlerlemesi',
+        category: 'Eğitim Araçları',
+        keywords: ['ilerleme', 'eğitim', 'gelişim', 'istatistik', 'rapor']
+    },
+    {
         id: 'playfair',
         name: 'Playfair',
         category: 'Klasik Yerine Koyma Şifreleri',

@@ -81,7 +81,7 @@ test('Algoritma Katalog Testleri', async (t) => {
 
         // Katalogdaki görünür tüm algoritmaların UI'da bir kategorisi var mı?
         ALGORITHM_CATALOG.forEach(algo => {
-            if (algo.id !== 'exercises' && algo.id !== 'algo-compare' && algo.id !== 'guided-learning') {
+            if (algo.id !== 'exercises' && algo.id !== 'algo-compare' && algo.id !== 'guided-learning' && algo.id !== 'mixed-quiz' && algo.id !== 'education-progress') {
                 assert.ok(
                     uiCategories.has(algo.category) || algo.category === 'Eğitim Araçları' || algo.category === 'Analiz Araçları',
                     `${algo.name} algoritmasının kategorisi (${algo.category}) UI'da desteklenmiyor.`
@@ -91,5 +91,11 @@ test('Algoritma Katalog Testleri', async (t) => {
 
         assert.ok(htmlContent.includes('data-algo-id="guided-learning"'), 'Rehberli Öğrenme navigation butonu UI içinde bulunmalı');
         assert.ok(htmlContent.includes('id="guided-learning-form"'), 'Rehberli Öğrenme formu UI içinde bulunmalı');
+
+        assert.ok(htmlContent.includes('data-algo-id="mixed-quiz"'), 'Karışık Quiz navigation butonu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('id="mixed-quiz-form"'), 'Karışık Quiz formu UI içinde bulunmalı');
+
+        assert.ok(htmlContent.includes('data-algo-id="education-progress"'), 'Eğitim İlerlemesi navigation butonu UI içinde bulunmalı');
+        assert.ok(htmlContent.includes('id="education-progress-form"'), 'Eğitim İlerlemesi formu UI içinde bulunmalı');
     });
 });

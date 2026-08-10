@@ -14,7 +14,7 @@ import { analyzeFrequency } from '../analysis/frequency-analysis.js';
  * type: 'text' | 'multiple-choice' | 'true-false'
  * difficulty: 'easy' | 'medium' | 'hard'
  */
-const EXERCISE_TEMPLATES = [
+export const EXERCISE_TEMPLATES = [
     // --- KOLAY (EASY) ---
     {
         id: 'q_rot13_basic',
