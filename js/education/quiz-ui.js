@@ -24,11 +24,10 @@ function renderSettingsScreen(container) {
             <p>Kendinizi farklı algoritmalarda test edin.</p>
 
             <div class="setting-group">
-                <label for="quiz-count">Soru Sayısı:</label>
-                <select id="quiz-count">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="15">15</option>
+                <label for="quiz-algo">Konu (İsteğe Bağlı):</label>
+                <select id="quiz-algo">
+                    <option value="all" selected>Tümü (Karışık)</option>
+                    ${algoOptions}
                 </select>
             </div>
 
@@ -43,10 +42,11 @@ function renderSettingsScreen(container) {
             </div>
 
             <div class="setting-group">
-                <label for="quiz-algo">Konu (İsteğe Bağlı):</label>
-                <select id="quiz-algo">
-                    <option value="all" selected>Tümü (Karışık)</option>
-                    ${algoOptions}
+                <label for="quiz-count">Soru Sayısı:</label>
+                <select id="quiz-count">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
                 </select>
             </div>
 
