@@ -1,4 +1,4 @@
-import { createQuizSession } from './quiz-engine.js';
+import { createQuizSession, getEligibleQuestionsCount, getQuestionCountOptions } from './quiz-engine.js';
 import { recordQuizSession } from './quiz-progress.js';
 import { EXERCISE_TEMPLATES } from './exercises.js';
 import { getAlgoName } from '../utils/algorithm-catalog.js';
@@ -50,10 +50,43 @@ function renderSettingsScreen(container) {
                 </select>
             </div>
 
+            <div id="quiz-available-info" style="font-size: 0.9em; color: #666; margin-bottom: 1rem;">
+                <!-- Dynamically populated -->
+            </div>
+
             <button id="btn-start-quiz" class="btn-primary">Quiz'e Başla</button>
             <div id="quiz-settings-error" class="error-text" style="display:none;"></div>
         </div>
     `;
+
+    function updateQuestionCountOptions() {
+        const algo = document.getElementById('quiz-algo').value;
+        const diff = document.getElementById('quiz-difficulty').value;
+        const countSelect = document.getElementById('quiz-count');
+        const infoEl = document.getElementById('quiz-available-info');
+
+        const available = getEligibleQuestionsCount(algo, diff);
+        const currentSelected = parseInt(countSelect.value);
+
+        const result = getQuestionCountOptions(available, currentSelected);
+
+        countSelect.innerHTML = '';
+        result.options.forEach(opt => {
+            const option = document.createElement('option');
+            option.value = opt;
+            option.textContent = opt;
+            countSelect.appendChild(option);
+        });
+
+        countSelect.value = result.selected;
+        infoEl.textContent = `Bu filtrelerde ${available} soru mevcut.`;
+    }
+
+    document.getElementById('quiz-algo').addEventListener('change', updateQuestionCountOptions);
+    document.getElementById('quiz-difficulty').addEventListener('change', updateQuestionCountOptions);
+
+    // Initial calculation
+    updateQuestionCountOptions();
 
     document.getElementById('btn-start-quiz').addEventListener('click', () => {
         const count = parseInt(document.getElementById('quiz-count').value);

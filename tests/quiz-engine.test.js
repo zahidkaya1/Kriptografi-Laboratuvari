@@ -1,6 +1,6 @@
 import test, { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { createQuizSession } from '../js/education/quiz-engine.js';
+import { createQuizSession, getEligibleQuestionsCount, getQuestionCountOptions } from '../js/education/quiz-engine.js';
 import { EXERCISE_TEMPLATES } from '../js/education/exercises.js';
 
 describe('Quiz Engine', () => {
@@ -245,5 +245,66 @@ describe('Quiz Engine', () => {
                 }
             }
         }
+    });
+
+    describe('Dinamik Soru Sayısı ve Seçenekleri Testleri', () => {
+        it('5 uygun soru -> yalnız 5 kullanılabilir', () => {
+            const { options, selected } = getQuestionCountOptions(5, 10);
+            assert.deepEqual(options, [5]);
+            assert.strictEqual(selected, 5);
+        });
+
+        it('10 uygun soru -> 5 ve 10 kullanılabilir', () => {
+            const { options, selected } = getQuestionCountOptions(10, 15);
+            assert.deepEqual(options, [5, 10]);
+            assert.strictEqual(selected, 10);
+        });
+
+        it('15 uygun soru -> 5, 10 ve 15 kullanılabilir', () => {
+            const { options, selected } = getQuestionCountOptions(15, 10);
+            assert.deepEqual(options, [5, 10, 15]);
+            assert.strictEqual(selected, 10);
+        });
+
+        it('15 seçiliyken havuz 5\'e düşerse seçim 5\'e normalize edilir', () => {
+            const { options, selected } = getQuestionCountOptions(5, 15);
+            assert.deepEqual(options, [5]);
+            assert.strictEqual(selected, 5);
+        });
+
+        it('10 seçiliyken yeni havuz >=10 ise seçim korunur', () => {
+            const { options, selected } = getQuestionCountOptions(15, 10);
+            assert.deepEqual(options, [5, 10, 15]);
+            assert.strictEqual(selected, 10);
+        });
+
+        it('gerçek Vigenère + easy havuzunda doğru seçenekler üretilir', () => {
+            const count = getEligibleQuestionsCount('vigenere', 'easy');
+            assert.ok(count >= 5);
+            const { options, selected } = getQuestionCountOptions(count, 15);
+            // vigenere+easy havuzu şu an 5, dolayısıyla seçenek sadece 5 olmalı.
+            assert.ok(options.includes(5));
+            assert.strictEqual(selected, count >= 15 ? 15 : (count >= 10 ? 10 : 5));
+        });
+
+        it('mixed difficulty toplam havuzu doğru hesaplar', () => {
+            const allVigenere = getEligibleQuestionsCount('vigenere', 'mixed');
+            const easyVigenere = getEligibleQuestionsCount('vigenere', 'easy');
+            const mediumVigenere = getEligibleQuestionsCount('vigenere', 'medium');
+            const hardVigenere = getEligibleQuestionsCount('vigenere', 'hard');
+
+            assert.strictEqual(allVigenere, easyVigenere + mediumVigenere + hardVigenere);
+        });
+
+        it('all topics toplam havuzu doğru hesaplar', () => {
+            const allQuestions = getEligibleQuestionsCount('all', 'mixed');
+            assert.strictEqual(allQuestions, EXERCISE_TEMPLATES.length);
+        });
+
+        it('safe reduction engine tarafında korunur', () => {
+            // havuzda sadece 5 vigenere easy var, 15 istersek 5 döner
+            const session = createQuizSession({ count: 15, algorithm: 'vigenere', difficulty: 'easy' });
+            assert.ok(session.totalQuestions <= 5);
+        });
     });
 });

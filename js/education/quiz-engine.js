@@ -1,6 +1,33 @@
 import { EXERCISE_TEMPLATES, checkAnswer as validateAnswer } from './exercises.js';
 import { getAlgoName } from '../utils/algorithm-catalog.js';
 
+export function getEligibleQuestionsCount(algorithm = 'all', difficulty = 'mixed') {
+    return EXERCISE_TEMPLATES.filter(template => {
+        if (algorithm !== 'all' && template.algoId !== algorithm) return false;
+        if (difficulty !== 'mixed' && template.difficulty !== difficulty) return false;
+        return true;
+    }).length;
+}
+
+export function getQuestionCountOptions(available, currentSelected) {
+    const possibleOptions = [5, 10, 15];
+    const validOptions = possibleOptions.filter(opt => opt <= available);
+
+    let options = validOptions.length > 0 ? validOptions : [available > 0 ? available : 5];
+
+    let newSelected = null;
+    if (possibleOptions.includes(currentSelected) && currentSelected <= available) {
+        newSelected = currentSelected;
+    } else {
+        newSelected = options[options.length - 1]; // en büyük geçerli seçenek veya fallback
+    }
+
+    return {
+        options,
+        selected: newSelected
+    };
+}
+
 export function createQuizSession(options = {}, rng = Math.random) {
     const {
         count = 10,
