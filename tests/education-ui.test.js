@@ -63,4 +63,13 @@ test('UI ve Navigasyon Testleri', async (t) => {
         assert.ok(eduUiContent.includes('data-target="mixed-quiz"'), 'Quiz Başlat butonu mixed-quiz hedefini göstermeli');
         assert.ok(eduUiContent.includes('navigateTo(targetId)'), 'Buton click olaylarında navigateTo callback çağrılmalı');
     });
+
+    await t.test('Eğitim İlerlemesi UI Karışık Quiz İstatistikleri Testi', async () => {
+        const fs = await import('node:fs');
+        const path = await import('node:path');
+        const eduUiPath = path.join(process.cwd(), 'js', 'education', 'education-ui.js');
+        const eduUiContent = fs.readFileSync(eduUiPath, 'utf8');
+
+        assert.ok(eduUiContent.includes('Toplam Test Sayısı: ${quizStats.completedQuizzes}'), 'Toplam Test Sayısı (completedQuizzes) istatistiği gösterilmeli');
+    });
 });

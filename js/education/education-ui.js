@@ -61,6 +61,7 @@ export function renderEducationProgress(containerId, options = {}) {
                     <h4>Karışık Quiz</h4>
                     ${quizStats.completedQuizzes > 0 ? `
                         <p class="stat-main">${quizStats.completedQuizzes} Quiz Tamamlandı</p>
+                        <p class="stat-sub">Toplam Test Sayısı: ${quizStats.completedQuizzes}</p>
                         <p class="stat-sub">Toplam Soru: ${quizStats.totalQuestions}</p>
                         <p class="stat-sub">Doğru: ${quizStats.totalCorrect}</p>
                         <p class="stat-sub">En İyi Başarı: %${quizStats.bestPercentage}</p>
