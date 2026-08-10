@@ -2,8 +2,11 @@ import { calculateProgressStats, getProgressData } from './learning-progress.js'
 import { LEARNING_PATH } from './learning-path.js';
 import { getProgress as getExerciseProgress } from './exercise-progress.js';
 import { getQuizProgress } from './quiz-progress.js';
+import { EXERCISE_TEMPLATES } from './exercises.js';
+import { getAlgoName } from '../utils/algorithm-catalog.js';
 
-export function renderEducationProgress(containerId) {
+export function renderEducationProgress(containerId, options = {}) {
+    const { navigateTo } = options;
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -50,7 +53,7 @@ export function renderEducationProgress(containerId) {
                     ` : `
                         <p class="stat-main empty-stat">Henüz yeterli veri yok.</p>
                     `}
-                    <button class="btn-secondary" data-target="mini-exercises">Alıştırmalara Git</button>
+                    <button class="btn-secondary" data-target="exercises">Alıştırmalara Git</button>
                 </div>
 
                 <!-- Karışık Quiz -->
@@ -76,9 +79,8 @@ export function renderEducationProgress(containerId) {
     goBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const targetId = e.target.getAttribute('data-target');
-            const menuLink = document.querySelector(`a[data-algo-id="${targetId}"]`);
-            if (menuLink) {
-                menuLink.click();
+            if (navigateTo) {
+                navigateTo(targetId);
             }
         });
     });
@@ -99,7 +101,7 @@ export function determineNextStep(learningStats, exerciseStats, quizStats, learn
     if (exerciseStats.totalAnswered < 20) {
         return {
             description: "Teorik bilgileri tamamladın. Şimdi pratik yapmak için Mini Alıştırmalara göz at.",
-            target: 'mini-exercises',
+            target: 'exercises',
             buttonText: 'Alıştırma Çöz'
         };
     }
@@ -116,8 +118,8 @@ export function determineNextStep(learningStats, exerciseStats, quizStats, learn
     // Rule 4: All used enough, recommend weak topic practice
     const weakTopic = getWeakestTopic(exerciseStats, true); // true = raw algo ID
     return {
-        description: `Tebrikler! Tüm eğitim aşamalarını aktif kullanıyorsun. Geliştirmek için şu konuya odaklanabilirsin: <strong>${formatAlgoName(weakTopic)}</strong>`,
-        target: weakTopic && weakTopic !== 'Bilinmiyor' ? weakTopic : 'mini-exercises', // Note: target might be the algo page itself or exercises
+        description: `Tebrikler! Tüm eğitim aşamalarını aktif kullanıyorsun. Geliştirmek için şu konuya odaklanabilirsin: <strong>${getAlgoName(weakTopic)}</strong>`,
+        target: weakTopic && weakTopic !== 'Bilinmiyor' ? weakTopic : 'exercises', // Note: target might be the algo page itself or exercises
         buttonText: 'Konuya Çalış'
     };
 }
@@ -127,10 +129,12 @@ function getWeakestTopic(exerciseStats, returnRawId = false) {
         return returnRawId ? null : "Veri Yok";
     }
 
+    const validTopics = new Set(EXERCISE_TEMPLATES.map(t => t.algoId));
     let weakest = null;
     let minRate = 1.1; // > 1
     
     for (const [algoId, stats] of Object.entries(exerciseStats.algoStats)) {
+        if (!validTopics.has(algoId)) continue;
         if (stats.total >= 3) { // Only consider if they answered at least 3
             const rate = stats.correct / stats.total;
             if (rate < minRate) {
@@ -143,6 +147,7 @@ function getWeakestTopic(exerciseStats, returnRawId = false) {
     if (!weakest) {
         // Fallback to lowest absolute correct if none have >= 3
         for (const [algoId, stats] of Object.entries(exerciseStats.algoStats)) {
+            if (!validTopics.has(algoId)) continue;
             const rate = stats.correct / (stats.total || 1);
             if (rate < minRate) {
                 minRate = rate;
@@ -152,23 +157,6 @@ function getWeakestTopic(exerciseStats, returnRawId = false) {
     }
 
     if (returnRawId) return weakest;
-    return formatAlgoName(weakest) || "Bilinmiyor";
-}
-
-function formatAlgoName(id) {
-    if (!id) return "";
-    const map = {
-        'caesar': 'Sezar',
-        'vigenere': 'Vigenère',
-        'rot13': 'ROT13',
-        'atbash': 'Atbash',
-        'affine': 'Affine',
-        'railfence': 'Rail Fence',
-        'columnar-transposition': 'Sütunlu',
-        'rsa': 'RSA',
-        'diffie-hellman': 'Diffie-Hellman',
-        'playfair': 'Playfair',
-        'hill': 'Hill'
-    };
-    return map[id] || id.charAt(0).toUpperCase() + id.slice(1);
+    if (!weakest) return "Bilinmiyor";
+    return getAlgoName(weakest) || "Bilinmiyor";
 }

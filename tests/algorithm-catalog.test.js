@@ -112,7 +112,7 @@ test('Algoritma Katalog Testleri', async (t) => {
 
         // Render calls
         assert.ok(appJsContent.includes("renderQuizUI('mixed-quiz-content')"), 'app.js içinde renderQuizUI çağrısı bulunmalı');
-        assert.ok(appJsContent.includes("renderEducationProgress('education-progress-content')"), 'app.js içinde renderEducationProgress çağrısı bulunmalı');
+        assert.ok(appJsContent.includes("renderEducationProgress('education-progress-content', { navigateTo })"), 'app.js içinde renderEducationProgress çağrısı bulunmalı');
 
         // Hiding generic sections
         const mixedQuizBlockRegex = /else if \(algoId === 'mixed-quiz'\) \{[\s\S]*?renderQuizUI/m;

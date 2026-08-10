@@ -31,7 +31,7 @@ describe('Education Progress Helper', () => {
 
         const nextStep = determineNextStep(learningStats, exerciseStats, quizStats, ['all']);
 
-        assert.strictEqual(nextStep.target, 'mini-exercises');
+        assert.strictEqual(nextStep.target, 'exercises');
         assert.strictEqual(nextStep.buttonText, 'Alıştırma Çöz');
     });
 
@@ -89,7 +89,7 @@ describe('Education Progress Helper', () => {
 
         const nextStep = determineNextStep(learningStats, exerciseStats, quizStats, ['all']);
 
-        assert.strictEqual(nextStep.target, 'mini-exercises');
+        assert.strictEqual(nextStep.target, 'exercises');
         assert.strictEqual(nextStep.buttonText, 'Konuya Çalış');
     });
 

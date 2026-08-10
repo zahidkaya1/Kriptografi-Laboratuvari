@@ -1,13 +1,14 @@
 import { createQuizSession } from './quiz-engine.js';
 import { recordQuizSession } from './quiz-progress.js';
 import { EXERCISE_TEMPLATES } from './exercises.js';
+import { getAlgoName } from '../utils/algorithm-catalog.js';
 
 let currentSession = null;
 
 export function renderQuizUI(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    
+
     // Initial render is the settings screen
     renderSettingsScreen(container);
 }
@@ -15,13 +16,13 @@ export function renderQuizUI(containerId) {
 function renderSettingsScreen(container) {
     // Extract available algorithms from templates for the filter
     const algoSet = new Set(EXERCISE_TEMPLATES.map(t => t.algoId));
-    const algoOptions = Array.from(algoSet).map(id => `<option value="${id}">${formatAlgoName(id)}</option>`).join('');
+    const algoOptions = Array.from(algoSet).map(id => `<option value="${id}">${getAlgoName(id)}</option>`).join('');
 
     container.innerHTML = `
         <div class="quiz-settings">
             <h3>Karışık Quiz Ayarları</h3>
             <p>Kendinizi farklı algoritmalarda test edin.</p>
-            
+
             <div class="setting-group">
                 <label for="quiz-count">Soru Sayısı:</label>
                 <select id="quiz-count">
@@ -60,10 +61,10 @@ function renderSettingsScreen(container) {
         const algorithm = document.getElementById('quiz-algo').value;
 
         const options = { count, difficulty, algorithm };
-        
+
         // Dry-run to see how many questions we can get
         const tempSession = createQuizSession(options);
-        
+
         if (tempSession.totalQuestions === 0) {
             const err = document.getElementById('quiz-settings-error');
             err.textContent = "Bu filtreler için uygun soru bulunamadı. Lütfen filtreleri değiştirin.";
@@ -95,7 +96,7 @@ function renderActiveQuizScreen(container) {
     const total = currentSession.totalQuestions;
 
     let inputHtml = '';
-    
+
     if (q.type === 'true-false') {
         inputHtml = `
             <div class="quiz-options">
@@ -120,11 +121,11 @@ function renderActiveQuizScreen(container) {
                 <span class="quiz-progress-text">Soru ${currentIndex + 1} / ${total}</span>
                 <span class="quiz-score-text">Puan: ${currentSession.score} / ${total}</span>
             </div>
-            
+
             <div class="quiz-question-card">
                 <h4>${q.title}</h4>
                 <p class="quiz-question-text">${q.text}</p>
-                
+
                 <div class="quiz-input-area">
                     ${inputHtml}
                 </div>
@@ -133,7 +134,7 @@ function renderActiveQuizScreen(container) {
                     <button id="btn-quiz-check" class="btn-primary">Cevabı Kontrol Et</button>
                     <button id="btn-quiz-next" class="btn-secondary" disabled>Sonraki Soru</button>
                 </div>
-                
+
                 <div id="quiz-feedback" class="quiz-feedback" style="display:none;"></div>
                 ${q.hint ? `<p class="quiz-hint" style="display:none;" id="quiz-hint-text"><strong>İpucu:</strong> ${q.hint}</p>` : ''}
                 <div id="quiz-explanation" class="quiz-explanation" style="display:none;"></div>
@@ -187,10 +188,10 @@ function renderActiveQuizScreen(container) {
         // Lock inputs
         const inputs = container.querySelectorAll('input');
         inputs.forEach(i => i.disabled = true);
-        
+
         btnCheck.disabled = true;
         btnNext.disabled = false;
-        
+
         // Update score display
         container.querySelector('.quiz-score-text').textContent = `Puan: ${currentSession.score} / ${total}`;
     });
@@ -210,7 +211,7 @@ function renderActiveQuizScreen(container) {
 
 function renderResultScreen(container) {
     const s = currentSession.getSummary();
-    
+
     let msg = "Tekrar çalışman faydalı olabilir.";
     if (s.percentage >= 90) msg = "Mükemmel!";
     else if (s.percentage >= 70) msg = "İyi!";
@@ -224,7 +225,7 @@ function renderResultScreen(container) {
                 <p><strong>Başarı:</strong> %${s.percentage}</p>
                 <p class="result-msg">${msg}</p>
             </div>
-            
+
             <div class="result-actions">
                 <button id="btn-quiz-retry" class="btn-primary">Yeni Quiz</button>
                 <!-- SPA navigation handled by external event listeners, just assigning classes/ids for app.js -->
@@ -252,21 +253,4 @@ function renderResultScreen(container) {
             }
         });
     });
-}
-
-function formatAlgoName(id) {
-    const map = {
-        'caesar': 'Sezar',
-        'vigenere': 'Vigenère',
-        'rot13': 'ROT13',
-        'atbash': 'Atbash',
-        'affine': 'Affine',
-        'railfence': 'Rail Fence',
-        'columnar': 'Sütunlu',
-        'rsa': 'RSA',
-        'diffie-hellman': 'Diffie-Hellman',
-        'playfair': 'Playfair',
-        'hill': 'Hill'
-    };
-    return map[id] || id;
 }

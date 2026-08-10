@@ -2,8 +2,11 @@ import { LEARNING_PATH, LEVELS } from './learning-path.js';
 import { markCompleted, markUncompleted, isCompleted, calculateProgressStats } from './learning-progress.js';
 
 let currentFilter = 'all';
+let navigateCallback = null;
 
-export function renderLearningUI() {
+export function renderLearningUI(options = {}) {
+    if (options.navigateTo) navigateCallback = options.navigateTo;
+
     const container = document.getElementById('guided-learning-content');
     if (!container) return; // Will be rendered inside guided-learning-form
 
@@ -20,7 +23,7 @@ export function renderLearningUI() {
                 <div class="progress-text">
                     ${stats.completed} / ${stats.total} ders tamamlandı (%${stats.percentage})
                 </div>
-                
+
                 <div class="level-stats">
                     ${LEVELS.map(level => `
                         <div class="level-stat-item">
@@ -32,8 +35,8 @@ export function renderLearningUI() {
             </div>
 
             <div class="next-lesson-section">
-                ${stats.isAllCompleted ? 
-                    `<div class="all-completed-msg">Tüm öğrenme yolu tamamlandı! 🎉</div>` : 
+                ${stats.isAllCompleted ?
+                    `<div class="all-completed-msg">Tüm öğrenme yolu tamamlandı! 🎉</div>` :
                     `<div class="next-lesson-card">
                         <h4>Önerilen Sonraki Ders</h4>
                         <div class="next-title">${stats.nextLesson.title}</div>
@@ -72,9 +75,11 @@ export function renderLearningUI() {
     container.querySelectorAll('.open-lab-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const targetId = e.target.getAttribute('data-target');
-            const targetBtn = document.querySelector(`.algo-card-btn[data-target="${targetId}"]`);
-            if (targetBtn) {
-                targetBtn.click();
+            if (navigateCallback) {
+                navigateCallback(targetId);
+            } else {
+                const targetBtn = document.querySelector(`.algo-card-btn[data-target="${targetId}"]`);
+                if (targetBtn) targetBtn.click();
             }
         });
     });
@@ -83,7 +88,7 @@ export function renderLearningUI() {
 function renderCards(filter) {
     const container = document.getElementById('learning-cards-container');
     if (!container) return;
-    
+
     let filteredPath = LEARNING_PATH;
     if (filter === 'beginner' || filter === 'intermediate' || filter === 'advanced') {
         filteredPath = LEARNING_PATH.filter(l => l.level === filter);
@@ -104,7 +109,7 @@ function renderCards(filter) {
                     <span class="lesson-time">⏱ ${lesson.estimatedTime}</span>
                 </div>
                 <h4 class="lesson-title">${lesson.title}</h4>
-                
+
                 <div class="lesson-objectives">
                     <strong>Bu derste ne öğreneceksin?</strong>
                     <ul>
@@ -136,9 +141,11 @@ function renderCards(filter) {
     container.querySelectorAll('.lesson-action-btn[data-action="open-lab"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const targetId = e.target.getAttribute('data-target');
-            const targetBtn = document.querySelector(`.algo-card-btn[data-target="${targetId}"]`);
-            if (targetBtn) {
-                targetBtn.click();
+            if (navigateCallback) {
+                navigateCallback(targetId);
+            } else {
+                const targetBtn = document.querySelector(`.algo-card-btn[data-target="${targetId}"]`);
+                if (targetBtn) targetBtn.click();
             }
         });
     });
@@ -146,21 +153,26 @@ function renderCards(filter) {
     container.querySelectorAll('.lesson-action-btn[data-action="open-exercises"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const targetId = e.target.getAttribute('data-target');
-            const targetBtn = document.querySelector(`.algo-card-btn[data-target="exercises"]`);
-            if (targetBtn) {
-                targetBtn.click();
-                // Set the category filter if it exists
+            if (navigateCallback) {
+                navigateCallback('exercises');
+            } else {
+                const targetBtn = document.querySelector(`.algo-card-btn[data-target="exercises"]`);
+                if (targetBtn) targetBtn.click();
+            }
+
+            // Set the category filter if it exists
+            setTimeout(() => {
                 const catFilter = document.getElementById('exercise-category');
                 if (catFilter) {
                     let catVal = targetId;
                     if (['freq-analysis', 'caesar-breaker'].includes(targetId)) catVal = 'analysis';
-                    
+
                     if (Array.from(catFilter.options).some(opt => opt.value === catVal)) {
                         catFilter.value = catVal;
                         catFilter.dispatchEvent(new Event('change'));
                     }
                 }
-            }
+            }, 50); // slight delay to allow UI render
         });
     });
 
@@ -173,14 +185,14 @@ function renderCards(filter) {
                 markCompleted(lessonId);
             }
             // Re-render UI to update stats and buttons
-            renderLearningUI(); 
-            // Note: Since renderLearningUI re-renders everything, it will reset the filter to 'all' if we don't save state. 
-            // But we have `currentFilter` scoped to `renderLearningUI` which is not global. 
+            renderLearningUI();
+            // Note: Since renderLearningUI re-renders everything, it will reset the filter to 'all' if we don't save state.
+            // But we have `currentFilter` scoped to `renderLearningUI` which is not global.
             // We should ideally keep the filter state, let's fix it by pulling filter logic out or just clicking the active filter again.
             // A simple fix is to just let it re-render, but wait, let's use a global or module-scoped state for filter if needed.
         });
     });
-    
+
     // Quick fix: restore filter state
     const filterBtn = document.querySelector(`.learning-filters .filter-btn[data-filter="${currentFilter}"]`);
     if (filterBtn) {

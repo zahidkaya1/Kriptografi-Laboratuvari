@@ -27,6 +27,14 @@ import { ALGORITHM_CATALOG } from './utils/algorithm-catalog.js';
 
 let currentAlgorithm = 'rsa';
 
+function navigateTo(targetId) {
+    const btn = document.querySelector(`.algo-card-btn[data-target="${targetId}"]`);
+    if (btn) {
+        btn.click();
+        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
 // Tab Değiştirme
 function handleTabClick(e) {
     if (!e.target.classList.contains('algo-card-btn')) return;
@@ -88,7 +96,7 @@ function updatePanelVisibility(algoId) {
         if(actions) actions.style.display = 'none';
         if(outputSection) outputSection.style.display = 'none';
         if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
-        renderLearningUI();
+        renderLearningUI({ navigateTo });
     } else if (algoId === 'mixed-quiz') {
         if(actions) actions.style.display = 'none';
         if(outputSection) outputSection.style.display = 'none';
@@ -98,7 +106,7 @@ function updatePanelVisibility(algoId) {
         if(actions) actions.style.display = 'none';
         if(outputSection) outputSection.style.display = 'none';
         if(contentWrapper) contentWrapper.style.gridTemplateColumns = '1fr';
-        renderEducationProgress('education-progress-content');
+        renderEducationProgress('education-progress-content', { navigateTo });
     } else if (algoId === 'algo-compare') {
         if(btnExample) btnExample.textContent = 'Örnek Karşılaştırmayı Doldur';
         if(btnCalculate) btnCalculate.textContent = 'Karşılaştır';
