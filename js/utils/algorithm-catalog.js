@@ -348,7 +348,7 @@ export function getAlgoName(id) {
         'atbash': 'Atbash',
         'affine': 'Affine',
         'railfence': 'Rail Fence',
-        'columnar': 'Sütunlu',
+        'columnar': 'Sütunlu Transpozisyon',
         'columnar-transposition': 'Sütunlu Transpozisyon',
         'rsa': 'RSA',
         'diffie-hellman': 'Diffie-Hellman',
