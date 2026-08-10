@@ -1,5 +1,31 @@
 # Değişiklik Günlüğü
 
+## [1.4.0] - 2026-08-10
+
+### Eklendi
+- 17 derslik Rehberli Öğrenme
+- 3 seviyeli öğrenme yolu
+- Karışık Quiz
+- 255 soruluk quiz havuzu
+- 17 quiz konusu
+- dinamik quiz soru sayısı
+- Eğitim İlerlemesi
+- quiz progress sistemi
+
+### İyileştirildi
+- eğitim ekranları arası SPA navigasyonu
+- kullanıcı dostu konu isimleri
+- quiz question runtime contract
+- true/false Türkçe feedback
+- eğitim ekranlarının kullanıcı deneyimi
+
+### Düzeltildi
+- Karışık Quiz ve Eğitim İlerlemesi boş ekran sorunu
+- quiz içinde undefined soru sorunu
+- 1/5 sonrası oturumun erken bitmesi
+- ham internal ID gösterimi
+- çalışmayan eğitim navigasyon butonları
+
 ## [1.3.0] - 2026-08-09
 
 ### Eklendi (Added)
