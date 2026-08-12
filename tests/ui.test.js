@@ -139,3 +139,65 @@ test('UI Input Security Regression Testleri', async (t) => {
         assert.strictEqual(htmlOutput.includes('&lt;script&gt;'), true, 'resultChar başarılı şekilde escape edildi');
     });
 });
+
+test('Algorithm Comparison UI Render Testleri', async (t) => {
+    const { renderComparisonTable } = await import('../js/utils/ui.js');
+
+    // Yaratılan wrapper'ı yakalamak için global array
+    let createdElements = [];
+    const originalCreateElement = global.document.createElement;
+
+    global.document.createElement = (tag) => {
+        const el = {
+            tagName: tag.toUpperCase(),
+            innerHTML: '',
+            textContent: '',
+            className: '',
+            style: {},
+            children: [],
+            appendChild: function(child) {
+                this.children.push(child);
+            }
+        };
+        createdElements.push(el);
+        return el;
+    };
+
+    await t.test('renderComparisonTable - Mobile view (2 algorithms)', () => {
+        createdElements = [];
+
+        const headers = ["Sezar", "RSA"];
+        const rows = [
+            { label: "Temel Tür", values: ["Simetrik", "Asimetrik"] },
+            { label: "Güvenlik", values: ["Zayıf", "Güçlü"] }
+        ];
+
+        renderComparisonTable(headers, rows);
+
+        // renderComparisonTable, en dış wrapper'ı createElement('div') ile yaratır ve className'i 'comparison-table-wrapper' olur.
+        const wrapper = createdElements.find(el => el.className === 'comparison-table-wrapper');
+        assert.ok(wrapper, "Wrapper oluşturulmalı");
+
+        const mobileView = wrapper.children.find(c => c.className === 'comparison-mobile-view');
+        assert.ok(mobileView, "Mobile view wrapper oluşturulmalı");
+
+        const blocks = mobileView.children.filter(c => c.className === 'comparison-mobile-block');
+        assert.strictEqual(blocks.length, 2, "Her özellik için bir blok oluşturulmalı (2 özellik)");
+
+        // İlk bloğun yapısı
+        const firstBlock = blocks[0];
+        const title = firstBlock.children.find(c => c.className === 'mobile-feature-title');
+        assert.strictEqual(title.textContent, 'Temel Tür', "Feature adı h4 olarak eklenmeli");
+
+        const algoRows = firstBlock.children.filter(c => c.className === 'mobile-algo-row');
+        assert.strictEqual(algoRows.length, 2, "Her algoritma için bir row olmalı (2 algoritma)");
+
+        assert.strictEqual(algoRows[0].children[0].textContent, "Sezar");
+        assert.strictEqual(algoRows[0].children[1].textContent, "Simetrik");
+        assert.strictEqual(algoRows[1].children[0].textContent, "RSA");
+        assert.strictEqual(algoRows[1].children[1].textContent, "Asimetrik");
+    });
+
+    // Restore global
+    global.document.createElement = originalCreateElement;
+});

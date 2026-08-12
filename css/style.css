@@ -603,6 +603,65 @@ button {
     white-space: nowrap;
 }
 
+/* --- Algoritma Karşılaştırma Mobil Görünüm --- */
+.comparison-mobile-view {
+    display: none;
+    margin-top: 1rem;
+}
+
+.comparison-mobile-block {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.mobile-feature-title {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.mobile-algo-row {
+    margin-bottom: 0.75rem;
+}
+
+.mobile-algo-row:last-child {
+    margin-bottom: 0;
+}
+
+.mobile-algo-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mobile-algo-value {
+    font-size: 0.95rem;
+    word-break: break-word;
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .comparison-table {
+        display: none;
+    }
+    .comparison-table-wrapper {
+        border: none;
+        overflow-x: visible;
+        margin-top: 0;
+    }
+    .comparison-mobile-view {
+        display: block;
+    }
+}
+
 /* --- Algoritma Karşılaştırma Ekstra --- */
 .compare-checkbox-grid {
     display: grid;
