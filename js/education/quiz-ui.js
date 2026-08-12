@@ -106,10 +106,10 @@ function renderSettingsScreen(container) {
         }
 
         if (tempSession.totalQuestions < count) {
-            // we can auto-adjust or warn, the requirements say:
-            // "mevcut uygun soru sayısıyla quiz başlatılabilir, kullanıcıya bunun nedeni açıkça bildirilmeli"
-            // For simplicity, we just start it and let them know the count is adjusted.
-            alert(`İstenen sayıda soru bulunamadı. Quiz ${tempSession.totalQuestions} soru ile başlatılıyor.`);
+            // alert instead: display it in the quiz container or before starting
+            // To not interrupt flow aggressively but avoid alert:
+            // We can just set a flag to show a warning inside the quiz screen.
+            tempSession._warningMessage = `İstenen sayıda soru bulunamadı. Quiz ${tempSession.totalQuestions} soru ile başlatıldı.`;
         }
 
         currentSession = tempSession;
@@ -150,6 +150,7 @@ function renderActiveQuizScreen(container) {
 
     container.innerHTML = `
         <div class="quiz-active">
+            ${currentSession._warningMessage ? `<div class="message-area error" style="margin-bottom: 1rem;">${currentSession._warningMessage}</div>` : ''}
             <div class="quiz-header">
                 <span class="quiz-progress-text">Soru ${currentIndex + 1} / ${total}</span>
                 <span class="quiz-score-text">Puan: ${currentSession.score} / ${total}</span>
@@ -184,8 +185,9 @@ function renderActiveQuizScreen(container) {
 
     btnCheck.addEventListener('click', () => {
         let answerStr = '';
-        if (q.type === 'text' || q.type === 'number') { // some are text
-            answerStr = document.getElementById('quiz-answer-text').value;
+        const textInput = document.getElementById('quiz-answer-text');
+        if (textInput) {
+            answerStr = textInput.value;
         } else {
             const checked = document.querySelector('input[name="quiz-answer"]:checked');
             if (checked) {
@@ -194,7 +196,9 @@ function renderActiveQuizScreen(container) {
         }
 
         if (!answerStr || answerStr.trim() === '') {
-            alert("Lütfen bir cevap girin veya seçin.");
+            feedbackEl.innerHTML = `<span class="incorrect-text">Lütfen bir cevap girin veya seçin.</span>`;
+            feedbackEl.className = 'quiz-feedback error';
+            feedbackEl.style.display = 'block';
             return;
         }
 

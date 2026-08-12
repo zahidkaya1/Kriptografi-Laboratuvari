@@ -597,6 +597,22 @@ button {
     white-space: nowrap;
 }
 
+/* --- Algoritma Karşılaştırma Ekstra --- */
+.compare-checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-color);
+}
+.compare-checkbox-grid * {
+    min-width: 0;
+}
+
 /* --- Mini Alıştırmalar --- */
 .exercise-option {
     display: flex;
@@ -1350,8 +1366,13 @@ button {
     h2 {
         font-size: 1.15rem;
     }
+    .compare-checkbox-grid {
+        grid-template-columns: 1fr;
+    }
 }
- / *   A c c e s s i b i l i t y   F o c u s   * / 
- : f o c u s - v i s i b l e   {   o u t l i n e :   3 p x   s o l i d   v a r ( - - p r i m a r y - c o l o r ) ;   o u t l i n e - o f f s e t :   2 p x ;   } 
-  
- 
+
+/* Accessibility Focus */
+:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
