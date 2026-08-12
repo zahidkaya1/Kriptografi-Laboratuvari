@@ -6,6 +6,16 @@ const messageArea = document.getElementById('message-area');
 const resultOutput = document.getElementById('result-output');
 const stepsOutput = document.getElementById('steps-output');
 
+export function escapeHTML(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 export function showMessage(msg, type = "error") {
     messageArea.textContent = msg;
     messageArea.className = `message-area ${type}`;
@@ -28,7 +38,7 @@ export function clearResult() {
 
 export function renderSteps(steps) {
     stepsOutput.innerHTML = '';
-    
+
     if (!steps || steps.length === 0) {
         stepsOutput.innerHTML = '<p class="text-muted">Adım bulunamadı.</p>';
         return;
@@ -51,7 +61,7 @@ export function renderVigenereSteps(steps, alphaLen) {
 
     const table = document.createElement('table');
     table.className = 'step-table';
-    
+
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
@@ -69,12 +79,12 @@ export function renderVigenereSteps(steps, alphaLen) {
     steps.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${s.textChar}</td>
-            <td>${s.keyChar}</td>
+            <td>${escapeHTML(s.textChar)}</td>
+            <td>${escapeHTML(s.keyChar)}</td>
             <td>${s.textIdx}</td>
             <td>${s.keyIdx}</td>
             <td>${s.operation}</td>
-            <td><strong>${s.resultChar}</strong></td>
+            <td><strong>${escapeHTML(s.resultChar)}</strong></td>
         `;
         tbody.appendChild(tr);
     });
@@ -92,7 +102,7 @@ export function renderCaesarSteps(steps) {
 
     const table = document.createElement('table');
     table.className = 'step-table';
-    
+
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
@@ -110,12 +120,12 @@ export function renderCaesarSteps(steps) {
     steps.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${s.textChar}</td>
+            <td>${escapeHTML(s.textChar)}</td>
             <td>${s.textIdx !== undefined ? s.textIdx : '-'}</td>
             <td>${s.shift !== undefined ? s.shift : '-'}</td>
             <td>${s.operation || '-'}</td>
             <td>${s.resultIdx !== undefined ? s.resultIdx : '-'}</td>
-            <td><strong>${s.resultChar}</strong></td>
+            <td><strong>${escapeHTML(s.resultChar)}</strong></td>
         `;
         tbody.appendChild(tr);
     });
@@ -133,7 +143,7 @@ export function renderROT13Steps(steps) {
 
     const table = document.createElement('table');
     table.className = 'step-table';
-    
+
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
@@ -150,11 +160,11 @@ export function renderROT13Steps(steps) {
     steps.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${s.textChar}</td>
+            <td>${escapeHTML(s.textChar)}</td>
             <td>${s.textIdx !== undefined ? s.textIdx : '-'}</td>
             <td>13</td>
             <td>${s.resultIdx !== undefined ? s.resultIdx : '-'}</td>
-            <td><strong>${s.resultChar}</strong></td>
+            <td><strong>${escapeHTML(s.resultChar)}</strong></td>
         `;
         tbody.appendChild(tr);
     });
@@ -165,7 +175,7 @@ export function renderROT13Steps(steps) {
 
 export function renderAtbashSteps(steps, normalAlphabet, reversedAlphabet) {
     stepsOutput.innerHTML = '';
-    
+
     const headerDiv = document.createElement('div');
     headerDiv.style.marginBottom = "1rem";
     headerDiv.style.fontFamily = "monospace";
@@ -186,7 +196,7 @@ export function renderAtbashSteps(steps, normalAlphabet, reversedAlphabet) {
 
     const table = document.createElement('table');
     table.className = 'step-table';
-    
+
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
@@ -200,8 +210,8 @@ export function renderAtbashSteps(steps, normalAlphabet, reversedAlphabet) {
     steps.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${s.textChar}</td>
-            <td><strong>${s.resultChar}</strong></td>
+            <td>${escapeHTML(s.textChar)}</td>
+            <td><strong>${escapeHTML(s.resultChar)}</strong></td>
         `;
         tbody.appendChild(tr);
     });
@@ -213,7 +223,7 @@ export function renderAtbashSteps(steps, normalAlphabet, reversedAlphabet) {
 
 export function renderAffineSteps(steps, m, gcdVal, aInv) {
     stepsOutput.innerHTML = '';
-    
+
     const headerDiv = document.createElement('div');
     headerDiv.style.marginBottom = "1rem";
     headerDiv.style.fontFamily = "monospace";
@@ -235,7 +245,7 @@ export function renderAffineSteps(steps, m, gcdVal, aInv) {
 
     const table = document.createElement('table');
     table.className = 'step-table';
-    
+
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
@@ -251,30 +261,30 @@ export function renderAffineSteps(steps, m, gcdVal, aInv) {
     const tbody = document.createElement('tbody');
     steps.forEach(s => {
         const tr = document.createElement('tr');
-        
+
         const tdChar = document.createElement('td');
         tdChar.textContent = s.textChar;
-        
+
         const tdIdx = document.createElement('td');
         tdIdx.textContent = s.textIdx !== undefined ? s.textIdx : '-';
-        
+
         const tdOp = document.createElement('td');
         tdOp.textContent = s.operation || '-';
-        
+
         const tdResIdx = document.createElement('td');
         tdResIdx.textContent = s.resultIdx !== undefined ? s.resultIdx : '-';
-        
+
         const tdResChar = document.createElement('td');
         const strong = document.createElement('strong');
         strong.textContent = s.resultChar;
         tdResChar.appendChild(strong);
-        
+
         tr.appendChild(tdChar);
         tr.appendChild(tdIdx);
         tr.appendChild(tdOp);
         tr.appendChild(tdResIdx);
         tr.appendChild(tdResChar);
-        
+
         tbody.appendChild(tr);
     });
     table.appendChild(tbody);
@@ -284,7 +294,7 @@ export function renderAffineSteps(steps, m, gcdVal, aInv) {
 
 export function renderRailFenceMatrix(matrix, rails) {
     stepsOutput.innerHTML = '';
-    
+
     const info = document.createElement('p');
     info.className = 'text-muted';
     info.style.marginBottom = "1rem";
@@ -295,15 +305,15 @@ export function renderRailFenceMatrix(matrix, rails) {
     table.className = 'step-table';
     table.style.fontFamily = "monospace";
     table.style.fontSize = "1.1rem";
-    
+
     const tbody = document.createElement('tbody');
-    
+
     for (let r = 0; r < rails; r++) {
         const tr = document.createElement('tr');
         for (let c = 0; c < matrix[r].length; c++) {
             const td = document.createElement('td');
             td.style.padding = "0.25rem 0.5rem";
-            
+
             const cellVal = matrix[r][c];
             if (cellVal === null || cellVal === '') {
                 td.textContent = '\u00B7';
@@ -318,14 +328,14 @@ export function renderRailFenceMatrix(matrix, rails) {
         }
         tbody.appendChild(tr);
     }
-    
+
     table.appendChild(tbody);
     stepsOutput.appendChild(table);
 }
 
 export function renderColumnarGrid(matrix, keyInfo) {
     stepsOutput.innerHTML = '';
-    
+
     const info = document.createElement('p');
     info.className = 'text-muted';
     info.style.marginBottom = "1rem";
@@ -338,32 +348,32 @@ export function renderColumnarGrid(matrix, keyInfo) {
     table.className = 'step-table';
     table.style.fontFamily = "monospace";
     table.style.fontSize = "1rem";
-    
+
     const thead = document.createElement('thead');
-    
+
     // Satır 1: Anahtar harfleri
     const trKey = document.createElement('tr');
     // Satır 2: Okuma sırası
     const trOrder = document.createElement('tr');
-    
+
     keyInfo.forEach(k => {
         const thKey = document.createElement('th');
         thKey.textContent = k.char;
         trKey.appendChild(thKey);
-        
+
         const thOrder = document.createElement('th');
         thOrder.textContent = k.order + ".";
         thOrder.style.backgroundColor = "var(--bg-color)";
         thOrder.style.color = "var(--primary-color)";
         trOrder.appendChild(thOrder);
     });
-    
+
     thead.appendChild(trKey);
     thead.appendChild(trOrder);
     table.appendChild(thead);
 
     const tbody = document.createElement('tbody');
-    
+
     for (let r = 0; r < matrix.length; r++) {
         const tr = document.createElement('tr');
         for (let c = 0; c < matrix[r].length; c++) {
@@ -380,7 +390,7 @@ export function renderColumnarGrid(matrix, keyInfo) {
         }
         tbody.appendChild(tr);
     }
-    
+
     table.appendChild(tbody);
     stepsOutput.appendChild(table);
 }
@@ -394,9 +404,9 @@ export function copyToClipboard(text, btnElement = null, successText = 'Kopyalan
         showMessage("Kopyalanacak sonuç bulunamadı.", "error");
         return;
     }
-    
+
     const btn = btnElement || document.getElementById('btn-copy');
-    
+
     if (btn && !btn.dataset.originalHtml) {
         btn.dataset.originalHtml = btn.innerHTML;
     }
@@ -413,7 +423,7 @@ export function copyToClipboard(text, btnElement = null, successText = 'Kopyalan
 
 export function setCopyButtonState(button, activeState = 'Kopyalandı', defaultHtml = null) {
     if (!button) return;
-    
+
     if (!button.dataset.originalHtml) {
         button.dataset.originalHtml = defaultHtml || button.innerHTML;
     }
@@ -442,7 +452,7 @@ export function renderFrequencyAnalysis(result, sortBy) {
     const { totalCharacters, totalLetters, distinctLetters, mostFrequent, leastFrequent, frequencyOrder, alphabetOrder } = result;
 
     resultOutput.innerHTML = '';
-    
+
     // Summary Info
     const summaryDiv = document.createElement('div');
     summaryDiv.style.marginBottom = '1rem';
@@ -463,7 +473,7 @@ export function renderFrequencyAnalysis(result, sortBy) {
     listToRender.forEach(item => {
         const row = document.createElement('div');
         row.className = 'bar-row';
-        
+
         const label = document.createElement('div');
         label.className = 'bar-label';
         label.textContent = item.char;
@@ -505,7 +515,7 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
     }
 
     let listToRender = [...result.candidates];
-    
+
     if (sortBy === 'score') {
         listToRender.sort((a, b) => {
             if (isNaN(a.score) && isNaN(b.score)) return a.shift - b.shift;
@@ -524,10 +534,10 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
 
         const header = document.createElement('div');
         header.className = 'candidate-header';
-        
+
         const titleInfo = document.createElement('strong');
         titleInfo.textContent = `Kaydırma: ${cand.shift}` + (sortBy === 'score' && index === 0 && !isNaN(cand.score) ? ' (En Olası)' : '');
-        
+
         const scoreInfo = document.createElement('span');
         scoreInfo.className = 'candidate-score';
         scoreInfo.textContent = `Puan: ${isNaN(cand.score) ? 'Hesaplanamadı' : cand.score.toFixed(2)}`;
@@ -572,7 +582,7 @@ export function renderCaesarCandidates(result, sortBy, openCaesarCallback) {
 
 export function renderComparisonTable(headers, rows, openToolCallback) {
     resultOutput.innerHTML = '';
-    
+
     if (!headers || headers.length < 2) {
         resultOutput.innerHTML = '<p class="text-muted">Karşılaştırma yapmak için yeterli algoritma seçilmedi.</p>';
         return;
@@ -580,21 +590,21 @@ export function renderComparisonTable(headers, rows, openToolCallback) {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'comparison-table-wrapper';
-    
+
     const table = document.createElement('table');
     table.className = 'comparison-table';
-    
+
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
-    
+
     const thEmpty = document.createElement('th');
     thEmpty.textContent = 'Özellik \\ Algoritma';
     headerRow.appendChild(thEmpty);
-    
+
     headers.forEach(h => {
         const th = document.createElement('th');
         th.style.textAlign = 'center';
-        
+
         const nameDiv = document.createElement('div');
         nameDiv.textContent = h;
         nameDiv.style.marginBottom = '0.5rem';
@@ -609,33 +619,68 @@ export function renderComparisonTable(headers, rows, openToolCallback) {
             btn.addEventListener('click', () => openToolCallback(h));
             th.appendChild(btn);
         }
-        
+
         headerRow.appendChild(th);
     });
-    
+
     thead.appendChild(headerRow);
     table.appendChild(thead);
-    
+
     const tbody = document.createElement('tbody');
     rows.forEach(row => {
         const tr = document.createElement('tr');
-        
+
         const tdLabel = document.createElement('td');
         tdLabel.className = 'feature-name';
         tdLabel.textContent = row.label;
         tr.appendChild(tdLabel);
-        
+
         row.values.forEach(val => {
             const td = document.createElement('td');
             td.textContent = val;
             tr.appendChild(td);
         });
-        
+
         tbody.appendChild(tr);
     });
-    
+
     table.appendChild(tbody);
     wrapper.appendChild(table);
+
+    // --- Mobil Görünüm (Stacked Cards) ---
+    const mobileWrapper = document.createElement('div');
+    mobileWrapper.className = 'comparison-mobile-view';
+
+    rows.forEach(row => {
+        const block = document.createElement('div');
+        block.className = 'comparison-mobile-block';
+
+        const featureTitle = document.createElement('h4');
+        featureTitle.textContent = row.label;
+        featureTitle.className = 'mobile-feature-title';
+        block.appendChild(featureTitle);
+
+        headers.forEach((h, idx) => {
+            const algoRow = document.createElement('div');
+            algoRow.className = 'mobile-algo-row';
+
+            const algoName = document.createElement('div');
+            algoName.className = 'mobile-algo-name';
+            algoName.textContent = h;
+
+            const algoValue = document.createElement('div');
+            algoValue.className = 'mobile-algo-value';
+            algoValue.textContent = row.values[idx];
+
+            algoRow.appendChild(algoName);
+            algoRow.appendChild(algoValue);
+            block.appendChild(algoRow);
+        });
+
+        mobileWrapper.appendChild(block);
+    });
+
+    wrapper.appendChild(mobileWrapper);
     resultOutput.appendChild(wrapper);
 }
 
@@ -643,9 +688,9 @@ export function renderComparisonTable(headers, rows, openToolCallback) {
 export function renderExerciseForm(exercise, containerId) {
     const container = document.getElementById(containerId);
     if (!container || !exercise) return;
-    
+
     container.innerHTML = '';
-    
+
     if (exercise.type === 'text') {
         const input = document.createElement('input');
         input.type = 'text';
@@ -653,23 +698,23 @@ export function renderExerciseForm(exercise, containerId) {
         input.placeholder = 'Cevabınızı buraya yazın...';
         input.style.width = '100%';
         container.appendChild(input);
-    } 
+    }
     else if (exercise.type === 'multiple-choice' || exercise.type === 'true-false') {
         const options = exercise.type === 'true-false' ? ['Doğru', 'Yanlış'] : exercise.options;
         const vals = exercise.type === 'true-false' ? ['true', 'false'] : exercise.options;
-        
+
         options.forEach((opt, idx) => {
             const label = document.createElement('label');
             label.className = 'exercise-option';
-            
+
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = 'ex-answer';
             radio.value = vals[idx];
-            
+
             const text = document.createElement('span');
             text.textContent = opt;
-            
+
             label.appendChild(radio);
             label.appendChild(text);
             container.appendChild(label);

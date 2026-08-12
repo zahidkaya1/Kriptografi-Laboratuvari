@@ -23,7 +23,7 @@ import { renderEducationProgress } from './education/education-ui.js';
 import * as UI from './utils/ui.js';
 import { searchAlgorithms } from './utils/search.js';
 import { getFavorites, toggleFavorite, isFavorite } from './utils/favorites.js';
-import { ALGORITHM_CATALOG } from './utils/algorithm-catalog.js';
+import { ALGORITHM_CATALOG, getAlgoName } from './utils/algorithm-catalog.js';
 
 let currentAlgorithm = 'rsa';
 
@@ -810,8 +810,16 @@ function renderNewExercise() {
     }
     
     area.style.display = 'block';
-    document.getElementById('ex-title').textContent = `${currentExercise.title} (${currentExercise.difficulty.toUpperCase()})`;
-    document.getElementById('ex-text').textContent = currentExercise.text;
+    
+    let exTitle = currentExercise.title;
+    if (!exTitle) {
+        exTitle = getAlgoName(currentExercise.algoId);
+    }
+    const diffMap = { 'easy': 'Kolay', 'medium': 'Orta', 'hard': 'Zor' };
+    const diffText = diffMap[currentExercise.difficulty] || currentExercise.difficulty;
+    
+    document.getElementById('ex-title').textContent = `${exTitle} (${diffText})`;
+    document.getElementById('ex-text').textContent = currentExercise.question || currentExercise.text || '';
     
     UI.renderExerciseForm(currentExercise, 'ex-input-container');
     
@@ -904,11 +912,24 @@ document.getElementById('btn-ex-next')?.addEventListener('click', () => {
     renderNewExercise();
 });
 
-document.getElementById('btn-ex-reset-progress')?.addEventListener('click', () => {
-    if(confirm("Tüm alıştırma istatistiklerinizi sıfırlamak istediğinize emin misiniz? (Favorileriniz ve diğer ayarlarınız silinmez.)")) {
+document.getElementById('btn-ex-reset-progress')?.addEventListener('click', (e) => {
+    const btn = e.target;
+    if (btn.dataset.confirm === 'true') {
         resetProgress();
         loadExerciseProgress();
         UI.showMessage("İlerlemeniz sıfırlandı.", "success");
+        btn.textContent = 'İlerlemeyi Sıfırla';
+        btn.dataset.confirm = 'false';
+    } else {
+        btn.dataset.originalText = btn.textContent;
+        btn.textContent = 'Emin misiniz? (Tıklayın)';
+        btn.dataset.confirm = 'true';
+        setTimeout(() => {
+            if (btn.dataset.confirm === 'true') {
+                btn.textContent = btn.dataset.originalText || 'İlerlemeyi Sıfırla';
+                btn.dataset.confirm = 'false';
+            }
+        }, 3000);
     }
 });
 

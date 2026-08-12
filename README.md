@@ -1,8 +1,8 @@
 # Kriptografi Laboratuvarı
 
-Modern ve klasik kriptografi algoritmalarını tarayıcı üzerinde eğitim amaçlı deneyimlemenizi sağlayan, JavaScript tabanlı açık kaynaklı bir uygulamadır. v1.4.0 ile birlikte uygulamanın ana odağı **Eğitim Deneyimi** olarak güncellenmiş ve yepyeni interaktif öğrenme araçları eklenmiştir.
+Modern ve klasik kriptografi algoritmalarını tarayıcı üzerinde eğitim amaçlı deneyimlemenizi sağlayan, JavaScript tabanlı açık kaynaklı bir uygulamadır. v1.5.0 ile birlikte proje **Final / Feature Complete (Özellik Tamamlanmış)** durumuna ulaşmış olup, kapsamlı bir eğitim deneyimi ve güvenilir araçlar sunmaktadır.
 
-**Güncel Sürüm:** `v1.4.0`
+**Güncel Sürüm:** `v1.5.0`
 **Canlı Demo:** [zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)
 **GitHub Deposu:** [github.com/zahidkaya1/Kriptografi-Laboratuvari](https://github.com/zahidkaya1/Kriptografi-Laboratuvari)
 
@@ -40,7 +40,14 @@ Kriptografi teorisi hakkında interaktif soru-cevap aracıdır. Doğruluk oranı
 Rehberli Öğrenme, Mini Alıştırmalar ve Karışık Quiz istatistiklerinizi tek bir ekranda görebileceğiniz özet panosudur. Size otomatik olarak sonraki adımı önerir.
 
 > [!NOTE]
-> **Gizlilik ve Veri Saklama:** Eğitim ilerlemeniz, favorileriniz ve ayarlarınız tarayıcınızın Yerel Depolamasında (LocalStorage) saklanır. Ham quiz cevaplarınız veya yazdığınız gizli metinler asla kaydedilmez, yalnızca ilerleme yüzdesi ve doğru/yanlış sayıları gibi özet istatistikler tutulur.
+> **Gizlilik ve Veri Saklama (Privacy):** Eğitim ilerlemeniz, favorileriniz ve ayarlarınız tamamen tarayıcınızın Yerel Depolamasında (LocalStorage) saklanır. Ham quiz cevaplarınız veya işlem yaptığınız şifreli metinler asla kaydedilmez veya bir sunucuya gönderilmez. Sadece ilerleme yüzdesi ve doğru/yanlış sayıları gibi özet istatistikler tutulur (Local-first yaklaşım).
+
+## 🛡️ v1.5.0 Kalite Özellikleri
+- **Mobil Uyum (Responsive):** 375px'den geniş ekranlara kadar kayıpsız çalışan form ve kart düzenleri.
+- **Erişilebilirlik (A11y):** `focus-visible` ile tam destekli klavye navigasyonu.
+- **Güvenli Render:** Kullanıcı girdilerinde ve şifreleme çıktılarında XSS ve script injection risklerine karşı sıkılaştırılmış escape katmanları.
+- **Sağlamlık:** Kodlama (UTF-8), sözdizimi ve 293 adet otomatik regression testinden geçen kararlı (stable) yapı.
+
 
 ## 🔍 Desteklenen Algoritmalar
 
@@ -74,7 +81,7 @@ Proje için yazılan otomatik testleri çalıştırmak için (Node.js 18+ gerekt
 npm install
 npm test
 ```
-*Not: Şu anda toplam 284 otomatik test başarıyla geçilmektedir.*
+*Not: Şu anda toplam 293 otomatik test sıfır hatayla başarıyla geçilmektedir.*
 
 ## 📜 Değişiklik Günlüğü
 Yapılan sürüm güncellemeleri, eklenen yeni algoritmalar ve özellikler için lütfen [CHANGELOG.md](CHANGELOG.md) dosyasını inceleyin.
