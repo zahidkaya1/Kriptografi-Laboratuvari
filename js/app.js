@@ -819,7 +819,7 @@ function renderNewExercise() {
     const diffText = diffMap[currentExercise.difficulty] || currentExercise.difficulty;
     
     document.getElementById('ex-title').textContent = `${exTitle} (${diffText})`;
-    document.getElementById('ex-text').textContent = currentExercise.text;
+    document.getElementById('ex-text').textContent = currentExercise.question || currentExercise.text || '';
     
     UI.renderExerciseForm(currentExercise, 'ex-input-container');
     
