@@ -1,5 +1,25 @@
 # Değişiklik Günlüğü
 
+## [1.5.0] - 2026-08-12
+
+### Öne Çıkanlar (Highlights)
+- **Kriptografi Laboratuvarı v1.5.0 Final / Feature Complete** sürümüne ulaştı.
+- Bu sürüm, uygulamanın teknik sağlamlığına, responsive kalitesine, erişilebilirliğine ve güvenliğine odaklanan son ana güncellemedir. (İlerleyen süreçte yalnızca bakım sürümleri yayınlanacaktır).
+
+### İyileştirildi & Düzeltildi
+- Kapsamlı responsive kalite iyileştirmeleri ve mobil form/kart düzenleri.
+- `focus-visible` standartlarıyla eksiksiz klavye erişilebilirliği.
+- Kullanıcı kaynaklı işlem adımlarında XSS koruması (input escaping) ve güvenlik regression testleri.
+- Karışık Quiz cevap input alanındaki uyumsuzluklar ve inline geri bildirimlerin düzeltilmesi.
+- Native `alert` / `confirm` dialoglarının kaldırılarak tamamen özel UI'a geçilmesi.
+- Mini Alıştırmalar soru metninin gösterimi ve kullanıcı dostu zorluk seviyesi isimleri.
+- Mini Alıştırmalar seçenekleri için esnek mobil grid (responsive) tasarımı.
+- Algoritma Karşılaştırma aracındaki mobil ekran (375px) yatay taşma (overflow) sorununun düzeltilmesi.
+- Algoritma Karşılaştırma aracına mobil uyumlu "Stacked Cards" (Yığılmış Kartlar) görünümü eklendi.
+- Masaüstü Algoritma Karşılaştırma tablosunda (1024px+) normal Türkçe kelimelerin anlamsız yerlerden kırılması (word-break) düzeltildi.
+- SVG tabanlı 🔐 Favicon eklenerek localhost'ta ve statik sayfalarda oluşan 404 hatası giderildi.
+- UTF-8 Encoding ve Syntax korumasıyla birlikte 293 adet otomatik regression testi başarıyla entegre edildi.
+
 ## [1.4.0] - 2026-08-10
 
 ### Eklendi
