@@ -570,6 +570,9 @@ button {
     width: 100%;
     border-collapse: collapse;
     min-width: 600px;
+    word-break: normal;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .comparison-table th,
