@@ -6,6 +6,16 @@ const messageArea = document.getElementById('message-area');
 const resultOutput = document.getElementById('result-output');
 const stepsOutput = document.getElementById('steps-output');
 
+export function escapeHTML(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 export function showMessage(msg, type = "error") {
     messageArea.textContent = msg;
     messageArea.className = `message-area ${type}`;
@@ -69,12 +79,12 @@ export function renderVigenereSteps(steps, alphaLen) {
     steps.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${s.textChar}</td>
-            <td>${s.keyChar}</td>
+            <td>${escapeHTML(s.textChar)}</td>
+            <td>${escapeHTML(s.keyChar)}</td>
             <td>${s.textIdx}</td>
             <td>${s.keyIdx}</td>
             <td>${s.operation}</td>
-            <td><strong>${s.resultChar}</strong></td>
+            <td><strong>${escapeHTML(s.resultChar)}</strong></td>
         `;
         tbody.appendChild(tr);
     });
@@ -110,12 +120,12 @@ export function renderCaesarSteps(steps) {
     steps.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${s.textChar}</td>
+            <td>${escapeHTML(s.textChar)}</td>
             <td>${s.textIdx !== undefined ? s.textIdx : '-'}</td>
             <td>${s.shift !== undefined ? s.shift : '-'}</td>
             <td>${s.operation || '-'}</td>
             <td>${s.resultIdx !== undefined ? s.resultIdx : '-'}</td>
-            <td><strong>${s.resultChar}</strong></td>
+            <td><strong>${escapeHTML(s.resultChar)}</strong></td>
         `;
         tbody.appendChild(tr);
     });
@@ -150,11 +160,11 @@ export function renderROT13Steps(steps) {
     steps.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${s.textChar}</td>
+            <td>${escapeHTML(s.textChar)}</td>
             <td>${s.textIdx !== undefined ? s.textIdx : '-'}</td>
             <td>13</td>
             <td>${s.resultIdx !== undefined ? s.resultIdx : '-'}</td>
-            <td><strong>${s.resultChar}</strong></td>
+            <td><strong>${escapeHTML(s.resultChar)}</strong></td>
         `;
         tbody.appendChild(tr);
     });
@@ -200,8 +210,8 @@ export function renderAtbashSteps(steps, normalAlphabet, reversedAlphabet) {
     steps.forEach(s => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${s.textChar}</td>
-            <td><strong>${s.resultChar}</strong></td>
+            <td>${escapeHTML(s.textChar)}</td>
+            <td><strong>${escapeHTML(s.resultChar)}</strong></td>
         `;
         tbody.appendChild(tr);
     });
