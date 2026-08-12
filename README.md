@@ -1,10 +1,18 @@
-# Kriptografi Laboratuvarı
+# 🔐 Kriptografi Laboratuvarı
+
+Etkileşimli kriptografi algoritmaları, analiz araçları ve eğitim modülleri sunan web tabanlı kriptografi laboratuvarı.
+
+[![Sürüm](https://img.shields.io/github/v/release/zahidkaya1/Kriptografi-Laboratuvari?color=blue&label=S%C3%BCr%C3%BCm)](https://github.com/zahidkaya1/Kriptografi-Laboratuvari/releases/latest)
+![Durum](https://img.shields.io/badge/Durum-Feature_Complete-success)
+![Test](https://img.shields.io/badge/Test-293_/_293-success)
+![JavaScript](https://img.shields.io/badge/Code-JavaScript-F7DF1E?logo=javascript&logoColor=black)
+[![Canlı Site](https://img.shields.io/badge/Canl%C4%B1_Site-GitHub_Pages-blue?logo=github)](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)
+
+<br/>
+
+🌐 **[Canlı Uygulamayı Aç](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)** &nbsp;|&nbsp; 📦 **[Son Sürüm](https://github.com/zahidkaya1/Kriptografi-Laboratuvari/releases/latest)**
 
 Modern ve klasik kriptografi algoritmalarını tarayıcı üzerinde eğitim amaçlı deneyimlemenizi sağlayan, JavaScript tabanlı açık kaynaklı bir uygulamadır. v1.5.0 ile birlikte proje **Final / Feature Complete (Özellik Tamamlanmış)** durumuna ulaşmış olup, kapsamlı bir eğitim deneyimi ve güvenilir araçlar sunmaktadır.
-
-**Güncel Sürüm:** `v1.5.0`
-**Canlı Demo:** [zahidkaya1.github.io/Kriptografi-Laboratuvari/](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)
-**GitHub Deposu:** [github.com/zahidkaya1/Kriptografi-Laboratuvari](https://github.com/zahidkaya1/Kriptografi-Laboratuvari)
 
 > [!WARNING]
 > Bu proje tamamen eğitim amaçlı geliştirilmiştir. Matematiksel limitleri JavaScript dilinin yetenekleriyle (veya tarayıcı tabanlı büyük sayı işlemleriyle) sınırlıdır. **Gerçek dünya güvenliği için kullanılamaz.**
