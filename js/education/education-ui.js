@@ -24,7 +24,7 @@ export function renderEducationProgress(containerId, options = {}) {
             <div class="next-step-card">
                 <h3>Önerilen Sonraki Adım</h3>
                 <p class="next-step-desc">${nextStep.description}</p>
-                <button class="btn-primary" data-target="${nextStep.target}">${nextStep.buttonText}</button>
+                <button class="btn btn-primary" data-target="${nextStep.target}">${nextStep.buttonText}</button>
             </div>
 
             <div class="progress-cards-container">
@@ -39,7 +39,7 @@ export function renderEducationProgress(containerId, options = {}) {
                         <li>Orta: ${learningStats.levelStats.intermediate.completed}/${learningStats.levelStats.intermediate.total}</li>
                         <li>İleri: ${learningStats.levelStats.advanced.completed}/${learningStats.levelStats.advanced.total}</li>
                     </ul>
-                    <button class="btn-secondary" data-target="guided-learning">Rehberli Öğrenmeye Git</button>
+                    <button class="btn btn-secondary" data-target="guided-learning">Rehberli Öğrenmeye Git</button>
                 </div>
 
                 <!-- Mini Alıştırmalar -->
@@ -53,7 +53,7 @@ export function renderEducationProgress(containerId, options = {}) {
                     ` : `
                         <p class="stat-main empty-stat">Henüz yeterli veri yok.</p>
                     `}
-                    <button class="btn-secondary" data-target="exercises">Alıştırmalara Git</button>
+                    <button class="btn btn-secondary" data-target="exercises">Alıştırmalara Git</button>
                 </div>
 
                 <!-- Karışık Quiz -->
@@ -69,7 +69,7 @@ export function renderEducationProgress(containerId, options = {}) {
                     ` : `
                         <p class="stat-main empty-stat">Henüz tamamlanmış quiz yok.</p>
                     `}
-                    <button class="btn-secondary" data-target="mixed-quiz">Quiz Başlat</button>
+                    <button class="btn btn-secondary" data-target="mixed-quiz">Quiz Başlat</button>
                 </div>
             </div>
         </div>

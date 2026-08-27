@@ -4,7 +4,7 @@ Etkileşimli kriptografi algoritmaları, analiz araçları ve eğitim modülleri
 
 [![Sürüm](https://img.shields.io/github/v/release/zahidkaya1/Kriptografi-Laboratuvari?color=blue&label=S%C3%BCr%C3%BCm)](https://github.com/zahidkaya1/Kriptografi-Laboratuvari/releases/latest)
 ![Durum](https://img.shields.io/badge/Durum-Feature_Complete-success)
-![Test](https://img.shields.io/badge/Test-293_/_293-success)
+![Test](https://img.shields.io/badge/Test-325_/_325-success)
 ![JavaScript](https://img.shields.io/badge/Code-JavaScript-F7DF1E?logo=javascript&logoColor=black)
 [![Canlı Site](https://img.shields.io/badge/Canl%C4%B1_Site-GitHub_Pages-blue?logo=github)](https://zahidkaya1.github.io/Kriptografi-Laboratuvari/)
 
@@ -50,6 +50,16 @@ Rehberli Öğrenme, Mini Alıştırmalar ve Karışık Quiz istatistiklerinizi t
 > [!NOTE]
 > **Gizlilik ve Veri Saklama (Privacy):** Eğitim ilerlemeniz, favorileriniz ve ayarlarınız tamamen tarayıcınızın Yerel Depolamasında (LocalStorage) saklanır. Ham quiz cevaplarınız veya işlem yaptığınız şifreli metinler asla kaydedilmez veya bir sunucuya gönderilmez. Sadece ilerleme yüzdesi ve doğru/yanlış sayıları gibi özet istatistikler tutulur (Local-first yaklaşım).
 
+## 🧰 v1.5.1 Bakım Güncellemesi
+
+v1.5.1, Feature Complete durumundaki projenin kullanıcı deneyimi, navigasyon, görsel tutarlılık ve regresyon güvenliğine odaklanan bakım sürümüdür.
+
+- Ana Sayfa, Araçlar, Öğrenme ve Karışık Quiz akışları daha belirgin hale getirildi.
+- Açık/koyu tema, kartlar, formlar, butonlar ve navigasyon bileşenleri görsel olarak iyileştirildi.
+- Bağlama duyarlı geri dönüş bağlantıları ve mobil navigasyon geliştirildi.
+- Rehberli Öğrenme ve Mini Alıştırmalar içindeki son görsel tutarsızlıklar giderildi.
+- Otomatik test kapsamı **325 / 325** başarılı teste çıkarıldı.
+
 ## 🛡️ v1.5.0 Kalite Özellikleri
 - **Mobil Uyum (Responsive):** 375px'den geniş ekranlara kadar kayıpsız çalışan form ve kart düzenleri.
 - **Erişilebilirlik (A11y):** `focus-visible` ile tam destekli klavye navigasyonu.
@@ -89,7 +99,7 @@ Proje için yazılan otomatik testleri çalıştırmak için (Node.js 18+ gerekt
 npm install
 npm test
 ```
-*Not: Şu anda toplam 293 otomatik test sıfır hatayla başarıyla geçilmektedir.*
+*Not: Şu anda toplam 325 otomatik test sıfır hatayla başarıyla geçilmektedir.*
 
 ## 📜 Değişiklik Günlüğü
 Yapılan sürüm güncellemeleri, eklenen yeni algoritmalar ve özellikler için lütfen [CHANGELOG.md](CHANGELOG.md) dosyasını inceleyin.

@@ -27,16 +27,29 @@ export function hideMessage() {
 }
 
 export function showResult(result) {
+    resultOutput.classList.remove("empty-state");
     resultOutput.textContent = result;
     resetCopyButton();
+    const btnCopy = document.getElementById('btn-copy');
+    if (btnCopy) {
+        btnCopy.style.display = 'inline-block';
+        btnCopy.disabled = false;
+    }
 }
 
 export function clearResult() {
+    resultOutput.classList.add("empty-state");
     resultOutput.textContent = "Hesaplama sonucu burada görünecek...";
     resetCopyButton();
+    const btnCopy = document.getElementById('btn-copy');
+    if (btnCopy) {
+        btnCopy.style.display = 'none';
+        btnCopy.disabled = true;
+    }
 }
 
 export function renderSteps(steps) {
+    stepsOutput.classList.remove("empty-state");
     stepsOutput.innerHTML = '';
 
     if (!steps || steps.length === 0) {
@@ -396,7 +409,8 @@ export function renderColumnarGrid(matrix, keyInfo) {
 }
 
 export function clearSteps() {
-    stepsOutput.innerHTML = '<p class="text-muted">Algoritmanın matematiksel adımları hesaplama sonrasında burada listelenir.</p>';
+    stepsOutput.classList.add("empty-state");
+    stepsOutput.innerHTML = '<div class="step-placeholder">İşlem adımları burada görünecek...</div>';
 }
 
 export function copyToClipboard(text, btnElement = null, successText = 'Kopyalandı') {
@@ -458,8 +472,8 @@ export function renderFrequencyAnalysis(result, sortBy) {
     summaryDiv.style.marginBottom = '1rem';
     summaryDiv.innerHTML = `
         <p><strong>Toplam Karakter:</strong> ${totalCharacters} | <strong>Toplam Harf:</strong> ${totalLetters} | <strong>Farklı Harf:</strong> ${distinctLetters}</p>
-        <p><strong>En Sık:</strong> ${mostFrequent ? `${mostFrequent.char} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
-        <p><strong>En Seyrek:</strong> ${leastFrequent ? `${leastFrequent.char} (${leastFrequent.count} / %${leastFrequent.percent.toFixed(1)})` : '-'}</p>
+        <p><strong>En Sık:</strong> ${mostFrequent ? `${escapeHTML(mostFrequent.char)} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
+        <p><strong>En Seyrek:</strong> ${leastFrequent ? `${escapeHTML(leastFrequent.char)} (${leastFrequent.count} / %${leastFrequent.percent.toFixed(1)})` : '-'}</p>
     `;
     resultOutput.appendChild(summaryDiv);
 

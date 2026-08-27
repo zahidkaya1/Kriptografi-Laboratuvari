@@ -54,7 +54,7 @@ function renderSettingsScreen(container) {
                 <!-- Dynamically populated -->
             </div>
 
-            <button id="btn-start-quiz" class="btn-primary">Quiz'e Başla</button>
+            <button id="btn-start-quiz" class="btn btn-primary">Quiz'e Başla</button>
             <div id="quiz-settings-error" class="error-text" style="display:none;"></div>
         </div>
     `;
@@ -165,8 +165,8 @@ function renderActiveQuizScreen(container) {
                 </div>
 
                 <div class="quiz-actions">
-                    <button id="btn-quiz-check" class="btn-primary">Cevabı Kontrol Et</button>
-                    <button id="btn-quiz-next" class="btn-secondary" disabled>Sonraki Soru</button>
+                    <button id="btn-quiz-check" class="btn btn-primary">Cevabı Kontrol Et</button>
+                    <button id="btn-quiz-next" class="btn btn-secondary" disabled>Sonraki Soru</button>
                 </div>
 
                 <div id="quiz-feedback" class="quiz-feedback" style="display:none;"></div>
@@ -269,10 +269,10 @@ function renderResultScreen(container) {
             </div>
 
             <div class="result-actions">
-                <button id="btn-quiz-retry" class="btn-primary">Yeni Quiz</button>
+                <button id="btn-quiz-retry" class="btn btn-primary">Yeni Quiz</button>
                 <!-- SPA navigation handled by external event listeners, just assigning classes/ids for app.js -->
-                <button id="btn-quiz-go-exercises" class="btn-secondary" data-target="mini-exercises">Mini Alıştırmalara Git</button>
-                <button id="btn-quiz-go-guided" class="btn-secondary" data-target="guided-learning">Rehberli Öğrenmeye Git</button>
+                <button id="btn-quiz-go-exercises" class="btn btn-secondary" data-target="mini-exercises">Mini Alıştırmalara Git</button>
+                <button id="btn-quiz-go-guided" class="btn btn-secondary" data-target="guided-learning">Rehberli Öğrenmeye Git</button>
             </div>
         </div>
     `;

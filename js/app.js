@@ -27,23 +27,109 @@ import { ALGORITHM_CATALOG, getAlgoName } from './utils/algorithm-catalog.js';
 
 let currentAlgorithm = 'rsa';
 
-function navigateTo(targetId) {
+export function navigateTo(targetId) {
     const btn = document.querySelector(`.algo-card-btn[data-target="${targetId}"]`);
     if (btn) {
         btn.click();
-        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+export function updateMainView(viewId) {
+    const views = ['home-view', 'tools-view', 'workspace-view', 'learning-view'];
+    views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.display = (id === viewId) ? 'block' : 'none';
+        }
+    });
+
+    // Update active nav link
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+
+    let activeTarget = 'home';
+    if (viewId === 'tools-view') {
+        activeTarget = 'tools';
+    } else if (viewId === 'learning-view') {
+        activeTarget = 'learning';
+    } else if (viewId === 'workspace-view') {
+        if (['guided-learning', 'exercises', 'education-progress'].includes(currentAlgorithm)) {
+            activeTarget = 'learning';
+        } else if (currentAlgorithm === 'mixed-quiz') {
+            activeTarget = 'quiz';
+        } else {
+            activeTarget = 'tools';
+        }
+    } else if (viewId === 'home-view') {
+        activeTarget = 'home';
+    }
+
+    const activeLink = document.querySelector(`.nav-link[data-target="${activeTarget}"]`);
+    if (activeLink) activeLink.classList.add('active');
+
+    // Scroll to top on view change
+    if (typeof window.scrollTo === 'function') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+export function navigateHome() {
+    updateMainView('home-view');
+    document.querySelectorAll('.algo-card-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.algo-form').forEach(f => f.classList.remove('active'));
+}
+
+export function navigateToTools() {
+    updateMainView('tools-view');
+}
+
+export function navigateToToolsCategory(categoryId) {
+    updateMainView('tools-view');
+    const cat = document.getElementById('category-' + categoryId);
+    if (cat) {
+        cat.setAttribute('open', '');
+        setTimeout(() => cat.scrollIntoView({ behavior: 'smooth' }), 100);
+    }
+}
+
+export function navigateToLearning() {
+    updateMainView('learning-view');
+}
+
+// Expose navigation to window for HTML inline handlers
+window.navigateTo = navigateTo;
+window.navigateToTools = navigateToTools;
+window.navigateToToolsCategory = navigateToToolsCategory;
+window.navigateToLearning = navigateToLearning;
+
+export function handleDiscoverTools() {
+    const searchContainer = document.querySelector('.search-container');
+    if (searchContainer) {
+        searchContainer.scrollIntoView({ behavior: 'smooth' });
     }
 }
 
 // Tab Değiştirme
 function handleTabClick(e) {
     if (!e.target.classList.contains('algo-card-btn')) return;
-    
+
+    // Home View Gizle
+    const homeView = document.getElementById('home-view');
+    if (homeView) homeView.style.display = 'none';
+
+    // Workspace View Göster
+    const workspaceView = document.getElementById('workspace-view');
+    if (workspaceView) workspaceView.style.display = 'block';
+
+    // Viewport'u en üste al
+    if (typeof window.scrollTo === 'function') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     // Tab aktifliği
     document.querySelectorAll('.algo-card-btn').forEach(b => b.classList.remove('active'));
-    
+
     const targetId = e.target.getAttribute('data-target');
-    
+
     // Aynı hedefi (favorilerde veya normalde) gösteren tüm butonları aktif et
     document.querySelectorAll(`.algo-card-btn[data-target="${targetId}"]`).forEach(b => b.classList.add('active'));
 
@@ -55,13 +141,22 @@ function handleTabClick(e) {
 
     // Temizle
     clearAll();
-    
+
     // Panel görünümlerini güncelle
     updatePanelVisibility(targetId);
 }
 
+// Geri Dön Butonu Event Listener
+const btnBackHome = document.getElementById('btn-back-home');
+if (btnBackHome) {
+    btnBackHome.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateHome();
+    });
+}
+
 function updatePanelVisibility(algoId) {
-    const actions = document.querySelector('.actions');
+    const actions = document.querySelector('.action-row');
     const btnExample = document.getElementById('btn-example');
     const btnCalculate = document.getElementById('btn-calculate');
     const btnClear = document.getElementById('btn-clear');
@@ -69,7 +164,7 @@ function updatePanelVisibility(algoId) {
     const stepsCard = document.querySelector('.steps-card');
     const btnCopy = document.getElementById('btn-copy');
     const contentWrapper = document.querySelector('.content-wrapper');
-    
+
     if(actions) actions.style.display = '';
     if(btnExample) {
         btnExample.style.display = '';
@@ -143,7 +238,7 @@ function clearAll() {
 // Hesapla Butonu
 document.getElementById('btn-calculate').addEventListener('click', async () => {
     UI.hideMessage();
-    
+
     try {
         if (currentAlgorithm === 'rsa') {
             handleRSA();
@@ -198,7 +293,7 @@ const btnExample = document.getElementById('btn-example');
 if (btnExample) {
     btnExample.addEventListener('click', () => {
         clearAll();
-        
+
         // Varsayılan form değerlerini temizle ve resetle (bazı alanlar kalabilir, biz özel olarak atayacağız)
         if (currentAlgorithm === 'rsa') {
             document.getElementById('rsa-p').value = '61';
@@ -295,51 +390,72 @@ themeToggleBtn.addEventListener('click', () => {
     if (isDark) {
         document.body.removeAttribute('data-theme');
         themeToggleBtn.textContent = '🌙';
+        themeToggleBtn.setAttribute('aria-label', 'Koyu temaya geç');
+        themeToggleBtn.setAttribute('title', 'Koyu temaya geç');
     } else {
         document.body.setAttribute('data-theme', 'dark');
         themeToggleBtn.textContent = '☀️';
+        themeToggleBtn.setAttribute('aria-label', 'Açık temaya geç');
+        themeToggleBtn.setAttribute('title', 'Açık temaya geç');
     }
 });
 
 // --- Algoritma Çağrıları ---
 
 function handleRSA() {
-    const p = parseInt(document.getElementById('rsa-p').value, 10);
-    const q = parseInt(document.getElementById('rsa-q').value, 10);
-    const e = parseInt(document.getElementById('rsa-e').value, 10);
+    const pStr = document.getElementById('rsa-p').value;
+    const qStr = document.getElementById('rsa-q').value;
+    const eStr = document.getElementById('rsa-e').value;
     const message = document.getElementById('rsa-message').value;
     const mode = document.getElementById('rsa-mode').value;
 
-    if (!p || !q || !e || !message) {
+    if (!pStr || !qStr || !eStr || !message) {
         throw new Error("Lütfen tüm RSA alanlarını doldurunuz.");
     }
 
+    const p = parseInt(pStr, 10);
+    const q = parseInt(qStr, 10);
+    const e = parseInt(eStr, 10);
+
+    if (isNaN(p) || isNaN(q) || isNaN(e)) {
+        throw new Error("Lütfen geçerli sayısal değerler giriniz.");
+    }
+
     const { result, steps } = runRSA(p, q, e, message, mode);
-    
+
     UI.showResult(result);
     UI.renderSteps(steps);
     UI.showMessage("RSA işlemi başarıyla tamamlandı.", "success");
 }
 
 function handleDH() {
-    const p = parseInt(document.getElementById('dh-p').value, 10);
-    const g = parseInt(document.getElementById('dh-g').value, 10);
-    const a = parseInt(document.getElementById('dh-a').value, 10);
-    const b = parseInt(document.getElementById('dh-b').value, 10);
+    const pStr = document.getElementById('dh-p').value;
+    const gStr = document.getElementById('dh-g').value;
+    const aStr = document.getElementById('dh-a').value;
+    const bStr = document.getElementById('dh-b').value;
 
-    if (!p || !g || !a || !b) {
+    if (!pStr || !gStr || !aStr || !bStr) {
         throw new Error("Lütfen tüm Diffie-Hellman alanlarını doldurunuz.");
     }
 
+    const p = parseInt(pStr, 10);
+    const g = parseInt(gStr, 10);
+    const a = parseInt(aStr, 10);
+    const b = parseInt(bStr, 10);
+
+    if (isNaN(p) || isNaN(g) || isNaN(a) || isNaN(b)) {
+        throw new Error("Lütfen geçerli sayısal değerler giriniz.");
+    }
+
     const { K1, K2, isMatch, steps, info } = runDiffieHellman(p, g, a, b);
-    
+
     if (isMatch) {
         UI.showResult(`Ortak Anahtar: ${K1}\n\n${info}`);
         UI.showMessage("Ortak anahtar başarıyla eşleşti.", "success");
     } else {
         UI.showResult("Anahtarlar eşleşmedi.");
     }
-    
+
     UI.renderSteps(steps);
 }
 
@@ -350,7 +466,7 @@ function handleVigenere() {
     const alphabet = document.getElementById('vig-alphabet').value;
 
     const { result, steps, alphabetLength } = runVigenere(text, key, alphabet, mode);
-    
+
     UI.showResult(result);
     UI.renderVigenereSteps(steps, alphabetLength);
     UI.showMessage("Vigenère işlemi başarıyla tamamlandı.", "success");
@@ -363,7 +479,7 @@ function handleCaesar() {
     const alphabet = document.getElementById('caesar-alphabet').value;
 
     const { result, steps } = runCaesar(text, shift, alphabet, mode);
-    
+
     UI.showResult(result);
     UI.renderCaesarSteps(steps);
     UI.showMessage("Sezar işlemi başarıyla tamamlandı.", "success");
@@ -373,7 +489,7 @@ function handleROT13() {
     const text = document.getElementById('rot13-text').value;
 
     const { result, steps } = runROT13(text);
-    
+
     UI.showResult(result);
     UI.renderROT13Steps(steps);
     UI.showMessage("ROT13 işlemi başarıyla tamamlandı.", "success");
@@ -384,7 +500,7 @@ function handleAtbash() {
     const alphabet = document.getElementById('atbash-alphabet').value;
 
     const { result, steps, normalAlphabet, reversedAlphabet } = runAtbash(text, alphabet);
-    
+
     UI.showResult(result);
     UI.renderAtbashSteps(steps, normalAlphabet, reversedAlphabet);
     UI.showMessage("Atbash işlemi başarıyla tamamlandı.", "success");
@@ -398,7 +514,7 @@ function handleAffine() {
     const alphabet = document.getElementById('affine-alphabet').value;
 
     const { result, steps, m, gcdVal, aInv } = runAffine(text, a, b, alphabet, mode);
-    
+
     UI.showResult(result);
     UI.renderAffineSteps(steps, m, gcdVal, aInv);
     UI.showMessage("Affine işlemi başarıyla tamamlandı.", "success");
@@ -410,7 +526,7 @@ function handleRailFence() {
     const mode = document.getElementById('railfence-mode').value;
 
     const { result, matrix, rails: rCount } = runRailFence(text, rails, mode);
-    
+
     UI.showResult(result);
     UI.renderRailFenceMatrix(matrix, rCount);
     UI.showMessage("Rail Fence işlemi başarıyla tamamlandı.", "success");
@@ -423,7 +539,7 @@ function handleColumnar() {
     const alphabet = document.getElementById('columnar-alphabet').value;
 
     const { result, matrix, keyInfo } = runColumnarTransposition(text, key, alphabet, mode);
-    
+
     UI.showResult(result);
     UI.renderColumnarGrid(matrix, keyInfo);
     UI.showMessage("Sütunlu Transpozisyon işlemi başarıyla tamamlandı.", "success");
@@ -433,9 +549,9 @@ function handleXOR() {
     const text = document.getElementById('xor-text').value;
     const key = document.getElementById('xor-key').value;
     const mode = document.getElementById('xor-mode').value;
-    
+
     const { result, steps } = runXOR(text, key, mode);
-    
+
     UI.showResult(result);
     UI.renderSteps(steps);
     UI.showMessage("XOR işlemi başarıyla tamamlandı.", "success");
@@ -444,9 +560,9 @@ function handleXOR() {
 function handleBase64() {
     const text = document.getElementById('base64-text').value;
     const mode = document.getElementById('base64-mode').value;
-    
+
     const { result, steps } = runBase64(text, mode);
-    
+
     UI.showResult(result);
     UI.renderSteps(steps);
     UI.showMessage("Base64 işlemi başarıyla tamamlandı.", "success");
@@ -456,9 +572,9 @@ async function handleHash() {
     const text = document.getElementById('hash-text').value;
     const algorithm = document.getElementById('hash-algorithm').value;
     const compareHex = document.getElementById('hash-compare').value;
-    
+
     const { result, steps } = await runHash(text, algorithm);
-    
+
     let finalResult = result;
     if (compareHex.trim()) {
         if (compareHash(result, compareHex)) {
@@ -471,7 +587,7 @@ async function handleHash() {
     } else {
         UI.showMessage("Hash işlemi başarıyla tamamlandı.", "success");
     }
-    
+
     UI.showResult(finalResult);
     UI.renderSteps(steps);
 }
@@ -480,9 +596,9 @@ function handlePlayfair() {
     const text = document.getElementById('playfair-text').value;
     const key = document.getElementById('playfair-key').value;
     const mode = document.getElementById('playfair-mode').value;
-    
+
     const { result, steps, grid } = runPlayfair(text, key, mode);
-    
+
     UI.showResult(result);
     UI.renderSteps(steps);
     UI.showMessage("Playfair işlemi başarıyla tamamlandı.", "success");
@@ -496,9 +612,9 @@ function handleHill() {
     const d = document.getElementById('hill-d').value;
     const alphabet = document.getElementById('hill-alphabet').value;
     const mode = document.getElementById('hill-mode').value;
-    
+
     const { result, steps } = runHill(text, a, b, c, d, alphabet, mode);
-    
+
     UI.showResult(result);
     UI.renderSteps(steps);
     UI.showMessage("Hill işlemi başarıyla tamamlandı.", "success");
@@ -508,7 +624,7 @@ function handleFreqAnalysis() {
     const text = document.getElementById('freq-text').value;
     const alphabet = document.getElementById('freq-alphabet').value;
     const sort = document.getElementById('freq-sort').value;
-    
+
     const result = analyzeFrequency(text, alphabet);
     UI.renderFrequencyAnalysis(result, sort);
     UI.showMessage("Frekans analizi başarıyla tamamlandı.", "success");
@@ -520,18 +636,18 @@ function handleCaesarBreaker() {
     const sort = document.getElementById('breaker-sort').value;
 
     const result = breakCaesar(text, alphabet);
-    
+
     const openCaesarCb = (shiftVal, ciphertext) => {
         // Tab click trigger
         const caesarBtn = document.querySelector('.algo-card-btn[data-target="caesar"]');
         if (caesarBtn) caesarBtn.click();
-        
+
         // Fill form
         document.getElementById('caesar-alphabet').value = alphabet;
         document.getElementById('caesar-mode').value = 'decrypt';
         document.getElementById('caesar-shift').value = shiftVal;
         document.getElementById('caesar-text').value = text; // Original cipher text
-        
+
         // Auto calculate
         const calcBtn = document.getElementById('btn-calculate');
         if (calcBtn) calcBtn.click();
@@ -545,10 +661,10 @@ function handleAlgoCompare() {
     const checkboxes = document.querySelectorAll('#compare-selection-container input[type="checkbox"]:checked');
     const selectedIds = Array.from(checkboxes).map(cb => cb.value);
     const diffOnly = document.getElementById('compare-diff-only').checked;
-    
+
     const validIds = validateSelection(selectedIds);
     const { headers, rows } = generateComparisonRows(validIds, diffOnly);
-    
+
     const openToolCb = (algoName) => {
         const found = ALGORITHM_CATALOG.find(a => a.name === algoName);
         if (found) {
@@ -556,9 +672,9 @@ function handleAlgoCompare() {
             if (btn) btn.click();
         }
     };
-    
+
     UI.renderComparisonTable(headers, rows, openToolCb);
-    
+
     // Override copy button logic specifically for comparison
     const md = generateMarkdownOutput(validIds, diffOnly);
     const copyBtn = document.getElementById('btn-copy');
@@ -598,42 +714,43 @@ function updateCounter(inputId, counterId) {
 const favoritesContainer = document.getElementById('favorites-container');
 const categoryFavorites = document.getElementById('category-favorites');
 
-function renderFavorites() {
+export function renderFavorites() {
     const favs = getFavorites();
     favoritesContainer.innerHTML = '';
-    
+
     if (favs.length === 0) {
-        categoryFavorites.style.display = 'none';
+        categoryFavorites.style.display = '';
+        favoritesContainer.innerHTML = '<div class="empty-state text-muted" style="padding: 1rem; font-size: 0.95rem; font-style: italic;">Henüz favori aracınız yok. Sık kullandığınız araçları yıldızlayarak (☆) burada hızlıca erişebilirsiniz.</div>';
     } else {
         categoryFavorites.style.display = '';
         // Kapalıysa açsın mı? Plan gereği varsayılan açık gelir.
-        
+
         favs.forEach(favId => {
             const algoInfo = ALGORITHM_CATALOG.find(a => a.id === favId);
             if (!algoInfo) return; // Eski/geçersiz id'ler yoksayılır
-            
+
             const wrapper = document.createElement('div');
             wrapper.className = 'algo-card-wrapper';
             wrapper.setAttribute('data-algo-id', algoInfo.id);
-            
+
             const btn = document.createElement('button');
             btn.className = 'algo-card-btn';
             if (currentAlgorithm === algoInfo.id) btn.classList.add('active');
             btn.setAttribute('data-target', algoInfo.id);
             btn.textContent = algoInfo.name;
             btn.addEventListener('click', handleTabClick);
-            
+
             const favBtn = document.createElement('button');
             favBtn.className = 'fav-btn active';
             favBtn.setAttribute('aria-label', 'Favorilerden Çıkar');
             favBtn.setAttribute('title', 'Favorilerden Çıkar');
             favBtn.textContent = '★';
-            
+
             favBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 toggleFavState(algoInfo.id);
             });
-            
+
             wrapper.appendChild(btn);
             wrapper.appendChild(favBtn);
             favoritesContainer.appendChild(wrapper);
@@ -652,7 +769,7 @@ function updateFavButtonsUI() {
     allFavBtns.forEach(btn => {
         const wrapper = btn.closest('.algo-card-wrapper');
         const algoId = wrapper.getAttribute('data-algo-id');
-        
+
         if (isFavorite(algoId)) {
             btn.classList.add('active');
             btn.textContent = '★';
@@ -692,10 +809,10 @@ function handleSearch(query) {
         allCategories.forEach(c => c.style.display = '');
         return;
     }
-    
+
     btnSearchClear.style.display = 'inline-block';
     const matchedIds = searchAlgorithms(query);
-    
+
     if (matchedIds.length === 0) {
         allCategories.forEach(c => c.style.display = 'none');
         searchNoResults.style.display = 'block';
@@ -734,20 +851,20 @@ function renderCompareSelection(filter = 'all') {
     const container = document.getElementById('compare-selection-container');
     if (!container) return;
     container.innerHTML = '';
-    
+
     const algos = filterByCategory(filter);
-    
+
     algos.forEach(a => {
         const label = document.createElement('label');
         label.className = 'checkbox-item';
-        
+
         const input = document.createElement('input');
         input.type = 'checkbox';
         input.value = a.id;
-        
+
         const text = document.createElement('span');
         text.textContent = a.name;
-        
+
         label.appendChild(input);
         label.appendChild(text);
         container.appendChild(label);
@@ -759,7 +876,7 @@ if (compareFilterSelect) {
     compareFilterSelect.addEventListener('change', (e) => {
         const selectedValues = Array.from(document.querySelectorAll('#compare-selection-container input:checked')).map(i => i.value);
         renderCompareSelection(e.target.value);
-        
+
         // Yeniden render ettikten sonra önceki seçimleri koru
         document.querySelectorAll('#compare-selection-container input').forEach(input => {
             if (selectedValues.includes(input.value)) {
@@ -786,16 +903,16 @@ function loadExerciseProgress() {
 function renderNewExercise() {
     const cat = document.getElementById('exercise-category').value;
     const diff = document.getElementById('exercise-difficulty').value;
-    
+
     currentExercise = getRandomExercise(cat, diff);
-    
+
     const area = document.getElementById('exercise-question-area');
     const feedback = document.getElementById('ex-feedback');
     const btnSubmit = document.getElementById('btn-ex-submit');
     const btnNext = document.getElementById('btn-ex-next');
     const btnHint = document.getElementById('btn-ex-hint');
     const btnSolve = document.getElementById('btn-ex-solve');
-    
+
     if (!currentExercise) {
         area.style.display = 'block';
         document.getElementById('ex-title').textContent = "Soru Bulunamadı";
@@ -808,33 +925,33 @@ function renderNewExercise() {
         btnNext.style.display = 'none';
         return;
     }
-    
+
     area.style.display = 'block';
-    
+
     let exTitle = currentExercise.title;
     if (!exTitle) {
         exTitle = getAlgoName(currentExercise.algoId);
     }
     const diffMap = { 'easy': 'Kolay', 'medium': 'Orta', 'hard': 'Zor' };
     const diffText = diffMap[currentExercise.difficulty] || currentExercise.difficulty;
-    
+
     document.getElementById('ex-title').textContent = `${exTitle} (${diffText})`;
     document.getElementById('ex-text').textContent = currentExercise.question || currentExercise.text || '';
-    
+
     UI.renderExerciseForm(currentExercise, 'ex-input-container');
-    
+
     feedback.style.display = 'none';
     feedback.className = '';
-    
+
     btnSubmit.style.display = 'inline-block';
     btnHint.style.display = 'inline-block';
     btnSolve.style.display = 'inline-block';
     btnNext.style.display = 'none';
-    
+
     // Temizle sonucu
     UI.clearResult();
     UI.clearSteps();
-    
+
     loadExerciseProgress();
 }
 
@@ -842,7 +959,7 @@ function renderNewExercise() {
 document.getElementById('btn-ex-submit')?.addEventListener('click', () => {
     if (!currentExercise) return;
     const feedback = document.getElementById('ex-feedback');
-    
+
     let userAnswer = '';
     if (currentExercise.type === 'text') {
         userAnswer = document.getElementById('ex-answer-input').value;
@@ -850,7 +967,7 @@ document.getElementById('btn-ex-submit')?.addEventListener('click', () => {
         const checked = document.querySelector('input[name="ex-answer"]:checked');
         if (checked) userAnswer = checked.value;
     }
-    
+
     try {
         const isCorrect = checkAnswer(currentExercise, userAnswer);
         if (isCorrect) {
@@ -862,7 +979,7 @@ document.getElementById('btn-ex-submit')?.addEventListener('click', () => {
             document.getElementById('btn-ex-solve').style.display = 'none';
             document.getElementById('btn-ex-hint').style.display = 'none';
             document.getElementById('btn-ex-next').style.display = 'inline-block';
-            
+
             // Eğer radio ise yeşil yap
             const checkedLabel = document.querySelector('input[name="ex-answer"]:checked')?.parentElement;
             if (checkedLabel) checkedLabel.classList.add('exercise-correct-highlight');
@@ -871,7 +988,7 @@ document.getElementById('btn-ex-submit')?.addEventListener('click', () => {
             feedback.className = 'exercise-wrong-highlight';
             feedback.innerHTML = `<strong>Yanlış cevap.</strong> Tekrar deneyin.`;
             recordAnswer(false, currentExercise.algoId);
-            
+
             const checkedLabel = document.querySelector('input[name="ex-answer"]:checked')?.parentElement;
             if (checkedLabel) {
                 checkedLabel.classList.add('exercise-wrong-highlight');
@@ -900,7 +1017,7 @@ document.getElementById('btn-ex-solve')?.addEventListener('click', () => {
     feedback.style.display = 'block';
     feedback.className = 'exercise-correct-highlight';
     feedback.innerHTML = `<strong>Çözüm:</strong> ${currentExercise.answer}<br><small>${currentExercise.explanation}</small>`;
-    
+
     document.getElementById('btn-ex-submit').style.display = 'none';
     document.getElementById('btn-ex-solve').style.display = 'none';
     document.getElementById('btn-ex-hint').style.display = 'none';
@@ -956,3 +1073,28 @@ updateFavButtonsUI();
 
 // Başlangıçta panelleri senkronize et
 updatePanelVisibility(currentAlgorithm);
+
+// Ana Sayfa / Logo Tıklama
+const logoHome = document.getElementById('logo-home');
+if (logoHome) {
+    logoHome.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateHome();
+    });
+}
+
+// Hero Butonları
+const btnHeroLearn = document.getElementById('btn-hero-learn');
+if (btnHeroLearn) {
+    btnHeroLearn.addEventListener('click', () => navigateTo('guided-learning'));
+}
+
+const btnHeroDiscover = document.getElementById('btn-hero-discover');
+if (btnHeroDiscover) {
+    btnHeroDiscover.addEventListener('click', handleDiscoverTools);
+}
+
+const btnHeroQuiz = document.getElementById('btn-hero-quiz');
+if (btnHeroQuiz) {
+    btnHeroQuiz.addEventListener('click', () => navigateTo('mixed-quiz'));
+}
