@@ -352,14 +352,22 @@ themeToggleBtn.addEventListener('click', () => {
 // --- Algoritma Çağrıları ---
 
 function handleRSA() {
-    const p = parseInt(document.getElementById('rsa-p').value, 10);
-    const q = parseInt(document.getElementById('rsa-q').value, 10);
-    const e = parseInt(document.getElementById('rsa-e').value, 10);
+    const pStr = document.getElementById('rsa-p').value;
+    const qStr = document.getElementById('rsa-q').value;
+    const eStr = document.getElementById('rsa-e').value;
     const message = document.getElementById('rsa-message').value;
     const mode = document.getElementById('rsa-mode').value;
 
-    if (!p || !q || !e || !message) {
+    if (!pStr || !qStr || !eStr || !message) {
         throw new Error("Lütfen tüm RSA alanlarını doldurunuz.");
+    }
+
+    const p = parseInt(pStr, 10);
+    const q = parseInt(qStr, 10);
+    const e = parseInt(eStr, 10);
+
+    if (isNaN(p) || isNaN(q) || isNaN(e)) {
+        throw new Error("Lütfen geçerli sayısal değerler giriniz.");
     }
 
     const { result, steps } = runRSA(p, q, e, message, mode);
@@ -370,13 +378,22 @@ function handleRSA() {
 }
 
 function handleDH() {
-    const p = parseInt(document.getElementById('dh-p').value, 10);
-    const g = parseInt(document.getElementById('dh-g').value, 10);
-    const a = parseInt(document.getElementById('dh-a').value, 10);
-    const b = parseInt(document.getElementById('dh-b').value, 10);
+    const pStr = document.getElementById('dh-p').value;
+    const gStr = document.getElementById('dh-g').value;
+    const aStr = document.getElementById('dh-a').value;
+    const bStr = document.getElementById('dh-b').value;
 
-    if (!p || !g || !a || !b) {
+    if (!pStr || !gStr || !aStr || !bStr) {
         throw new Error("Lütfen tüm Diffie-Hellman alanlarını doldurunuz.");
+    }
+
+    const p = parseInt(pStr, 10);
+    const g = parseInt(gStr, 10);
+    const a = parseInt(aStr, 10);
+    const b = parseInt(bStr, 10);
+
+    if (isNaN(p) || isNaN(g) || isNaN(a) || isNaN(b)) {
+        throw new Error("Lütfen geçerli sayısal değerler giriniz.");
     }
 
     const { K1, K2, isMatch, steps, info } = runDiffieHellman(p, g, a, b);

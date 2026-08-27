@@ -458,8 +458,8 @@ export function renderFrequencyAnalysis(result, sortBy) {
     summaryDiv.style.marginBottom = '1rem';
     summaryDiv.innerHTML = `
         <p><strong>Toplam Karakter:</strong> ${totalCharacters} | <strong>Toplam Harf:</strong> ${totalLetters} | <strong>Farklı Harf:</strong> ${distinctLetters}</p>
-        <p><strong>En Sık:</strong> ${mostFrequent ? `${mostFrequent.char} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
-        <p><strong>En Seyrek:</strong> ${leastFrequent ? `${leastFrequent.char} (${leastFrequent.count} / %${leastFrequent.percent.toFixed(1)})` : '-'}</p>
+        <p><strong>En Sık:</strong> ${mostFrequent ? `${escapeHTML(mostFrequent.char)} (${mostFrequent.count} / %${mostFrequent.percent.toFixed(1)})` : '-'}</p>
+        <p><strong>En Seyrek:</strong> ${leastFrequent ? `${escapeHTML(leastFrequent.char)} (${leastFrequent.count} / %${leastFrequent.percent.toFixed(1)})` : '-'}</p>
     `;
     resultOutput.appendChild(summaryDiv);
 
