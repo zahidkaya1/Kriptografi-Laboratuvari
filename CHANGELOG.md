@@ -1,5 +1,24 @@
 # Değişiklik Günlüğü
 
+## [1.5.1] - 2026-08-27
+
+### İyileştirildi
+- İlk kullanıcı deneyimi ve ana sayfa yönlendirmeleri sadeleştirildi.
+- Ana Sayfa, Araçlar, Öğrenme ve Karışık Quiz etrafındaki bilgi mimarisi ve SPA navigasyonu geliştirildi.
+- Açık ve koyu tema renkleri, kartlar, formlar, butonlar ve navigasyon bileşenleri görsel olarak iyileştirildi.
+- Bağlama duyarlı geri dönüş bağlantıları, aktif navigasyon durumları ve mobil menü davranışı geliştirildi.
+- UI regresyonlarına karşı otomatik test kapsamı genişletildi.
+
+### Düzeltildi
+- Rehberli Öğrenme ders tamamlama butonunun uygulama tasarımıyla uyumsuz görünümü düzeltildi.
+- Mini Alıştırmalar doğru/yanlış seçeneklerinde radio butonu ile metin arasındaki boşluk düzeltildi.
+- Ana sayfadaki tekrarlı analiz yönlendirmesi kaldırılarak “Nereden Başlamalıyım?” bölümü sadeleştirildi.
+- Tema ve navigasyon düzenlemelerinde oluşabilecek CSS/UI regresyonlarına karşı korumalar güçlendirildi.
+
+### Doğrulama
+- UTF-8 encoding ve JavaScript syntax kontrolleri başarıyla geçmektedir.
+- Otomatik test paketi **325 / 325** başarılı test ile doğrulanmıştır.
+
 ## [1.5.0] - 2026-08-12
 
 ### Öne Çıkanlar (Highlights)
