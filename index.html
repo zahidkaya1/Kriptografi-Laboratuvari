@@ -17,7 +17,7 @@
             <h1><a href="#" id="logo-home" title="Ana Sayfaya Dön"
                     style="text-decoration: none; color: inherit;">Kriptografi Laboratuvarı</a></h1>
             <div class="header-controls">
-                <button id="theme-toggle" aria-label="Temayı Değiştir" title="Açık/Koyu Tema">🌙</button>
+                <button id="theme-toggle" aria-label="Koyu temaya geç" title="Koyu temaya geç">🌙</button>
             </div>
         </div>
     </header>
@@ -25,57 +25,76 @@
     <main class="container">
         <div id="home-view">
             <!-- Ana Ekran Tanıtımı -->
-            <section id="home-intro" class="hero-section card">
-            <div class="hero-content">
-                <h2>Kriptografi Laboratuvarı'na Hoş Geldiniz</h2>
-                <p class="hero-subtitle">Kriptografi algoritmalarını deneyin, analiz araçlarını kullanın ve rehberli
-                    içeriklerle nasıl çalıştıklarını öğrenin.</p>
-                <div class="hero-actions">
-                    <button class="btn-primary hero-btn" id="btn-hero-learn">Öğrenmeye Başla</button>
-                    <button class="btn-secondary hero-btn" id="btn-hero-discover">Araçları Keşfet</button>
-                    <button class="btn-secondary hero-btn" id="btn-hero-quiz">Karışık Quiz</button>
+            <section id="home-intro" class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-eyebrow">KRİPTOGRAFİ • EĞİTİM • ANALİZ</div>
+                    <h2>Kriptografiyi Deneyerek Öğrenin</h2>
+                    <p class="hero-subtitle">Klasik ve modern algoritmaları çalıştırın, analiz araçlarını kullanın ve rehberli içeriklerle çalışma mantığını keşfedin.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" id="btn-hero-learn" onclick="if(window.navigateToLearning) window.navigateToLearning()">Öğrenmeye Başla</button>
+                        <button class="btn btn-secondary" id="btn-hero-discover" onclick="if(window.navigateToTools) window.navigateToTools()">Araçları Keşfet</button>
+                        <button class="btn btn-ghost" id="btn-hero-quiz" onclick="if(window.navigateTo) window.navigateTo('mixed-quiz')">Karışık Quiz</button>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="hero-features">
-                <h3>Sitede Neler Yapabilirsiniz?</h3>
+            <!-- Sitede Neler Yapabilirsiniz? -->
+            <section class="features-section">
                 <div class="feature-cards">
                     <div class="feature-card">
-                        <h4>🛠️ Algoritmaları Deneyin</h4>
+                        <div class="feature-icon">🛠️</div>
+                        <h4>Algoritmaları Deneyin</h4>
                         <p>Sezar, Vigenère, RSA, Hill, XOR vb. algoritmalar üzerinde etkileşimli işlemler yapın.</p>
                     </div>
                     <div class="feature-card">
-                        <h4>🔍 Şifreleri Analiz Edin</h4>
+                        <div class="feature-icon">🔍</div>
+                        <h4>Şifreleri Analiz Edin</h4>
                         <p>Frekans Analizi, Sezar Kırma ve Algoritma Karşılaştırma araçlarını kullanın.</p>
                     </div>
                     <div class="feature-card">
-                        <h4>🎓 Öğrenin ve Test Edin</h4>
-                        <p>Rehberli Öğrenme, Mini Alıştırmalar, Karışık Quiz ve Eğitim İlerlemesi ile bilginizi ölçün.
-                        </p>
+                        <div class="feature-icon">🎓</div>
+                        <h4>Öğrenin ve Test Edin</h4>
+                        <p>Rehberli Öğrenme, Mini Alıştırmalar ve Eğitim İlerlemesi ile bilginizi ölçün.</p>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="hero-guide">
-                <h3>Nereden Başlamalıyım?</h3>
-                <ul class="guide-list">
-                    <li><strong>Kriptografiye yeni misiniz?</strong> &rarr; <a href="#"
-                            onclick="document.querySelector('.algo-card-btn[data-target=\'guided-learning\']').click(); return false;">Rehberli
-                            Öğrenme</a> ile başlayın.</li>
-                    <li><strong>Belirli bir algoritmayı denemek mi istiyorsunuz?</strong> &rarr; <a href="#"
-                            onclick="document.querySelector('.search-container').scrollIntoView({behavior: 'smooth'}); return false;">Araçları
-                            Keşfedin</a>.</li>
-                    <li><strong>Bilginizi test etmek mi istiyorsunuz?</strong> &rarr; <a href="#"
-                            onclick="document.querySelector('.algo-card-btn[data-target=\'mixed-quiz\']').click(); return false;">Karışık
-                            Quizi</a> çözün.</li>
-                    <li><strong>Bir şifreli metni incelemek mi istiyorsunuz?</strong> &rarr; <a href="#"
-                            onclick="document.querySelector('.algo-card-btn[data-target=\'freq-analysis\']').click(); return false;">Analiz
-                            Araçlarını</a> kullanın.</li>
-                </ul>
-            </div>
-        </section>
+            <!-- Nereden Başlamalıyım? -->
+            <section class="guide-section">
+                <h3 class="section-title">Nereden Başlamalıyım?</h3>
+                <div class="guide-grid">
+                    <a href="#" class="guide-step" onclick="if(window.navigateToLearning) window.navigateToLearning(); return false;">
+                        <span class="step-num">01</span>
+                        <div class="step-text">
+                            <strong>Yeni misiniz?</strong>
+                            <span>Rehberli Öğrenme ile başlayın.</span>
+                        </div>
+                    </a>
+                    <a href="#" class="guide-step" onclick="if(window.navigateToTools) window.navigateToTools(); return false;">
+                        <span class="step-num">02</span>
+                        <div class="step-text">
+                            <strong>Bir algoritmayı mı deneyeceksiniz?</strong>
+                            <span>Araçları keşfedin.</span>
+                        </div>
+                    </a>
+                    <a href="#" class="guide-step" onclick="if(window.navigateTo) window.navigateTo('mixed-quiz'); return false;">
+                        <span class="step-num">03</span>
+                        <div class="step-text">
+                            <strong>Bilginizi mi ölçmek istiyorsunuz?</strong>
+                            <span>Karışık Quiz'i açın.</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
 
-        <!-- Arama Kutusu -->
+        </div> <!-- end home-view -->
+
+        <div id="tools-view" style="display: none;">
+            <div class="view-header">
+                <h2>Araçlar</h2>
+                <p>Şifreleme algoritmalarını deneyin, kodlama ve analiz araçlarını keşfedin.</p>
+            </div>
+            <!-- Arama Kutusu -->
         <div class="search-container card" id="tools-section">
             <div class="search-wrapper">
                 <input type="text" id="algo-search-input" placeholder="Algoritma ara (Örn: sezar, transpozisyon)..."
@@ -224,11 +243,39 @@
                 </div>
             </details>
         </div>
-        </div> <!-- end home-view -->
+
+        </div>
+
+        <div id="learning-view" style="display: none;">
+            <div class="view-header">
+                <h2>Öğrenme</h2>
+                <p>Kriptografi konularını adım adım öğrenin, alıştırmalarla pekiştirin ve ilerlemenizi takip edin.</p>
+            </div>
+            <div class="learning-hub-grid">
+                <div class="learning-hub-card">
+                    <div class="learning-icon">📖</div>
+                    <h3>Rehberli Öğrenme</h3>
+                    <p>Başlangıç, orta ve ileri seviyelerde toplam 17 ders içeriği ile temel kriptografi kavramlarını öğrenin.</p>
+                    <button class="btn btn-primary btn-learning-action" onclick="if(window.navigateTo) window.navigateTo('guided-learning')">Rehberli Öğrenmeyi Aç</button>
+                </div>
+                <div class="learning-hub-card">
+                    <div class="learning-icon">✏️</div>
+                    <h3>Mini Alıştırmalar</h3>
+                    <p>Öğrendiğiniz kısa konuları ve algoritmaları pratik alıştırmalar çözerek pekiştirin.</p>
+                    <button class="btn btn-primary btn-learning-action" onclick="if(window.navigateTo) window.navigateTo('exercises')">Alıştırmaları Aç</button>
+                </div>
+                <div class="learning-hub-card">
+                    <div class="learning-icon">📈</div>
+                    <h3>Eğitim İlerlemesi</h3>
+                    <p>Tamamladığınız dersleri, çözdüğünüz alıştırmaları ve quiz performansınızı takip edin.</p>
+                    <button class="btn btn-primary btn-learning-action" onclick="if(window.navigateTo) window.navigateTo('education-progress')">İlerlemeyi Gör</button>
+                </div>
+            </div>
+        </div>
 
         <div id="workspace-view" style="display: none;">
             <nav id="workspace-nav" style="margin-bottom: 1rem;">
-                <button id="btn-back-home" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;" aria-label="Ana Sayfaya Dön">&larr; Ana Sayfa</button>
+                <button id="btn-back-workspace" class="btn btn-ghost" aria-label="Geri Dön">&larr; Araçlara Dön</button>
             </nav>
             <div class="content-wrapper">
                 <!-- Sol Panel: Girdiler -->
@@ -819,12 +866,12 @@
                             aria-live="polite"></div>
 
                         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <button id="btn-ex-submit" class="btn-primary">Cevabı Kontrol Et</button>
-                            <button id="btn-ex-hint" class="btn-secondary">İpucu Göster</button>
-                            <button id="btn-ex-solve" class="btn-secondary"
+                            <button id="btn-ex-submit" class="btn btn-primary">Cevabı Kontrol Et</button>
+                            <button id="btn-ex-hint" class="btn btn-secondary">İpucu Göster</button>
+                            <button id="btn-ex-solve" class="btn btn-secondary"
                                 style="background: var(--bg-hover); color: var(--text-color); border: 1px solid var(--border-color);">Çözümü
                                 Göster</button>
-                            <button id="btn-ex-next" class="btn-primary" style="display: none;">Sonraki Soru</button>
+                            <button id="btn-ex-next" class="btn btn-primary" style="display: none;">Sonraki Soru</button>
                         </div>
                     </div>
 
@@ -867,10 +914,10 @@
                 </div>
 
 
-                <div class="actions">
-                    <button id="btn-example" class="btn-secondary" title="Örnek Değerleri Doldur">Örneği Doldur</button>
-                    <button id="btn-calculate" class="btn-primary">Hesapla / İşle</button>
-                    <button id="btn-clear" class="btn-secondary" title="Formu ve Sonuçları Temizle">Temizle</button>
+                <div class="action-row">
+                    <button id="btn-example" class="btn btn-secondary" title="Örnek Değerleri Doldur">Örneği Doldur</button>
+                    <button id="btn-calculate" class="btn btn-primary">Hesapla / İşle</button>
+                    <button id="btn-clear" class="btn btn-ghost" title="Formu ve Sonuçları Temizle">Temizle</button>
                 </div>
 
                 <div id="message-area" class="message-area" role="alert"></div>
@@ -882,14 +929,14 @@
                 <div class="card result-card">
                     <div class="result-header">
                         <h2>Sonuç</h2>
-                        <button id="btn-copy" class="btn-icon" title="Panoya Kopyala" aria-label="Kopyala">📋</button>
+                        <button id="btn-copy" class="btn btn-ghost copy-button" title="Panoya Kopyala" aria-label="Kopyala">📋 Kopyala</button>
                     </div>
-                    <div id="result-output" class="result-content">Hesaplama sonucu burada görünecek...</div>
+                    <div id="result-output" class="result-content empty-state">Hesaplama sonucu burada görünecek...</div>
                 </div>
 
                 <div class="card steps-card">
                     <h2>İşlem Adımları</h2>
-                    <div id="steps-output" class="steps-content">
+                    <div id="steps-output" class="steps-content empty-state">
                         <p class="text-muted">Algoritmanın matematiksel adımları hesaplama sonrasında burada listelenir.
                         </p>
                     </div>

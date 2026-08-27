@@ -27,16 +27,29 @@ export function hideMessage() {
 }
 
 export function showResult(result) {
+    resultOutput.classList.remove("empty-state");
     resultOutput.textContent = result;
     resetCopyButton();
+    const btnCopy = document.getElementById('btn-copy');
+    if (btnCopy) {
+        btnCopy.style.display = 'inline-block';
+        btnCopy.disabled = false;
+    }
 }
 
 export function clearResult() {
+    resultOutput.classList.add("empty-state");
     resultOutput.textContent = "Hesaplama sonucu burada görünecek...";
     resetCopyButton();
+    const btnCopy = document.getElementById('btn-copy');
+    if (btnCopy) {
+        btnCopy.style.display = 'none';
+        btnCopy.disabled = true;
+    }
 }
 
 export function renderSteps(steps) {
+    stepsOutput.classList.remove("empty-state");
     stepsOutput.innerHTML = '';
 
     if (!steps || steps.length === 0) {
@@ -396,7 +409,8 @@ export function renderColumnarGrid(matrix, keyInfo) {
 }
 
 export function clearSteps() {
-    stepsOutput.innerHTML = '<p class="text-muted">Algoritmanın matematiksel adımları hesaplama sonrasında burada listelenir.</p>';
+    stepsOutput.classList.add("empty-state");
+    stepsOutput.innerHTML = '<div class="step-placeholder">İşlem adımları burada görünecek...</div>';
 }
 
 export function copyToClipboard(text, btnElement = null, successText = 'Kopyalandı') {

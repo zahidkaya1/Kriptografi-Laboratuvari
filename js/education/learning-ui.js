@@ -40,7 +40,7 @@ export function renderLearningUI(options = {}) {
                     `<div class="next-lesson-card">
                         <h4>Önerilen Sonraki Ders</h4>
                         <div class="next-title">${stats.nextLesson.title}</div>
-                        <button class="btn-primary open-lab-btn" data-target="${stats.nextLesson.targetAlgoId}">Laboratuvarı Aç</button>
+                        <button class="btn btn-primary open-lab-btn" data-target="${stats.nextLesson.targetAlgoId}">Laboratuvarı Aç</button>
                     </div>`
                 }
             </div>
@@ -127,9 +127,9 @@ function renderCards(filter) {
                 </div>
 
                 <div class="lesson-actions">
-                    <button class="btn-primary lesson-action-btn" data-action="open-lab" data-target="${lesson.targetAlgoId}">Laboratuvarı Aç</button>
-                    ${hasExercises ? `<button class="btn-secondary lesson-action-btn" data-action="open-exercises" data-target="${lesson.targetAlgoId}">Alıştırma Çöz</button>` : ''}
-                    <button class="lesson-complete-toggle ${completed ? 'is-completed' : ''}" data-lesson-id="${lesson.id}">
+                    <button class="btn btn-primary lesson-action-btn" data-action="open-lab" data-target="${lesson.targetAlgoId}">Laboratuvarı Aç</button>
+                    ${hasExercises ? `<button class="btn btn-secondary lesson-action-btn" data-action="open-exercises" data-target="${lesson.targetAlgoId}">Alıştırma Çöz</button>` : ''}
+                    <button class="btn btn-secondary lesson-complete-toggle ${completed ? 'is-completed' : ''}" data-lesson-id="${lesson.id}">
                         ${completed ? '✓ Tamamlandı' : 'Tamamla'}
                     </button>
                 </div>

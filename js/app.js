@@ -34,25 +34,72 @@ export function navigateTo(targetId) {
     }
 }
 
-export function navigateHome() {
-    const homeView = document.getElementById('home-view');
-    if (homeView) homeView.style.display = 'block';
+export function updateMainView(viewId) {
+    const views = ['home-view', 'tools-view', 'workspace-view', 'learning-view'];
+    views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.display = (id === viewId) ? 'block' : 'none';
+        }
+    });
 
-    const homeIntro = document.getElementById('home-intro');
-    if (homeIntro) homeIntro.style.display = 'block';
+    // Update active nav link
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
 
-    const workspaceView = document.getElementById('workspace-view');
-    if (workspaceView) workspaceView.style.display = 'none';
-
-    if (typeof window.scrollTo === 'function') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (homeIntro) {
-        homeIntro.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    let activeTarget = 'home';
+    if (viewId === 'tools-view') {
+        activeTarget = 'tools';
+    } else if (viewId === 'learning-view') {
+        activeTarget = 'learning';
+    } else if (viewId === 'workspace-view') {
+        if (['guided-learning', 'exercises', 'education-progress'].includes(currentAlgorithm)) {
+            activeTarget = 'learning';
+        } else if (currentAlgorithm === 'mixed-quiz') {
+            activeTarget = 'quiz';
+        } else {
+            activeTarget = 'tools';
+        }
+    } else if (viewId === 'home-view') {
+        activeTarget = 'home';
     }
 
+    const activeLink = document.querySelector(`.nav-link[data-target="${activeTarget}"]`);
+    if (activeLink) activeLink.classList.add('active');
+
+    // Scroll to top on view change
+    if (typeof window.scrollTo === 'function') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+export function navigateHome() {
+    updateMainView('home-view');
     document.querySelectorAll('.algo-card-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.algo-form').forEach(f => f.classList.remove('active'));
 }
+
+export function navigateToTools() {
+    updateMainView('tools-view');
+}
+
+export function navigateToToolsCategory(categoryId) {
+    updateMainView('tools-view');
+    const cat = document.getElementById('category-' + categoryId);
+    if (cat) {
+        cat.setAttribute('open', '');
+        setTimeout(() => cat.scrollIntoView({ behavior: 'smooth' }), 100);
+    }
+}
+
+export function navigateToLearning() {
+    updateMainView('learning-view');
+}
+
+// Expose navigation to window for HTML inline handlers
+window.navigateTo = navigateTo;
+window.navigateToTools = navigateToTools;
+window.navigateToToolsCategory = navigateToToolsCategory;
+window.navigateToLearning = navigateToLearning;
 
 export function handleDiscoverTools() {
     const searchContainer = document.querySelector('.search-container');
@@ -109,7 +156,7 @@ if (btnBackHome) {
 }
 
 function updatePanelVisibility(algoId) {
-    const actions = document.querySelector('.actions');
+    const actions = document.querySelector('.action-row');
     const btnExample = document.getElementById('btn-example');
     const btnCalculate = document.getElementById('btn-calculate');
     const btnClear = document.getElementById('btn-clear');
@@ -343,9 +390,13 @@ themeToggleBtn.addEventListener('click', () => {
     if (isDark) {
         document.body.removeAttribute('data-theme');
         themeToggleBtn.textContent = '🌙';
+        themeToggleBtn.setAttribute('aria-label', 'Koyu temaya geç');
+        themeToggleBtn.setAttribute('title', 'Koyu temaya geç');
     } else {
         document.body.setAttribute('data-theme', 'dark');
         themeToggleBtn.textContent = '☀️';
+        themeToggleBtn.setAttribute('aria-label', 'Açık temaya geç');
+        themeToggleBtn.setAttribute('title', 'Açık temaya geç');
     }
 });
 
